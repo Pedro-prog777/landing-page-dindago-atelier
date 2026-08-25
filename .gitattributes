@@ -1,0 +1,24 @@
+# Normaliza as quebras de linha: o repositório guarda LF e cada máquina usa o
+# que o sistema dela espera. Evita diffs falsos entre Windows, macOS e Linux.
+* text=auto eol=lf
+
+# Arquivos que devem manter CRLF no Windows
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Arquivos binários — nunca alterar
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+
+# Reduz ruído em revisões de Pull Request
+package-lock.json -diff linguist-generated
