@@ -121,11 +121,11 @@ export function Header() {
                       <a
                         href={link.href}
                         aria-current={ativo ? 'true' : undefined}
-                        className={`link-sublinhado font-sans text-[0.78rem] font-semibold tracking-[0.14em] uppercase transition-colors ${
+                        className={`flex items-center py-2.5 font-sans text-[0.78rem] font-semibold tracking-[0.14em] uppercase transition-colors ${
                           ativo ? 'text-terracota' : 'text-marrom hover:text-terracota'
                         }`}
                       >
-                        {link.label}
+                        <span className="link-sublinhado">{link.label}</span>
                       </a>
                     </li>
                   );

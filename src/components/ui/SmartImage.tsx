@@ -53,10 +53,10 @@ export function SmartImage({
           </span>
         )}
 
-        <span className="px-6 text-center font-sans text-[0.62rem] font-semibold tracking-[0.3em] text-barro/70 uppercase">
+        <span className="px-6 text-center font-sans text-[0.62rem] font-semibold tracking-[0.3em] text-barro uppercase">
           [ {placeholderLabel} ]
         </span>
-        <span className="mt-2.5 max-w-[24ch] px-6 text-center font-sans text-[0.7rem] leading-snug text-marrom-claro/55">
+        <span className="mt-2.5 max-w-[24ch] px-6 text-center font-sans text-[0.7rem] leading-snug text-marrom-claro">
           {alt}
         </span>
       </div>
