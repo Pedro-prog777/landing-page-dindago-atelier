@@ -26,9 +26,7 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
             <Logo tone="dark" />
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-creme/70">
-              {footer.tagline}
-            </p>
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-creme/70">{footer.tagline}</p>
             <p className="mt-5 font-sans text-[0.68rem] tracking-[0.18em] text-amarelo uppercase">
               {siteConfig.shipping}
             </p>

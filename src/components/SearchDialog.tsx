@@ -80,8 +80,8 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
 
           {termo.trim().length >= 2 && resultados.length === 0 && (
             <p className="px-4 py-6 text-center font-sans text-sm text-marrom-claro/80">
-              Nada encontrado para “{termo}”. Tente “papel-machê”, “encomendas” ou o nome de
-              uma peça.
+              Nada encontrado para “{termo}”. Tente “papel-machê”, “encomendas” ou o nome de uma
+              peça.
             </p>
           )}
 
@@ -98,9 +98,7 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
                       onClick={selecionar}
                       className="block rounded-xl px-4 py-3 transition hover:bg-areia"
                     >
-                      <span className="block font-display text-base text-marrom">
-                        {item.title}
-                      </span>
+                      <span className="block font-display text-base text-marrom">{item.title}</span>
                       <span className="block font-sans text-sm text-marrom-claro/85">
                         {item.description}
                       </span>

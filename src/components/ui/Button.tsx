@@ -27,11 +27,9 @@ type CommonProps = {
   className?: string;
 };
 
-type ButtonAsButton = CommonProps &
-  ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined };
+type ButtonAsButton = CommonProps & ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined };
 
-type ButtonAsLink = CommonProps &
-  AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
+type ButtonAsLink = CommonProps & AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
 
 export function Button(props: ButtonAsButton | ButtonAsLink) {
   const { children, variant = 'primary', size = 'md', className = '', ...rest } = props;

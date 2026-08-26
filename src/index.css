@@ -26,6 +26,9 @@
   --text-manchete: clamp(2rem, 6vw, 4.5rem);
   --text-manchete--line-height: 0.95;
 
+  /* Raio dos blocos editoriais (destaque, faixas, chamadas). */
+  --radius-bloco: 2.5rem;
+
   --radius-organico: 62% 38% 54% 46% / 48% 56% 44% 52%;
 
   --font-display: 'Fraunces', 'Georgia', 'Times New Roman', serif;

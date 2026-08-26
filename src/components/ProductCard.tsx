@@ -76,7 +76,7 @@ export function ProductCard({
   // ------------------------------------------------------------------ DESTAQUE
   if (variante === 'destaque') {
     return (
-      <article className="group relative flex h-full min-h-[28rem] flex-col overflow-hidden rounded-[2.5rem]">
+      <article className="group relative flex h-full min-h-[28rem] flex-col overflow-hidden rounded-bloco">
         {imagem}
 
         {/* Informação sobreposta à fotografia, sobre um véu de gradiente */}
@@ -111,7 +111,7 @@ export function ProductCard({
   // --------------------------------------------------------------------- LARGO
   if (variante === 'largo') {
     return (
-      <article className="group grid h-full overflow-hidden rounded-[2.5rem] border border-bege-escuro/50 bg-areia/60 sm:grid-cols-2">
+      <article className="group grid h-full overflow-hidden rounded-bloco border border-bege-escuro/50 bg-areia/60 sm:grid-cols-2">
         {imagem}
         <div className="flex flex-col justify-center gap-4 p-7 sm:p-10">
           <div>

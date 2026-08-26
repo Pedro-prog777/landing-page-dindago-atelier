@@ -50,43 +50,40 @@ export function OrdersSection() {
         {/* ETAPAS — faixas de largura inteira com indentação crescente */}
         <ol className="mt-16 lg:mt-20">
           {orders.steps.map((etapa, indice) => (
-            <Reveal
-              as="li"
-              key={etapa.number}
-              delay={indice * 80}
-              className="group border-t border-marrom/12 last:border-b"
-            >
-              <div
-                className={`flex flex-col gap-3 py-8 transition-colors duration-500 group-hover:bg-areia/40 sm:flex-row sm:items-baseline sm:gap-10 lg:py-10 ${recuos[indice] ?? ''}`}
-              >
-                <span
-                  aria-hidden="true"
-                  className="font-display text-[clamp(2.6rem,6vw,4.5rem)] leading-[0.8] font-light text-terracota/25 transition-colors duration-500 group-hover:text-terracota/50 sm:w-32 sm:shrink-0"
+            <li key={etapa.number} className="group border-t border-marrom/12 last:border-b">
+              <Reveal delay={indice * 80}>
+                <div
+                  className={`flex flex-col gap-3 py-8 transition-colors duration-500 group-hover:bg-areia/40 sm:flex-row sm:items-baseline sm:gap-10 lg:py-10 ${recuos[indice] ?? ''}`}
                 >
-                  {etapa.number}
-                </span>
+                  <span
+                    aria-hidden="true"
+                    className="font-display text-[clamp(2.6rem,6vw,4.5rem)] leading-[0.8] font-light text-terracota/25 transition-colors duration-500 group-hover:text-terracota/50 sm:w-32 sm:shrink-0"
+                  >
+                    {etapa.number}
+                  </span>
 
-                <div className="flex-1">
-                  <h3 className="font-display text-2xl leading-tight font-normal text-marrom sm:text-[1.8rem]">
-                    {etapa.title}
-                  </h3>
-                  <p className="mt-2.5 max-w-lg text-sm leading-relaxed text-marrom-claro sm:text-base">
-                    {etapa.text}
-                  </p>
+                  <div className="flex-1">
+                    <h3 className="font-display text-2xl leading-tight font-normal text-marrom sm:text-[1.8rem]">
+                      {etapa.title}
+                    </h3>
+                    <p className="mt-2.5 max-w-lg text-sm leading-relaxed text-marrom-claro sm:text-base">
+                      {etapa.text}
+                    </p>
+                  </div>
+
+                  <ArrowUpRight
+                    className="hidden size-5 shrink-0 self-center text-transparent transition-colors duration-500 group-hover:text-terracota lg:block"
+                    aria-hidden="true"
+                  />
                 </div>
-
-                <ArrowUpRight
-                  className="hidden size-5 shrink-0 self-center text-transparent transition-colors duration-500 group-hover:text-terracota lg:block"
-                  aria-hidden="true"
-                />
-              </div>
-            </Reveal>
+              </Reveal>
+            </li>
           ))}
         </ol>
 
         {/* CHAMADA FINAL — composição tipográfica sobre terracota */}
         <Reveal delay={120} className="mt-20 lg:mt-24">
-          <div className="grao relative overflow-hidden rounded-[2.5rem] bg-terracota px-7 py-14 sm:px-12 lg:px-16 lg:py-20">
+          <div className="grao relative overflow-hidden rounded-bloco bg-terracota px-7 py-14 sm:px-12 lg:px-16 lg:py-20">
             <div className="relative grid gap-10 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-7">
                 <h3 className="font-display text-[clamp(1.9rem,4.2vw,3.2rem)] leading-[1.04] font-light text-creme">

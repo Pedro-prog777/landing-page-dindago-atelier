@@ -1,12 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react';
 import { Mail, MessageCircle, Send } from 'lucide-react';
 import { InstagramIcon } from './ui/BrandIcons';
-import {
-  buildMailtoUrl,
-  buildWhatsAppUrl,
-  isConfigured,
-  siteConfig,
-} from '../config/site';
+import { buildMailtoUrl, buildWhatsAppUrl, isConfigured, siteConfig } from '../config/site';
 import { Reveal } from './ui/Reveal';
 import { clientData } from '../data/clientData';
 import { SectionHeading } from './ui/SectionHeading';
@@ -245,7 +240,11 @@ export function ContactSection() {
                     className={`${estiloCampo} ${erros.nome ? 'border-terracota' : ''}`}
                   />
                   {erros.nome && (
-                    <p id="erro-nome" role="alert" className="mt-2 font-sans text-xs text-terracota">
+                    <p
+                      id="erro-nome"
+                      role="alert"
+                      className="mt-2 font-sans text-xs text-terracota"
+                    >
                       {erros.nome}
                     </p>
                   )}
