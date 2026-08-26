@@ -37,7 +37,7 @@ export function ValuesSection() {
 
   return (
     <section
-      aria-label="Diferenciais do atelier"
+      aria-labelledby="diferenciais-titulo"
       className="relative bg-creme pt-6 pb-20 sm:pb-24 lg:pb-28"
     >
       <div className="mx-auto max-w-368 px-4 sm:px-6 lg:px-10">
@@ -49,12 +49,15 @@ export function ValuesSection() {
               aria-hidden="true"
             />
             <div className="relative flex h-full flex-col justify-between gap-8">
-              <p className="font-sans text-[0.6rem] font-semibold tracking-[0.3em] text-creme/70 uppercase">
+              <p className="font-sans text-[0.6rem] font-semibold tracking-[0.3em] text-creme/85 uppercase">
                 O que sustenta o trabalho
               </p>
-              <p className="font-display text-[clamp(1.7rem,3.4vw,2.9rem)] leading-[1.06] font-light text-creme">
+              <h2
+                id="diferenciais-titulo"
+                className="font-display text-[clamp(1.7rem,3.4vw,2.9rem)] leading-[1.06] font-light text-creme"
+              >
                 {company.slogan}
-              </p>
+              </h2>
             </div>
           </Reveal>
 
