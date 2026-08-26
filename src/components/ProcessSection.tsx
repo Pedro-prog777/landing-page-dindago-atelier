@@ -2,19 +2,13 @@ import { Recycle } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
 import { SectionHeading } from './ui/SectionHeading';
 import { SmartImage } from './ui/SmartImage';
-
-const etapas = [
-  { nome: 'Papel', detalhe: 'Papel de molho na água até amolecer por completo.' },
-  { nome: 'Polpa', detalhe: 'A massa é triturada e recebe cola caseira e orgânica.' },
-  { nome: 'Estrutura', detalhe: 'Arame e papelão formam o esqueleto da peça.' },
-  { nome: 'Modelagem', detalhe: 'O papel-machê ganha volume, gesto e postura.' },
-  { nome: 'Detalhes', detalhe: 'Acabamento, textura e pintura feitos à mão.' },
-  { nome: 'Obra final', detalhe: 'Secagem lenta e a escultura pronta para durar.' },
-];
-
-const materiais = ['Garrafas PET', 'Papelão', 'Caixas', 'Resíduos sólidos', 'Arame'];
+import { clientData } from '../data/clientData';
 
 export function ProcessSection() {
+  const { process } = clientData;
+  const etapas = process.steps;
+  const materiais = process.materials;
+
   return (
     <section
       id="processo"
@@ -26,36 +20,27 @@ export function ProcessSection() {
           <div>
             <SectionHeading
               id="processo-titulo"
-              eyebrow="O artesanato"
-              title="Do papel à arte"
+              eyebrow={process.eyebrow}
+              title={process.title}
               align="left"
             />
 
             <div className="mt-8 space-y-5 text-base leading-relaxed text-marrom-claro sm:text-[1.05rem]">
-              <Reveal as="p" delay={60}>
-                O trabalho do Dindagó Atelier parte de uma técnica milenar: o papel-machê.
-              </Reveal>
-              <Reveal as="p" delay={120}>
-                O papel é deixado de molho em água, transformado em polpa e posteriormente
-                triturado. A essa mistura é acrescentada uma cola caseira e orgânica. Dessa
-                matéria-prima nasce o papel-machê.
-              </Reveal>
-              <Reveal as="p" delay={180}>
-                Antes de cada escultura existir, ela nasce na imaginação. A ideia é pesquisada,
-                pensada e transformada em desenho. Depois começa a construção da estrutura da
-                peça.
-              </Reveal>
+              {process.paragraphs.map((paragrafo, indice) => (
+                <Reveal as="p" key={paragrafo.slice(0, 32)} delay={60 + indice * 60}>
+                  {paragrafo}
+                </Reveal>
+              ))}
             </div>
 
             <Reveal delay={240} className="mt-10">
               <div className="rounded-2xl border border-verde/25 bg-creme/70 p-6 sm:p-7">
                 <h3 className="flex items-center gap-3 font-sans text-[0.72rem] font-bold tracking-[0.18em] text-verde uppercase">
                   <Recycle className="size-4" strokeWidth={1.6} aria-hidden="true" />
-                  Materiais reaproveitados
+                  {process.materialsTitle}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-marrom-claro">
-                  Boa parte do que sustenta cada escultura viria a ser descartado. No atelier,
-                  vira estrutura, volume e forma.
+                  {process.materialsText}
                 </p>
                 <ul className="mt-5 flex flex-wrap gap-2">
                   {materiais.map((material) => (
@@ -80,7 +65,7 @@ export function ProcessSection() {
 
               <ol className="mt-7 space-y-0">
                 {etapas.map((etapa, indice) => (
-                  <li key={etapa.nome} className="relative flex gap-5 pb-7 last:pb-0">
+                  <li key={etapa.name} className="relative flex gap-5 pb-7 last:pb-0">
                     {/* linha vertical que conecta as etapas */}
                     {indice < etapas.length - 1 && (
                       <span
@@ -93,10 +78,10 @@ export function ProcessSection() {
                     </span>
                     <div className="pt-1.5">
                       <h4 className="font-sans text-[0.78rem] font-bold tracking-[0.16em] text-marrom uppercase">
-                        {etapa.nome}
+                        {etapa.name}
                       </h4>
                       <p className="mt-1.5 text-sm leading-relaxed text-marrom-claro">
-                        {etapa.detalhe}
+                        {etapa.detail}
                       </p>
                     </div>
                   </li>
@@ -105,8 +90,8 @@ export function ProcessSection() {
 
               <figure className="mt-8 overflow-hidden rounded-2xl bg-bege">
                 <SmartImage
-                  src="/images/gallery/processo-04.jpg"
-                  alt="Mãos modelando o papel-machê sobre a estrutura de uma peça"
+                  src={process.image}
+                  alt={process.imageAlt}
                   placeholderLabel="Foto do processo"
                   className="aspect-[16/9] w-full"
                 />

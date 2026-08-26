@@ -18,7 +18,7 @@ sustentabilidade, trabalho manual e identidade nordestina.
 - [Instalação](#instalação)
 - [Como executar](#como-executar)
 - [Estrutura do projeto](#estrutura-do-projeto)
-- [Configuração do site (dados do cliente)](#configuração-do-site-dados-do-cliente)
+- [Configuração do cliente](#configuração-do-cliente)
 - [Imagens](#imagens)
 - [Variáveis de ambiente](#variáveis-de-ambiente)
 - [Desenvolvimento em equipe](#desenvolvimento-em-equipe)
@@ -142,10 +142,13 @@ landing-page-dindago-atelier/
 │   │   ├── WhatsAppButton.tsx  Lightbox.tsx  SearchDialog.tsx
 │   │   ├── ProductCard.tsx  ProductDialog.tsx  Logo.tsx
 │   │   └── ui/                  peças reutilizáveis
-│   │       └── Button.tsx  Reveal.tsx  SmartImage.tsx
-│   │           SectionHeading.tsx  BrandIcons.tsx
-│   ├── config/site.ts           ← DADOS DO CLIENTE (WhatsApp, e-mail, endereço)
-│   ├── data/                    peças, galeria e índice de busca
+│   │       └── Button.tsx  Reveal.tsx  SmartImage.tsx  SectionHeading.tsx
+│   │           Decorations.tsx  iconMap.ts  BrandIcons.tsx
+│   ├── data/
+│   │   ├── clientData.ts        ← TODOS OS DADOS DO CLIENTE (edite só isto)
+│   │   └── searchIndex.ts       índice da busca
+│   ├── config/site.ts           ajudantes de link (WhatsApp, e-mail, mapa)
+│   ├── lib/theme.ts             aplica as cores do cliente como variáveis CSS
 │   ├── hooks/                   scroll, seção ativa e diálogos
 │   ├── App.tsx                  ordem das seções da página
 │   ├── main.tsx                 ponto de entrada
@@ -162,32 +165,76 @@ landing-page-dindago-atelier/
 
 ---
 
-## Configuração do site (dados do cliente)
+## Configuração do cliente
 
-Todos os dados comerciais ficam em **um único arquivo**: `src/config/site.ts`.
-Nunca escreva telefone, e-mail ou endereço direto em um componente.
+> **Este é o coração do projeto.** A landing page foi construída como um
+> **template reutilizável**: para publicar o site de outro cliente, você altera
+> **um único arquivo** — nenhum componente precisa ser reescrito.
 
-| Campo | Onde aparece |
+### O arquivo único: `src/data/clientData.ts`
+
+Tudo que é do cliente mora ali: nome, textos, peças, galeria, contatos, redes
+sociais, cores e SEO.
+
+| Quero mudar... | Onde, dentro de `clientData` |
 | --- | --- |
-| `WHATSAPP_NUMBER` | botão flutuante, header, cards, encomendas, rodapé |
-| `whatsappDisplay` | número como é exibido, ex.: `(81) 99999-9999` |
-| `email` | seção de contato e rodapé |
-| `instagram` / `facebook` | header, redes sociais e rodapé |
-| `ATELIER_ADDRESS` | seção "Visite o Dindagó Atelier", mapa e rodapé |
-| `artistConfig.name` | assinatura da citação em "Nossa História" |
+| Nome, slogan, logo | `company` |
+| **Cores do site** | `colors` |
+| Título e imagem do topo | `hero` |
+| Os 5 diferenciais | `benefits` |
+| Etapas do processo | `process` |
+| Peças e preços | `products` |
+| Fotos da galeria | `gallery` |
+| História e dados da artista | `about` |
+| Blocos de valores | `culture` |
+| Fluxo de encomendas | `orders` |
+| Telefone, e-mail, endereço | `contact` |
+| Instagram, Facebook | `social` |
+| Links e ano do rodapé | `footer` |
+| Itens do menu | `nav` |
+| Título e descrição para o Google | `seo` |
 
-Enquanto um campo estiver como `INSERIR_...`, **o site não inventa nada**: o
-link some ou vira um aviso discreto e o botão leva ao formulário de contato.
-Preencheu o valor real, tudo passa a funcionar sozinho.
+### As cores mudam o site inteiro
+
+As quatro cores de `colors` são injetadas como variáveis CSS ao carregar a
+página (ver `src/lib/theme.ts`). Trocar estes valores repinta tudo:
+
+```ts
+colors: {
+  primary: '#c89434',    // botões, barra superior, ícones
+  secondary: '#a8432a',  // destaques, rodapé, CTA
+  accent: '#d4a03c',     // ornamentos e detalhes
+  background: '#fdfaf4', // fundo da página
+}
+```
+
+### Campos ainda não definidos
+
+Enquanto um campo estiver como `INSERIR_ALGUMA_COISA`, **o site não inventa
+nada**: o link some, o mapa vira um aviso e o botão passa a levar ao
+formulário de contato. Preencheu o valor real, tudo funciona sozinho.
 
 **Preços:** as peças estão com `price: null`, o que exibe *"Consultar valor"*.
-Para publicar um preço, troque por um número em reais em `src/data/products.ts`:
+Para publicar um preço, troque por um número em reais:
 
 ```ts
 { id: 3, name: 'Sanfoneiro', price: 780 /* ... */ }
 ```
 
----
+**Depoimentos:** `testimonials` está vazio de propósito — depoimento é palavra
+de cliente real, não se inventa. Ao preencher, a seção aparece sozinha.
+
+### Trocando de cliente (checklist)
+
+1. Edite `src/data/clientData.ts` com os dados do novo cliente.
+2. Ajuste `colors` com a paleta da nova marca.
+3. Troque as imagens em `public/images/` (mesmos nomes, ou ajuste os caminhos).
+4. Atualize `<title>` e a meta description no `index.html` (os robôs de busca
+   leem o HTML antes do JavaScript rodar).
+5. Troque `public/favicon.svg` pela logo do cliente.
+6. `npm run build` para conferir.
+
+Nenhum componente em `src/components/` precisa ser tocado.
 
 ## Imagens
 

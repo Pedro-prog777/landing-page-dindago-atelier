@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Reveal } from './Reveal';
+import { Ornament } from './Decorations';
 
 type SectionHeadingProps = {
   /** Texto pequeno acima do título. */
@@ -9,6 +10,8 @@ type SectionHeadingProps = {
   /** `light` para fundos claros, `dark` para fundos terracota/marrom. */
   tone?: 'light' | 'dark';
   align?: 'left' | 'center';
+  /** Ornamentos laterais no título (só fazem sentido em títulos centralizados). */
+  ornamentos?: boolean;
   /** id usado por `aria-labelledby` na section. */
   id?: string;
   className?: string;
@@ -20,10 +23,15 @@ export function SectionHeading({
   description,
   tone = 'light',
   align = 'center',
+  ornamentos = false,
   id,
   className = '',
 }: SectionHeadingProps) {
-  const alinhamento = align === 'center' ? 'text-center items-center' : 'text-left items-start';
+  const alinhamento = align === 'center' ? 'items-center text-center' : 'items-start text-left';
+  const corTitulo = tone === 'dark' ? 'text-creme' : 'text-marrom';
+  const corOrnamento = tone === 'dark' ? 'text-amarelo/70' : 'text-ocre/70';
+
+  const usaOrnamentos = ornamentos && align === 'center';
 
   return (
     <Reveal className={`flex flex-col ${alinhamento} ${className}`}>
@@ -41,14 +49,25 @@ export function SectionHeading({
         </span>
       )}
 
-      <h2
-        id={id}
-        className={`max-w-3xl text-3xl leading-[1.12] font-light sm:text-4xl lg:text-[2.9rem] ${
-          tone === 'dark' ? 'text-creme' : 'text-marrom'
-        }`}
-      >
-        {title}
-      </h2>
+      {usaOrnamentos ? (
+        <div className="flex w-full items-center justify-center gap-4 sm:gap-6">
+          <Ornament lado="esquerda" className={`hidden shrink-0 sm:block ${corOrnamento}`} />
+          <h2
+            id={id}
+            className={`max-w-3xl font-display text-3xl leading-[1.12] font-light sm:text-4xl lg:text-[2.9rem] ${corTitulo}`}
+          >
+            {title}
+          </h2>
+          <Ornament lado="direita" className={`hidden shrink-0 sm:block ${corOrnamento}`} />
+        </div>
+      ) : (
+        <h2
+          id={id}
+          className={`max-w-3xl font-display text-3xl leading-[1.12] font-light sm:text-4xl lg:text-[2.9rem] ${corTitulo}`}
+        >
+          {title}
+        </h2>
+      )}
 
       {description && (
         <p

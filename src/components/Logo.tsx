@@ -27,7 +27,7 @@ export function Logo({ tone = 'light', className = '' }: LogoProps) {
     return (
       <span
         data-placeholder="logo"
-        title="Espaço reservado para a logo do Dindagó Atelier"
+        title={`Espaço reservado para a logo do ${siteConfig.name}`}
         className={`flex flex-col leading-none ${className}`}
       >
         <span
