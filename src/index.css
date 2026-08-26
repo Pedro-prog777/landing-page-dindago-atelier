@@ -9,34 +9,38 @@
    quem constrói a identidade é a composição, a régua e o tipo.
    ========================================================================== */
 @theme {
-  /* --- Papel: frio o suficiente para o ocre e o tijolo saltarem --- */
-  --color-papel: #f4efe4;
-  --color-papel-claro: #faf7f0;
-  --color-papel-escuro: #e6ddca;
+  /* --- Papel: creme quente, como o da referência impressa --- */
+  --color-papel: #fbf6ea;
+  --color-papel-claro: #fefbf4;
+  --color-papel-escuro: #f2e8d5;
 
   /* --- Terra --- */
-  --color-areia: #dbcdb0;
-  --color-barro: #b98a4e;
+  --color-areia: #e8d5b0;
+  --color-barro: #c9a06a;
   --color-ocre: #c0873a;
-  --color-ambar: #d9a441;
+  --color-ambar: #d9a62e;
 
   /* --- Fogo: o vermelho-tijolo é o acento da marca --- */
-  --color-tijolo: #9c3b26;
-  --color-tijolo-claro: #b8523a;
+  --color-tijolo: #a0472c;
+  --color-tijolo-claro: #bd5a3a;
 
-  /* --- Tinta: superfície escura dominante, não apenas detalhe --- */
-  --color-tinta: #241a14;
-  --color-tinta-media: #3d2d22;
-  --color-tinta-suave: #6b5344;
+  /* --- Tinta: marrom quente de barro queimado, nunca preto --- */
+  --color-tinta: #4a2f21;
+  --color-tinta-media: #6b4530;
+  --color-tinta-suave: #7d5c45;
 
-  /* --- Vegetação, em doses mínimas --- */
+  /* --- Vegetação, em doses medidas --- */
   --color-cacto: #5c6b4e;
 
   --font-display: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
   --font-sans: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /* Cantos retos: é papel impresso, não cartão de aplicativo. */
-  --radius-none: 0;
+  /*
+   * Raio mínimo. A referência tem cantos levemente suavizados — o suficiente
+   * para parecer feito à mão, longe da pílula de aplicativo.
+   */
+  --radius-suave: 3px;
+  --radius-bloco: 6px;
 
   --animate-fade-up: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 

@@ -10,9 +10,9 @@ import { useScrollPosition } from '../hooks/useScrollPosition';
 /**
  * Masthead da publicação.
  *
- * A faixa superior é de tinta, não de âmbar: emoldura a página como o topo de
- * uma capa impressa. Nenhum botão em pílula — o contato é um bloco chapado e o
- * item ativo do menu é marcado por um fio, não por cor de fundo.
+ * A faixa superior em âmbar vem da identidade aprovada. Abaixo dela, a
+ * navegação fica sobre papel: nenhum botão em pílula — o contato é um bloco
+ * chapado e o item ativo do menu é marcado por um fio, não por cor de fundo.
  */
 export function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
@@ -52,22 +52,22 @@ export function Header() {
       </a>
 
       <header className="fixed inset-x-0 top-0 z-50">
-        {/* Faixa de tinta — recolhe ao rolar */}
+        {/* Faixa âmbar — recolhe ao rolar */}
         <div
-          className={`overflow-hidden bg-tinta text-papel transition-all duration-500 ease-out ${
+          className={`overflow-hidden bg-ambar text-tinta transition-all duration-500 ease-out ${
             rolou ? 'max-h-0 opacity-0' : 'max-h-16 opacity-100'
           }`}
         >
           <div className="flex items-center justify-between gap-6 px-4 py-2.5 sm:px-6 lg:px-10">
-            <p className="font-sans text-[0.68rem] leading-snug text-papel/70">
+            <p className="font-sans text-[0.68rem] leading-snug text-tinta/85">
               {siteConfig.tagline}
             </p>
 
             <div className="flex shrink-0 items-center gap-5">
-              <p className="etiqueta hidden text-ambar sm:block">{siteConfig.shipping}</p>
+              <p className="etiqueta hidden text-tinta sm:block">{siteConfig.shipping}</p>
 
               {(instagramConfigurado || facebookConfigurado) && (
-                <ul className="flex items-center gap-3 border-papel/20 sm:border-l sm:pl-5">
+                <ul className="flex items-center gap-3 border-tinta/25 sm:border-l sm:pl-5">
                   {instagramConfigurado && (
                     <li>
                       <a
@@ -75,7 +75,7 @@ export function Header() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Instagram do ${siteConfig.name} (abre em nova aba)`}
-                        className="flex size-6 items-center justify-center text-papel/70 transition hover:text-ambar"
+                        className="flex size-6 items-center justify-center text-tinta/75 transition hover:text-tijolo"
                       >
                         <InstagramIcon className="size-4" aria-hidden="true" />
                       </a>
@@ -88,7 +88,7 @@ export function Header() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Facebook do ${siteConfig.name} (abre em nova aba)`}
-                        className="flex size-6 items-center justify-center text-papel/70 transition hover:text-ambar"
+                        className="flex size-6 items-center justify-center text-tinta/75 transition hover:text-tijolo"
                       >
                         <FacebookIcon className="size-4" aria-hidden="true" />
                       </a>

@@ -2,6 +2,7 @@ import { Button, LinkEditorial } from './ui/Button';
 import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
 import { Fio, Xilogravura } from './ui/Catalogo';
+import { PapelRasgado, Passaros, Sol } from './ui/Decorations';
 import { clientData } from '../data/clientData';
 import { resolveCtaHref } from '../config/site';
 
@@ -32,6 +33,12 @@ export function Hero() {
         aria-hidden="true"
         className="grade-impressao pointer-events-none absolute inset-x-0 top-0 hidden h-[70vh] lg:block"
       />
+
+      {/* Desenhos do sertão nas margens — nunca sobre o texto */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <Sol className="absolute top-28 right-6 w-16 text-ocre/70 sm:top-32 sm:w-20 lg:top-44 lg:right-20 lg:w-28" />
+        <Passaros className="absolute top-52 right-8 hidden w-20 text-tinta-suave/30 lg:top-80 lg:right-28 lg:block" />
+      </div>
 
       <div className="relative px-4 sm:px-6 lg:px-10">
         {/* Cabeçalho corrente da capa */}
@@ -115,6 +122,9 @@ export function Hero() {
           </figcaption>
         </figure>
       </Reveal>
+
+      {/* Transição de papel rasgado para o caderno seguinte */}
+      <PapelRasgado posicao="baixo" className="relative text-papel" />
     </section>
   );
 }

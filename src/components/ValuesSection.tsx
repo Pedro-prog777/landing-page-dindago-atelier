@@ -1,5 +1,6 @@
 import { Reveal } from './ui/Reveal';
 import { Caderno, Numeral, Xilogravura } from './ui/Catalogo';
+import { iconesAtelier, type NomeIcone } from './ui/iconMap';
 import { LinkEditorial } from './ui/Button';
 import { clientData } from '../data/clientData';
 
@@ -81,6 +82,7 @@ export function ValuesSection() {
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[15rem] lg:gap-2.5">
           {benefits.map((valor, indice) => {
             const s = superficies[indice];
+            const Icone = iconesAtelier[valor.icon as NomeIcone] ?? iconesAtelier.sol;
             const vertical = indice === 2;
             const chamada = indice === 4;
 
@@ -92,10 +94,23 @@ export function ValuesSection() {
               >
                 <div className="flex h-full flex-col justify-between gap-6">
                   <div className="flex items-start justify-between gap-4">
-                    <Numeral tone={s.tom} className="text-5xl lg:text-6xl">
-                      {String(indice + 1).padStart(2, '0')}
-                    </Numeral>
-                    {vertical && <Xilogravura className="w-14 shrink-0 text-papel/25" altura={8} />}
+                    {/* Desenho e numeral juntos: identidade e ordem de leitura */}
+                    <span
+                      className={`shrink-0 transition-transform duration-500 group-hover:scale-110 ${
+                        s.tom === 'claro' ? 'text-ambar' : 'text-ocre'
+                      }`}
+                    >
+                      <Icone className="size-11 lg:size-12" strokeWidth={1.3} />
+                    </span>
+
+                    <div className="flex items-start gap-4">
+                      {vertical && (
+                        <Xilogravura className="mt-2 w-12 shrink-0 text-papel/25" altura={8} />
+                      )}
+                      <Numeral tone={s.tom} className="text-4xl lg:text-5xl">
+                        {String(indice + 1).padStart(2, '0')}
+                      </Numeral>
+                    </div>
                   </div>
 
                   <div>
