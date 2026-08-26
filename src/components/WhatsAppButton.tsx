@@ -41,7 +41,7 @@ export function WhatsAppButton() {
       href={destino}
       {...(whatsappUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       aria-label={rotulo}
-      className={`group fixed right-4 bottom-4 z-[60] flex min-h-14 items-center gap-3 rounded-full bg-verde px-4 py-4 text-creme shadow-[0_14px_30px_-12px_rgba(67,41,29,0.9)] transition-all duration-500 hover:bg-marrom sm:right-6 sm:bottom-6 ${
+      className={`group fixed right-4 bottom-4 z-60 flex min-h-14 items-center gap-3 rounded-full bg-verde px-4 py-4 text-creme shadow-[0_14px_30px_-12px_rgba(67,41,29,0.9)] transition-all duration-500 hover:bg-marrom sm:right-6 sm:bottom-6 ${
         visivel ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-6 opacity-0'
       }`}
     >

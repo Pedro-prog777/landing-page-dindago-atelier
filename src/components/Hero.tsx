@@ -19,12 +19,12 @@ export function Hero() {
     <section
       id="inicio"
       aria-labelledby="hero-titulo"
-      className="relative overflow-hidden bg-gradient-to-b from-areia via-areia to-bege/70 pt-28 pb-0 sm:pt-32 lg:pt-40"
+      className="relative overflow-hidden bg-linear-to-b from-areia via-areia to-bege/70 pt-28 pb-0 sm:pt-32 lg:pt-40"
     >
       {/* Camadas decorativas — sol, pássaros, cactos e brilhos de fundo */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 -right-24 size-[26rem] rounded-full bg-bege/70 blur-3xl" />
-        <div className="absolute -bottom-32 -left-20 size-[22rem] rounded-full bg-ocre/10 blur-3xl" />
+        <div className="absolute -top-24 -right-24 size-104 rounded-full bg-bege/70 blur-3xl" />
+        <div className="absolute -bottom-32 -left-20 size-88 rounded-full bg-ocre/10 blur-3xl" />
         <SunRays className="absolute top-24 left-4 w-16 text-ocre/70 sm:top-28 sm:left-10 sm:w-20 lg:left-16 lg:w-24" />
         <Birds className="absolute top-32 right-8 w-16 text-barro/40 sm:right-24 sm:w-20 lg:right-1/3 lg:w-24" />
         <Cactus className="absolute bottom-24 left-2 w-10 text-verde/50 sm:w-14 lg:bottom-32 lg:w-16" />
@@ -90,15 +90,15 @@ export function Hero() {
           <figure className="relative mx-auto max-w-md lg:max-w-none">
             <div
               aria-hidden="true"
-              className="absolute -top-4 -left-4 h-full w-full rounded-[2rem] border border-terracota/30 sm:-top-5 sm:-left-5"
+              className="absolute -top-4 -left-4 h-full w-full rounded-4xl border border-terracota/30 sm:-top-5 sm:-left-5"
             />
-            <div className="relative overflow-hidden rounded-[2rem] bg-bege shadow-[0_30px_60px_-32px_rgba(67,41,29,0.6)]">
+            <div className="relative overflow-hidden rounded-4xl bg-bege shadow-[0_30px_60px_-32px_rgba(67,41,29,0.6)]">
               <SmartImage
                 src={hero.image}
                 alt={hero.imageAlt}
                 placeholderLabel="Fotografia da peça"
                 loading="eager"
-                className="aspect-[4/5] w-full"
+                className="aspect-4/5 w-full"
               />
             </div>
             <figcaption className="mt-5 flex items-center gap-3 font-sans text-xs tracking-[0.12em] text-barro uppercase lg:absolute lg:-bottom-7 lg:left-8 lg:mt-0 lg:rounded-full lg:bg-creme lg:px-5 lg:py-3 lg:shadow-lg">

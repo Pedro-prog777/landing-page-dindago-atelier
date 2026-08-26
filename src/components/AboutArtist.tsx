@@ -23,14 +23,14 @@ export function AboutArtist() {
             <figure className="relative mx-auto max-w-md lg:max-w-none">
               <div
                 aria-hidden="true"
-                className="absolute -right-4 -bottom-4 h-full w-full rounded-[2rem] bg-areia sm:-right-5 sm:-bottom-5"
+                className="absolute -right-4 -bottom-4 h-full w-full rounded-4xl bg-areia sm:-right-5 sm:-bottom-5"
               />
-              <div className="relative overflow-hidden rounded-[2rem] bg-bege">
+              <div className="relative overflow-hidden rounded-4xl bg-bege">
                 <SmartImage
                   src={artist.photo}
                   alt={artist.photoAlt}
                   placeholderLabel="Foto da artista"
-                  className="aspect-[4/5] w-full"
+                  className="aspect-4/5 w-full"
                 />
               </div>
               {nomeDefinido && (

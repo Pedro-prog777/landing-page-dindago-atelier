@@ -41,7 +41,7 @@ export function Header() {
     <>
       <a
         href="#conteudo"
-        className="sr-only rounded-full bg-terracota px-5 py-3.5 font-sans text-sm font-semibold text-creme focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[80]"
+        className="sr-only rounded-full bg-terracota px-5 py-3.5 font-sans text-sm font-semibold text-creme focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-80"
       >
         Ir para o conteúdo
       </a>
