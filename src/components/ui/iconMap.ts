@@ -1,12 +1,4 @@
-import {
-  Bird,
-  Cactus,
-  Flower,
-  GiftIcon,
-  HandsHeart,
-  LeafIcon,
-  SunRays,
-} from './Decorations';
+import { Bird, Cactus, Flower, GiftIcon, HandsHeart, LeafIcon, SunRays } from './Decorations';
 
 /**
  * Liga o campo `icon` do clientData ao desenho correspondente.

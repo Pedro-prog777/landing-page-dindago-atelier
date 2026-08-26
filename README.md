@@ -33,15 +33,15 @@ sustentabilidade, trabalho manual e identidade nordestina.
 
 ## Tecnologias
 
-| Ferramenta | Para que serve |
-| --- | --- |
-| [React 19](https://react.dev) | biblioteca de interface |
-| [TypeScript](https://www.typescriptlang.org) | JavaScript com tipagem |
-| [Vite](https://vite.dev) | servidor de desenvolvimento e build |
-| [Tailwind CSS v4](https://tailwindcss.com) | estilização por classes utilitárias |
-| [lucide-react](https://lucide.dev) | ícones |
-| [oxlint](https://oxc.rs) | análise estática do código |
-| Google Fonts | tipografias Fraunces e Karla |
+| Ferramenta                                   | Para que serve                      |
+| -------------------------------------------- | ----------------------------------- |
+| [React 19](https://react.dev)                | biblioteca de interface             |
+| [TypeScript](https://www.typescriptlang.org) | JavaScript com tipagem              |
+| [Vite](https://vite.dev)                     | servidor de desenvolvimento e build |
+| [Tailwind CSS v4](https://tailwindcss.com)   | estilização por classes utilitárias |
+| [lucide-react](https://lucide.dev)           | ícones                              |
+| [oxlint](https://oxc.rs)                     | análise estática do código          |
+| Google Fonts                                 | tipografias Fraunces e Karla        |
 
 Não há back-end: o site é estático e pode ser publicado em Vercel, Netlify,
 GitHub Pages ou qualquer hospedagem de arquivos.
@@ -52,13 +52,13 @@ GitHub Pages ou qualquer hospedagem de arquivos.
 
 Cada integrante precisa instalar na própria máquina:
 
-| Programa | Versão | Onde baixar |
-| --- | --- | --- |
-| **Git** | 2.40+ | <https://git-scm.com/downloads> |
-| **Node.js** | 20.19+ (recomendado 24) | <https://nodejs.org> |
-| **npm** | 10+ (vem junto com o Node) | — |
-| **VS Code** | atual | <https://code.visualstudio.com> |
-| **Conta no GitHub** | — | <https://github.com> |
+| Programa            | Versão                     | Onde baixar                     |
+| ------------------- | -------------------------- | ------------------------------- |
+| **Git**             | 2.40+                      | <https://git-scm.com/downloads> |
+| **Node.js**         | 20.19+ (recomendado 24)    | <https://nodejs.org>            |
+| **npm**             | 10+ (vem junto com o Node) | —                               |
+| **VS Code**         | atual                      | <https://code.visualstudio.com> |
+| **Conta no GitHub** | —                          | <https://github.com>            |
 
 Confira se está tudo certo:
 
@@ -115,12 +115,12 @@ salva.
 
 Outros comandos:
 
-| Comando | O que faz |
-| --- | --- |
-| `npm run dev` | ambiente de desenvolvimento |
-| `npm run build` | gera a versão de produção em `dist/` |
+| Comando           | O que faz                                 |
+| ----------------- | ----------------------------------------- |
+| `npm run dev`     | ambiente de desenvolvimento               |
+| `npm run build`   | gera a versão de produção em `dist/`      |
 | `npm run preview` | visualiza localmente o resultado do build |
-| `npm run lint` | verifica problemas no código |
+| `npm run lint`    | verifica problemas no código              |
 
 > Rode `npm run build` e `npm run lint` **antes de abrir um Pull Request**.
 
@@ -171,14 +171,14 @@ landing-page-dindago-atelier/
 A página é **editorial e assimétrica**: cada seção tem composição própria, e
 nenhuma repete o padrão "título + texto + cards".
 
-| Seção | Composição |
-| --- | --- |
-| Hero | Palavra em corpo gigante + espaço de imagem em arco sangrando na margem |
-| Diferenciais | Bento Grid assimétrico (2×2, 1×1, 2×1, 3×1) com tratamento por bloco |
-| Processo | Etapas espalhadas em alturas diferentes, número grande sob a palavra |
-| Peças | Bloco de destaque + dois quadrados + faixa horizontal |
-| Sobre o atelier | Fundo escuro, manifesto tipográfico + lista de fios finos |
-| Encomendas | Faixas de largura inteira com indentação em escada |
+| Seção           | Composição                                                              |
+| --------------- | ----------------------------------------------------------------------- |
+| Hero            | Palavra em corpo gigante + espaço de imagem em arco sangrando na margem |
+| Diferenciais    | Bento Grid assimétrico (2×2, 1×1, 2×1, 3×1) com tratamento por bloco    |
+| Processo        | Etapas espalhadas em alturas diferentes, número grande sob a palavra    |
+| Peças           | Bloco de destaque + dois quadrados + faixa horizontal                   |
+| Sobre o atelier | Fundo escuro, manifesto tipográfico + lista de fios finos               |
+| Encomendas      | Faixas de largura inteira com indentação em escada                      |
 
 ### Sistema visual
 
@@ -195,13 +195,13 @@ Tudo vem de tokens em `src/index.css` (bloco `@theme`):
 
 ### Componentes visuais reutilizáveis
 
-| Componente | Papel |
-| --- | --- |
+| Componente           | Papel                                                  |
+| -------------------- | ------------------------------------------------------ |
 | `ui/Decorations.tsx` | sol, cactos, pássaros, flor, ornamentos, borda rasgada |
-| `ui/Seal.tsx` | selo artesanal giratório |
-| `ui/SmartImage.tsx` | espaço reservado de imagem (ver abaixo) |
-| `ui/Reveal.tsx` | animação de entrada no scroll |
-| `ui/Button.tsx` | botões nas três variantes |
+| `ui/Seal.tsx`        | selo artesanal giratório                               |
+| `ui/SmartImage.tsx`  | espaço reservado de imagem (ver abaixo)                |
+| `ui/Reveal.tsx`      | animação de entrada no scroll                          |
+| `ui/Button.tsx`      | botões nas três variantes                              |
 
 ### Espaços de imagem
 
@@ -224,23 +224,23 @@ ocupa exatamente aquele lugar — nada se desloca.
 Tudo que é do cliente mora ali: nome, textos, peças, galeria, contatos, redes
 sociais, cores e SEO.
 
-| Quero mudar... | Onde, dentro de `clientData` |
-| --- | --- |
-| Nome, slogan, logo | `company` |
-| **Cores do site** | `colors` |
-| Título e imagem do topo | `hero` |
-| Os 5 diferenciais | `benefits` |
-| Etapas do processo | `process` |
-| Peças e preços | `products` |
-| Fotos da galeria | `gallery` |
-| História e dados da artista | `about` |
-| Blocos de valores | `culture` |
-| Fluxo de encomendas | `orders` |
-| Telefone, e-mail, endereço | `contact` |
-| Instagram, Facebook | `social` |
-| Links e ano do rodapé | `footer` |
-| Itens do menu | `nav` |
-| Título e descrição para o Google | `seo` |
+| Quero mudar...                   | Onde, dentro de `clientData` |
+| -------------------------------- | ---------------------------- |
+| Nome, slogan, logo               | `company`                    |
+| **Cores do site**                | `colors`                     |
+| Título e imagem do topo          | `hero`                       |
+| Os 5 diferenciais                | `benefits`                   |
+| Etapas do processo               | `process`                    |
+| Peças e preços                   | `products`                   |
+| Fotos da galeria                 | `gallery`                    |
+| História e dados da artista      | `about`                      |
+| Blocos de valores                | `culture`                    |
+| Fluxo de encomendas              | `orders`                     |
+| Telefone, e-mail, endereço       | `contact`                    |
+| Instagram, Facebook              | `social`                     |
+| Links e ano do rodapé            | `footer`                     |
+| Itens do menu                    | `nav`                        |
+| Título e descrição para o Google | `seo`                        |
 
 ### As cores mudam o site inteiro
 
@@ -262,7 +262,7 @@ Enquanto um campo estiver como `INSERIR_ALGUMA_COISA`, **o site não inventa
 nada**: o link some, o mapa vira um aviso e o botão passa a levar ao
 formulário de contato. Preencheu o valor real, tudo funciona sozinho.
 
-**Preços:** as peças estão com `price: null`, o que exibe *"Consultar valor"*.
+**Preços:** as peças estão com `price: null`, o que exibe _"Consultar valor"_.
 Para publicar um preço, troque por um número em reais:
 
 ```ts
@@ -384,7 +384,7 @@ git push -u origin feature/minha-alteracao
 > `git push`.
 
 **5. Abra o Pull Request** no GitHub (o site mostra um botão
-*"Compare & pull request"* logo após o push) e peça a revisão de alguém.
+_"Compare & pull request"_ logo após o push) e peça a revisão de alguém.
 
 **6. Depois que o PR for aprovado e mesclado,** volte para a main e atualize:
 
@@ -409,13 +409,13 @@ Resolva eventuais conflitos, faça `git commit` e siga com `git push`.
 
 ### Nomes de branch
 
-| Prefixo | Quando usar | Exemplo |
-| --- | --- | --- |
-| `feature/` | funcionalidade nova | `feature/secao-depoimentos` |
-| `fix/` | correção de erro | `fix/menu-mobile` |
-| `style/` | ajuste visual | `style/espacamento-hero` |
-| `docs/` | documentação | `docs/atualiza-readme` |
-| `chore/` | configuração/manutenção | `chore/atualiza-dependencias` |
+| Prefixo    | Quando usar             | Exemplo                       |
+| ---------- | ----------------------- | ----------------------------- |
+| `feature/` | funcionalidade nova     | `feature/secao-depoimentos`   |
+| `fix/`     | correção de erro        | `fix/menu-mobile`             |
+| `style/`   | ajuste visual           | `style/espacamento-hero`      |
+| `docs/`    | documentação            | `docs/atualiza-readme`        |
+| `chore/`   | configuração/manutenção | `chore/atualiza-dependencias` |
 
 Use letras minúsculas, sem acento e com hífen no lugar do espaço.
 
@@ -469,18 +469,18 @@ npm run lint      # precisa terminar sem erro
 
 ## Comandos Git do dia a dia
 
-| Comando | O que faz |
-| --- | --- |
-| `git status` | mostra o que mudou e em que branch você está |
-| `git branch` | lista as branches locais |
-| `git checkout main` | muda para a branch `main` |
-| `git checkout -b nome` | cria uma branch nova e já muda para ela |
-| `git pull origin main` | traz as novidades do GitHub |
-| `git add .` | marca todas as alterações para o commit |
-| `git commit -m "..."` | salva as alterações no histórico local |
-| `git push` | envia os commits para o GitHub |
-| `git log --oneline -5` | mostra os 5 últimos commits |
-| `git remote -v` | mostra o endereço do repositório remoto |
+| Comando                | O que faz                                    |
+| ---------------------- | -------------------------------------------- |
+| `git status`           | mostra o que mudou e em que branch você está |
+| `git branch`           | lista as branches locais                     |
+| `git checkout main`    | muda para a branch `main`                    |
+| `git checkout -b nome` | cria uma branch nova e já muda para ela      |
+| `git pull origin main` | traz as novidades do GitHub                  |
+| `git add .`            | marca todas as alterações para o commit      |
+| `git commit -m "..."`  | salva as alterações no histórico local       |
+| `git push`             | envia os commits para o GitHub               |
+| `git log --oneline -5` | mostra os 5 últimos commits                  |
+| `git remote -v`        | mostra o endereço do repositório remoto      |
 
 ---
 

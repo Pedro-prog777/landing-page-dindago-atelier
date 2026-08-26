@@ -106,8 +106,7 @@ export const clientData = {
     titleHighlight: 'mãos.',
     /** Texto do selo artesanal que gira no canto da composição. */
     seal: 'peça única · feito à mão · papel-machê · ',
-    subtitle:
-      'Peças artesanais que carregam a identidade e a beleza do Nordeste brasileiro.',
+    subtitle: 'Peças artesanais que carregam a identidade e a beleza do Nordeste brasileiro.',
     image: '/images/hero/peca-principal.jpg',
     imageAlt:
       'Escultura em papel-machê de uma mulher com cabelos em forma de mar, peixes e um barco',
@@ -188,8 +187,7 @@ export const clientData = {
   productsSection: {
     eyebrow: 'Coleções',
     title: 'Peças em destaque',
-    subtitle:
-      'Esculturas em papel-machê que celebram a vida, a fé e a cultura popular.',
+    subtitle: 'Esculturas em papel-machê que celebram a vida, a fé e a cultura popular.',
     ctaLabel: 'Ver toda a coleção',
   },
 
@@ -257,18 +255,78 @@ export const clientData = {
       'Obras finalizadas, bastidores do processo, a bancada de trabalho e os detalhes que só aparecem de perto.',
     categories: ['Obras', 'Processo', 'Atelier', 'Detalhes'],
     items: [
-      { id: 1, category: 'Obras', src: '/images/gallery/obra-01.jpg', alt: 'Escultura em papel-machê finalizada sobre fundo neutro' },
-      { id: 2, category: 'Obras', src: '/images/gallery/obra-02.jpg', alt: 'Conjunto de figuras em papel-machê inspiradas na cultura popular' },
-      { id: 3, category: 'Obras', src: '/images/gallery/obra-03.jpg', alt: 'Escultura de figura humana em papel-machê com pintura em tons de terra' },
-      { id: 4, category: 'Processo', src: '/images/gallery/processo-01.jpg', alt: 'Papel de molho em água, primeira etapa da produção do papel-machê' },
-      { id: 5, category: 'Processo', src: '/images/gallery/processo-02.jpg', alt: 'Polpa de papel triturada pronta para receber a cola caseira' },
-      { id: 6, category: 'Processo', src: '/images/gallery/processo-03.jpg', alt: 'Estrutura de arame e papelão sendo montada antes da modelagem' },
-      { id: 7, category: 'Processo', src: '/images/gallery/processo-04.jpg', alt: 'Mãos modelando o papel-machê sobre a estrutura da peça' },
-      { id: 8, category: 'Atelier', src: '/images/gallery/atelier-01.jpg', alt: 'Bancada do atelier com ferramentas e peças em produção' },
-      { id: 9, category: 'Atelier', src: '/images/gallery/atelier-02.jpg', alt: 'Prateleira do atelier com esculturas em diferentes etapas' },
-      { id: 10, category: 'Atelier', src: '/images/gallery/atelier-03.jpg', alt: 'Materiais reaproveitados guardados no atelier: papelão, garrafas e arame' },
-      { id: 11, category: 'Detalhes', src: '/images/gallery/detalhe-01.jpg', alt: 'Detalhe da textura do papel-machê na superfície de uma peça' },
-      { id: 12, category: 'Detalhes', src: '/images/gallery/detalhe-02.jpg', alt: 'Detalhe da pintura à mão em uma escultura de papel-machê' },
+      {
+        id: 1,
+        category: 'Obras',
+        src: '/images/gallery/obra-01.jpg',
+        alt: 'Escultura em papel-machê finalizada sobre fundo neutro',
+      },
+      {
+        id: 2,
+        category: 'Obras',
+        src: '/images/gallery/obra-02.jpg',
+        alt: 'Conjunto de figuras em papel-machê inspiradas na cultura popular',
+      },
+      {
+        id: 3,
+        category: 'Obras',
+        src: '/images/gallery/obra-03.jpg',
+        alt: 'Escultura de figura humana em papel-machê com pintura em tons de terra',
+      },
+      {
+        id: 4,
+        category: 'Processo',
+        src: '/images/gallery/processo-01.jpg',
+        alt: 'Papel de molho em água, primeira etapa da produção do papel-machê',
+      },
+      {
+        id: 5,
+        category: 'Processo',
+        src: '/images/gallery/processo-02.jpg',
+        alt: 'Polpa de papel triturada pronta para receber a cola caseira',
+      },
+      {
+        id: 6,
+        category: 'Processo',
+        src: '/images/gallery/processo-03.jpg',
+        alt: 'Estrutura de arame e papelão sendo montada antes da modelagem',
+      },
+      {
+        id: 7,
+        category: 'Processo',
+        src: '/images/gallery/processo-04.jpg',
+        alt: 'Mãos modelando o papel-machê sobre a estrutura da peça',
+      },
+      {
+        id: 8,
+        category: 'Atelier',
+        src: '/images/gallery/atelier-01.jpg',
+        alt: 'Bancada do atelier com ferramentas e peças em produção',
+      },
+      {
+        id: 9,
+        category: 'Atelier',
+        src: '/images/gallery/atelier-02.jpg',
+        alt: 'Prateleira do atelier com esculturas em diferentes etapas',
+      },
+      {
+        id: 10,
+        category: 'Atelier',
+        src: '/images/gallery/atelier-03.jpg',
+        alt: 'Materiais reaproveitados guardados no atelier: papelão, garrafas e arame',
+      },
+      {
+        id: 11,
+        category: 'Detalhes',
+        src: '/images/gallery/detalhe-01.jpg',
+        alt: 'Detalhe da textura do papel-machê na superfície de uma peça',
+      },
+      {
+        id: 12,
+        category: 'Detalhes',
+        src: '/images/gallery/detalhe-02.jpg',
+        alt: 'Detalhe da pintura à mão em uma escultura de papel-machê',
+      },
     ] as ItemGaleria[],
   },
 
@@ -289,9 +347,18 @@ export const clientData = {
     ],
     ctaLabel: 'Conheça nossa história',
     pillars: [
-      { title: 'A pesquisa', text: 'Cada peça começa em um caderno: referências, conversas, memórias de festa, de feira e de casa.' },
-      { title: 'O desenho', text: 'A ideia vira traço antes de virar volume. É no desenho que a figura ganha postura e gesto.' },
-      { title: 'As mãos', text: 'Nada é moldado em série. O tempo de secagem do papel dita o ritmo do trabalho.' },
+      {
+        title: 'A pesquisa',
+        text: 'Cada peça começa em um caderno: referências, conversas, memórias de festa, de feira e de casa.',
+      },
+      {
+        title: 'O desenho',
+        text: 'A ideia vira traço antes de virar volume. É no desenho que a figura ganha postura e gesto.',
+      },
+      {
+        title: 'As mãos',
+        text: 'Nada é moldado em série. O tempo de secagem do papel dita o ritmo do trabalho.',
+      },
     ],
     artist: {
       /** Nome da artista conforme a identidade visual aprovada. */
@@ -307,10 +374,26 @@ export const clientData = {
   // `icon` aceita: sol | flor | passaro | maos
   // --------------------------------------------------------------------------
   culture: [
-    { icon: 'sol', title: 'Arte que transforma', description: 'Cada peça carrega sentimentos, encantos e significados.' },
-    { icon: 'flor', title: 'Cultura que conecta', description: 'Da nossa terra para o mundo, com orgulho das nossas raízes.' },
-    { icon: 'passaro', title: 'Memória que permanece', description: 'Esculturas que guardam histórias e atravessam gerações.' },
-    { icon: 'maos', title: 'Mãos que criam', description: 'O trabalho artesanal como expressão de identidade, criatividade e afeto.' },
+    {
+      icon: 'sol',
+      title: 'Arte que transforma',
+      description: 'Cada peça carrega sentimentos, encantos e significados.',
+    },
+    {
+      icon: 'flor',
+      title: 'Cultura que conecta',
+      description: 'Da nossa terra para o mundo, com orgulho das nossas raízes.',
+    },
+    {
+      icon: 'passaro',
+      title: 'Memória que permanece',
+      description: 'Esculturas que guardam histórias e atravessam gerações.',
+    },
+    {
+      icon: 'maos',
+      title: 'Mãos que criam',
+      description: 'O trabalho artesanal como expressão de identidade, criatividade e afeto.',
+    },
   ],
 
   // --------------------------------------------------------------------------
@@ -322,10 +405,26 @@ export const clientData = {
     subtitle:
       'Algumas histórias merecem ganhar forma. Entre em contato com o Dindagó Atelier para conversar sobre uma peça personalizada.',
     steps: [
-      { number: '01', title: 'Conte sua ideia', text: 'Uma memória, um personagem, um espaço para ocupar. O ponto de partida é seu.' },
-      { number: '02', title: 'Conversamos sobre a criação', text: 'Referências, dimensões, cores e prazo são definidos junto com o atelier.' },
-      { number: '03', title: 'A peça é desenvolvida', text: 'Desenho, estrutura, modelagem e acabamento — com registros do processo.' },
-      { number: '04', title: 'Sua obra ganha vida', text: 'A escultura é finalizada, embalada com cuidado e enviada para todo o Brasil.' },
+      {
+        number: '01',
+        title: 'Conte sua ideia',
+        text: 'Uma memória, um personagem, um espaço para ocupar. O ponto de partida é seu.',
+      },
+      {
+        number: '02',
+        title: 'Conversamos sobre a criação',
+        text: 'Referências, dimensões, cores e prazo são definidos junto com o atelier.',
+      },
+      {
+        number: '03',
+        title: 'A peça é desenvolvida',
+        text: 'Desenho, estrutura, modelagem e acabamento — com registros do processo.',
+      },
+      {
+        number: '04',
+        title: 'Sua obra ganha vida',
+        text: 'A escultura é finalizada, embalada com cuidado e enviada para todo o Brasil.',
+      },
     ],
     ctaTitle: 'Vamos criar algo com a sua história?',
     ctaText:

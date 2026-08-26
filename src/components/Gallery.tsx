@@ -17,9 +17,7 @@ export function Gallery() {
 
   const itens = useMemo(
     () =>
-      filtro === 'Todas'
-        ? galleryItems
-        : galleryItems.filter((item) => item.category === filtro),
+      filtro === 'Todas' ? galleryItems : galleryItems.filter((item) => item.category === filtro),
     [filtro],
   );
 
@@ -65,37 +63,37 @@ export function Gallery() {
 
         <ul className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {itens.map((item, indice) => (
-            <Reveal
-              as="li"
+            <li
               key={item.id}
-              delay={Math.min(indice, 6) * 60}
-              /* Alterna alguns cards maiores para quebrar a rigidez da grade */
+              /* Alterna alguns blocos maiores para quebrar a rigidez da grade */
               className={indice % 5 === 0 ? 'lg:col-span-2 lg:row-span-2' : ''}
             >
-              <button
-                type="button"
-                onClick={() => setIndiceAberto(indice)}
-                aria-label={`Ampliar imagem: ${item.alt}`}
-                className="group relative block h-full w-full overflow-hidden rounded-xl bg-bege"
-              >
-                <SmartImage
-                  src={item.src}
-                  alt={item.alt}
-                  className={`w-full transition-transform duration-700 ease-out group-hover:scale-105 ${
-                    indice % 5 === 0 ? 'aspect-square lg:aspect-[4/3.4]' : 'aspect-square'
-                  }`}
-                />
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-0 flex items-center justify-center bg-marrom/0 opacity-0 transition-all duration-300 group-hover:bg-marrom/35 group-hover:opacity-100 group-focus-visible:bg-marrom/35 group-focus-visible:opacity-100"
+              <Reveal delay={Math.min(indice, 6) * 60} className="h-full">
+                <button
+                  type="button"
+                  onClick={() => setIndiceAberto(indice)}
+                  aria-label={`Ampliar imagem: ${item.alt}`}
+                  className="group relative block h-full w-full overflow-hidden rounded-xl bg-bege"
                 >
-                  <Expand className="size-6 text-creme" />
-                </span>
-                <span className="absolute bottom-0 left-0 rounded-tr-xl bg-creme/85 px-3 py-1.5 font-sans text-[0.6rem] font-semibold tracking-[0.16em] text-marrom uppercase">
-                  {item.category}
-                </span>
-              </button>
-            </Reveal>
+                  <SmartImage
+                    src={item.src}
+                    alt={item.alt}
+                    className={`w-full transition-transform duration-700 ease-out group-hover:scale-105 ${
+                      indice % 5 === 0 ? 'aspect-square lg:aspect-[4/3.4]' : 'aspect-square'
+                    }`}
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 flex items-center justify-center bg-marrom/0 opacity-0 transition-all duration-300 group-hover:bg-marrom/35 group-hover:opacity-100 group-focus-visible:bg-marrom/35 group-focus-visible:opacity-100"
+                  >
+                    <Expand className="size-6 text-creme" />
+                  </span>
+                  <span className="absolute bottom-0 left-0 rounded-tr-xl bg-creme/85 px-3 py-1.5 font-sans text-[0.6rem] font-semibold tracking-[0.16em] text-marrom uppercase">
+                    {item.category}
+                  </span>
+                </button>
+              </Reveal>
+            </li>
           ))}
         </ul>
 

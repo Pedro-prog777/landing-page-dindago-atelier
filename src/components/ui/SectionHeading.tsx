@@ -49,25 +49,30 @@ export function SectionHeading({
         </span>
       )}
 
-      {usaOrnamentos ? (
-        <div className="flex w-full items-center justify-center gap-4 sm:gap-6">
+      {/*
+        O h2 é montado uma única vez e apenas envolvido pelos ornamentos quando
+        pedido — renderizá-lo em dois ramos duplicaria o mesmo `id` no código.
+      */}
+      <div
+        className={
+          usaOrnamentos ? 'flex w-full items-center justify-center gap-4 sm:gap-6' : 'contents'
+        }
+      >
+        {usaOrnamentos && (
           <Ornament lado="esquerda" className={`hidden shrink-0 sm:block ${corOrnamento}`} />
-          <h2
-            id={id}
-            className={`max-w-3xl font-display text-3xl leading-[1.12] font-light sm:text-4xl lg:text-[2.9rem] ${corTitulo}`}
-          >
-            {title}
-          </h2>
-          <Ornament lado="direita" className={`hidden shrink-0 sm:block ${corOrnamento}`} />
-        </div>
-      ) : (
+        )}
+
         <h2
           id={id}
           className={`max-w-3xl font-display text-3xl leading-[1.12] font-light sm:text-4xl lg:text-[2.9rem] ${corTitulo}`}
         >
           {title}
         </h2>
-      )}
+
+        {usaOrnamentos && (
+          <Ornament lado="direita" className={`hidden shrink-0 sm:block ${corOrnamento}`} />
+        )}
+      </div>
 
       {description && (
         <p

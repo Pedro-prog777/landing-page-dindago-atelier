@@ -15,9 +15,18 @@ import { clientData, type Produto } from '../data/clientData';
  * Se o cliente cadastrar mais peças, as excedentes entram como compactas.
  */
 const composicao: { variante: VarianteProduto; posicao: string }[] = [
-  { variante: 'destaque', posicao: 'lg:col-span-2 lg:col-start-1 lg:row-span-2 lg:row-start-1' },
-  { variante: 'compacto', posicao: 'lg:col-span-1 lg:col-start-3 lg:row-start-1' },
-  { variante: 'compacto', posicao: 'lg:col-span-1 lg:col-start-3 lg:row-start-2' },
+  {
+    variante: 'destaque',
+    posicao: 'lg:col-span-2 lg:col-start-1 lg:row-span-2 lg:row-start-1',
+  },
+  {
+    variante: 'compacto',
+    posicao: 'lg:col-span-1 lg:col-start-3 lg:row-start-1',
+  },
+  {
+    variante: 'compacto',
+    posicao: 'lg:col-span-1 lg:col-start-3 lg:row-start-2',
+  },
   { variante: 'largo', posicao: 'lg:col-span-3 lg:col-start-1 lg:row-start-3' },
 ];
 
@@ -66,21 +75,21 @@ export function FeaturedPieces() {
         {/* Grade de proporções variadas */}
         <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {products.map((product, indice) => {
-            const arranjo = composicao[indice] ?? { variante: 'compacto' as const, posicao: '' };
+            const arranjo = composicao[indice] ?? {
+              variante: 'compacto' as const,
+              posicao: '',
+            };
             return (
-              <Reveal
-                as="li"
-                key={product.id}
-                delay={indice * 90}
-                className={`h-full ${arranjo.posicao}`}
-              >
-                <ProductCard
-                  product={product}
-                  variante={arranjo.variante}
-                  indice={String(indice + 1).padStart(2, '0')}
-                  aoVerDetalhes={setPecaSelecionada}
-                />
-              </Reveal>
+              <li key={product.id} className={`h-full ${arranjo.posicao}`}>
+                <Reveal delay={indice * 90} className="h-full">
+                  <ProductCard
+                    product={product}
+                    variante={arranjo.variante}
+                    indice={String(indice + 1).padStart(2, '0')}
+                    aoVerDetalhes={setPecaSelecionada}
+                  />
+                </Reveal>
+              </li>
             );
           })}
         </ul>

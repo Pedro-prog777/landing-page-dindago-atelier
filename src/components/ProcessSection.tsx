@@ -58,7 +58,7 @@ export function ProcessSection() {
           {/* Espaço da fotografia do processo — proporção 4/3, deslocado */}
           <Reveal delay={140} className="lg:col-span-5 lg:col-start-8 lg:mt-16">
             <figure className="group relative">
-              <div className="overflow-hidden rounded-[2.5rem] bg-bege shadow-[0_30px_60px_-38px_rgba(67,41,29,0.6)]">
+              <div className="overflow-hidden rounded-bloco bg-bege shadow-[0_30px_60px_-38px_rgba(67,41,29,0.6)]">
                 <SmartImage
                   src={process.image}
                   alt={process.imageAlt}
@@ -84,34 +84,31 @@ export function ProcessSection() {
 
           <ol className="mt-12 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-0">
             {process.steps.map((etapa, indice) => (
-              <Reveal
-                as="li"
-                key={etapa.name}
-                delay={indice * 80}
-                className={`group relative ${alturas[indice] ?? ''}`}
-              >
-                {/* Número em corpo grande; a palavra pousa sobre ele */}
-                <span
-                  aria-hidden="true"
-                  className="block font-display text-[clamp(3.5rem,7vw,5.5rem)] leading-[0.8] font-light text-terracota/25 transition-colors duration-500 group-hover:text-terracota/45"
-                >
-                  {String(indice + 1).padStart(2, '0')}
-                </span>
+              <li key={etapa.name} className={`group relative ${alturas[indice] ?? ''}`}>
+                <Reveal delay={indice * 80}>
+                  {/* Número em corpo grande; a palavra pousa sobre ele */}
+                  <span
+                    aria-hidden="true"
+                    className="block font-display text-[clamp(3.5rem,7vw,5.5rem)] leading-[0.8] font-light text-terracota/25 transition-colors duration-500 group-hover:text-terracota/45"
+                  >
+                    {String(indice + 1).padStart(2, '0')}
+                  </span>
 
-                <h3 className="-mt-5 ml-1 font-display text-2xl leading-tight font-normal text-marrom sm:text-[1.7rem]">
-                  {etapa.name}
-                </h3>
+                  <h3 className="-mt-5 ml-1 font-display text-2xl leading-tight font-normal text-marrom sm:text-[1.7rem]">
+                    {etapa.name}
+                  </h3>
 
-                <p className="mt-3 ml-1 max-w-xs text-sm leading-relaxed text-marrom-claro">
-                  {etapa.detail}
-                </p>
+                  <p className="mt-3 ml-1 max-w-xs text-sm leading-relaxed text-marrom-claro">
+                    {etapa.detail}
+                  </p>
 
-                {/* Fio curto que cresce no hover, apontando para a etapa seguinte */}
-                <span
-                  aria-hidden="true"
-                  className="mt-6 ml-1 block h-px w-12 bg-terracota/40 transition-all duration-500 group-hover:w-20"
-                />
-              </Reveal>
+                  {/* Fio curto que cresce no hover, apontando para a etapa seguinte */}
+                  <span
+                    aria-hidden="true"
+                    className="mt-6 ml-1 block h-px w-12 bg-terracota/40 transition-all duration-500 group-hover:w-20"
+                  />
+                </Reveal>
+              </li>
             ))}
           </ol>
         </div>

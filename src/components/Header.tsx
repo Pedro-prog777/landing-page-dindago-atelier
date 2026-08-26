@@ -168,7 +168,7 @@ export function Header() {
                 type="button"
                 onClick={() => setMenuAberto((estado) => !estado)}
                 aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
-                aria-expanded={menuAberto ? "true" : "false"}
+                aria-expanded={menuAberto ? 'true' : 'false'}
                 aria-controls="menu-mobile"
                 className="flex size-10 items-center justify-center rounded-full text-marrom transition hover:bg-areia lg:hidden"
               >

@@ -12,7 +12,11 @@ type ProductDialogProps = {
 
 export function ProductDialog({ product, aoFechar }: ProductDialogProps) {
   const painelRef = useRef<HTMLDivElement>(null);
-  useModalBehavior({ aberto: product !== null, aoFechar, containerRef: painelRef });
+  useModalBehavior({
+    aberto: product !== null,
+    aoFechar,
+    containerRef: painelRef,
+  });
 
   if (!product) return null;
 

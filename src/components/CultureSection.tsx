@@ -60,31 +60,28 @@ export function CultureSection() {
             {culture.map((bloco, indice) => {
               const Icone = iconesAtelier[bloco.icon as NomeIcone] ?? iconesAtelier.sol;
               return (
-                <Reveal
-                  as="li"
-                  key={bloco.title}
-                  delay={indice * 90}
-                  className="group border-t border-creme/15 py-7 last:border-b"
-                >
-                  <div className="flex items-start gap-5">
-                    <span className="pt-1 font-display text-lg leading-none font-light text-amarelo/50 transition-colors duration-500 group-hover:text-amarelo">
-                      0{indice + 1}
-                    </span>
+                <li key={bloco.title} className="group border-t border-creme/15 py-7 last:border-b">
+                  <Reveal delay={indice * 90}>
+                    <div className="flex items-start gap-5">
+                      <span className="pt-1 font-display text-lg leading-none font-light text-amarelo/50 transition-colors duration-500 group-hover:text-amarelo">
+                        0{indice + 1}
+                      </span>
 
-                    <div className="flex-1">
-                      <h3 className="font-display text-xl leading-tight font-normal text-creme sm:text-2xl">
-                        {bloco.title}
-                      </h3>
-                      <p className="mt-2.5 max-w-sm text-sm leading-relaxed text-creme/65">
-                        {bloco.description}
-                      </p>
+                      <div className="flex-1">
+                        <h3 className="font-display text-xl leading-tight font-normal text-creme sm:text-2xl">
+                          {bloco.title}
+                        </h3>
+                        <p className="mt-2.5 max-w-sm text-sm leading-relaxed text-creme/65">
+                          {bloco.description}
+                        </p>
+                      </div>
+
+                      <span className="shrink-0 text-amarelo/40 transition-all duration-500 group-hover:scale-110 group-hover:text-amarelo/80">
+                        <Icone className="size-9" strokeWidth={1.2} />
+                      </span>
                     </div>
-
-                    <span className="shrink-0 text-amarelo/40 transition-all duration-500 group-hover:scale-110 group-hover:text-amarelo/80">
-                      <Icone className="size-9" strokeWidth={1.2} />
-                    </span>
-                  </div>
-                </Reveal>
+                  </Reveal>
+                </li>
               );
             })}
           </ul>
