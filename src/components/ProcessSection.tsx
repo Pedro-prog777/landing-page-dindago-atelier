@@ -70,7 +70,7 @@ export function ProcessSection() {
                     {indice < etapas.length - 1 && (
                       <span
                         aria-hidden="true"
-                        className="absolute top-11 bottom-1 left-[1.24rem] w-px bg-gradient-to-b from-terracota/40 to-bege-escuro"
+                        className="absolute top-11 bottom-1 left-[1.24rem] w-px bg-linear-to-b from-terracota/40 to-bege-escuro"
                       />
                     )}
                     <span className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border border-terracota/25 bg-areia font-sans text-[0.7rem] font-bold text-terracota">
@@ -93,7 +93,7 @@ export function ProcessSection() {
                   src={process.image}
                   alt={process.imageAlt}
                   placeholderLabel="Foto do processo"
-                  className="aspect-[16/9] w-full"
+                  className="aspect-16/9 w-full"
                 />
               </figure>
             </div>

@@ -165,7 +165,7 @@ export function Ornament({
       {...traco}
       strokeWidth={1.3}
       aria-hidden="true"
-      className={`h-4 w-16 ${lado === 'direita' ? 'scale-x-[-1]' : ''} ${className}`}
+      className={`h-4 w-16 ${lado === 'direita' ? '-scale-x-100' : ''} ${className}`}
     >
       <path d="M2 8h30" />
       <path d="M32 8q4-6 9-4t2 8q-3 4-7 1t-4-5z" />

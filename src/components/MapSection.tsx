@@ -73,10 +73,10 @@ export function MapSection() {
                   src={embedUrl}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  className="h-[22rem] w-full rounded-[1.5rem] border-0 sm:h-[26rem]"
+                  className="h-88 w-full rounded-3xl border-0 sm:h-104"
                 />
               ) : (
-                <div className="flex h-[22rem] flex-col items-center justify-center gap-3 rounded-[1.5rem] border border-dashed border-bege-escuro bg-areia/70 px-6 text-center sm:h-[26rem]">
+                <div className="flex h-88 flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-bege-escuro bg-areia/70 px-6 text-center sm:h-104">
                   <MapPin className="size-7 text-barro/60" aria-hidden="true" />
                   <p className="font-display text-lg text-marrom">Mapa aguardando o endereço</p>
                   <p className="max-w-sm font-sans text-sm leading-relaxed text-marrom-claro">

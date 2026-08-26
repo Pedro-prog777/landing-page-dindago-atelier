@@ -19,7 +19,7 @@ export function ProductDialog({ product, aoFechar }: ProductDialogProps) {
   const whatsappUrl = buildWhatsAppUrl(mensagemInteresse(product));
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center sm:p-6">
+    <div className="fixed inset-0 z-70 flex items-end justify-center sm:items-center sm:p-6">
       <div
         className="absolute inset-0 bg-marrom/70 backdrop-blur-[2px]"
         onClick={aoFechar}
@@ -49,7 +49,7 @@ export function ProductDialog({ product, aoFechar }: ProductDialogProps) {
               alt={product.imageAlt}
               placeholderLabel="Foto da peça"
               loading="eager"
-              className="aspect-[4/3] w-full md:aspect-auto md:h-full md:min-h-[26rem]"
+              className="aspect-4/3 w-full md:aspect-auto md:h-full md:min-h-104"
             />
           </div>
 

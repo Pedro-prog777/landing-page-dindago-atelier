@@ -31,7 +31,7 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[70] flex items-start justify-center px-4 pt-24 sm:pt-32"
+      className="fixed inset-0 z-70 flex items-start justify-center px-4 pt-24 sm:pt-32"
       role="presentation"
     >
       <div

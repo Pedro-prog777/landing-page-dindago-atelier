@@ -50,7 +50,7 @@ export function Lightbox({ itens, indice, aoFechar, aoNavegar }: LightboxProps) 
   const item = itens[indice];
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-8">
+    <div className="fixed inset-0 z-80 flex items-center justify-center p-4 sm:p-8">
       <div
         className="absolute inset-0 bg-marrom/92"
         onClick={aoFechar}

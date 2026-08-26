@@ -34,7 +34,7 @@ export function OrdersSection() {
               {indice < fluxo.length - 1 && (
                 <span
                   aria-hidden="true"
-                  className="absolute top-5 left-[calc(50%+2.5rem)] hidden h-px w-[calc(100%-5rem)] bg-gradient-to-r from-terracota/40 to-transparent lg:block"
+                  className="absolute top-5 left-[calc(50%+2.5rem)] hidden h-px w-[calc(100%-5rem)] bg-linear-to-r from-terracota/40 to-transparent lg:block"
                 />
               )}
               <div className="relative">

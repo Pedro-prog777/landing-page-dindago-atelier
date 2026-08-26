@@ -18,7 +18,7 @@ export function ProductCard({ product, aoVerDetalhes }: ProductCardProps) {
           src={product.image}
           alt={product.imageAlt}
           placeholderLabel="Foto da peça"
-          className="aspect-[4/5] w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          className="aspect-4/5 w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
         />
         {product.badge && (
           <span className="absolute top-4 left-4 rounded-full bg-creme/90 px-3 py-1.5 font-sans text-[0.62rem] font-semibold tracking-[0.16em] text-terracota uppercase backdrop-blur-sm">
