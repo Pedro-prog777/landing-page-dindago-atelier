@@ -1,10 +1,17 @@
-import { Quote } from 'lucide-react';
 import { isConfigured, siteConfig } from '../config/site';
 import { clientData } from '../data/clientData';
-import { Button } from './ui/Button';
+import { LinkEditorial } from './ui/Button';
+import { Caderno, Fio } from './ui/Catalogo';
 import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
 
+/**
+ * Caderno da história — retrato e depoimento.
+ *
+ * A prancha da artista ocupa uma coluna estreita e alta, encostada na margem
+ * esquerda, e o texto corre ao lado com a citação destacada em corpo grande.
+ * Os pilares fecham a página numa faixa de três colunas separada por fios.
+ */
 export function AboutArtist() {
   const { about } = clientData;
   const { artist } = about;
@@ -14,86 +21,82 @@ export function AboutArtist() {
     <section
       id="historia"
       aria-labelledby="historia-titulo"
-      className="bg-creme py-20 sm:py-24 lg:py-28"
+      className="grao bg-papel py-16 sm:py-20 lg:py-24"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
-          {/* Retrato da artista */}
-          <Reveal className="lg:col-span-5">
-            <figure className="relative mx-auto max-w-md lg:max-w-none">
-              <div
-                aria-hidden="true"
-                className="absolute -right-4 -bottom-4 h-full w-full rounded-4xl bg-areia sm:-right-5 sm:-bottom-5"
-              />
-              <div className="relative overflow-hidden rounded-4xl bg-bege">
+      <div className="px-4 sm:px-6 lg:px-10">
+        <Caderno numero={about.numero} titulo="Nossa história" nota="Retrato e depoimento" />
+
+        <div className="grid gap-10 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">
+          {/* Prancha da artista — coluna estreita e alta */}
+          <Reveal className="group lg:col-span-4">
+            <figure>
+              <div className="overflow-hidden bg-areia">
                 <SmartImage
                   src={artist.photo}
                   alt={artist.photoAlt}
-                  placeholderLabel="Foto da artista"
-                  className="aspect-4/5 w-full"
+                  placeholderLabel="Retrato da artista"
+                  figura="03"
+                  className="aspect-3/4 w-full transition-transform duration-[1.3s] ease-out group-hover:scale-[1.04]"
                 />
               </div>
-              {nomeDefinido && (
-                <figcaption className="mt-5 text-center font-sans text-[0.7rem] tracking-[0.18em] text-barro uppercase lg:text-left">
-                  {artist.name} — {artist.role}
-                </figcaption>
-              )}
+              <figcaption className="etiqueta pt-3 text-tinta/45">
+                fig. 03 — {nomeDefinido ? artist.name : 'Artista do atelier'}
+              </figcaption>
             </figure>
           </Reveal>
 
-          <div className="lg:col-span-7">
+          {/* Texto */}
+          <div className="lg:col-span-7 lg:col-start-6">
             <Reveal>
-              <span className="mb-4 inline-flex items-center gap-3 font-sans text-[0.68rem] font-semibold tracking-[0.28em] text-terracota uppercase">
-                <span className="h-px w-8 bg-terracota/50" aria-hidden="true" />
-                Nossa história
-              </span>
-              <h2
-                id="historia-titulo"
-                className="max-w-2xl font-display text-3xl leading-[1.14] font-light text-marrom sm:text-4xl lg:text-[2.7rem]"
-              >
+              <h2 id="historia-titulo" className="text-[clamp(1.9rem,4.6vw,3.6rem)]">
                 {about.title}
               </h2>
             </Reveal>
 
-            <Reveal delay={80}>
-              <blockquote className="mt-8 border-l-2 border-terracota/40 pl-5 sm:pl-6">
-                <Quote className="mb-3 size-5 text-terracota/60" aria-hidden="true" />
-                <p className="font-display text-lg leading-relaxed font-light text-marrom italic sm:text-xl">
-                  {about.quote}
-                </p>
-                <footer className="mt-4 font-sans text-[0.7rem] tracking-[0.18em] text-barro uppercase">
-                  {nomeDefinido ? artist.name : `Artista do ${siteConfig.name}`}
-                </footer>
-              </blockquote>
+            {/* Citação em corpo grande, recuada */}
+            <Reveal delay={80} className="mt-10 border-l-2 border-tijolo/50 pl-6 sm:pl-8">
+              <p className="font-display text-[clamp(1.3rem,2.4vw,2rem)] leading-[1.25] text-tinta italic">
+                “{about.quote}”
+              </p>
+              <p className="etiqueta mt-5 text-tijolo">
+                {nomeDefinido ? artist.name : `Artista do ${siteConfig.name}`}
+              </p>
             </Reveal>
 
-            <Reveal delay={140}>
-              <div className="mt-8 space-y-4 text-base leading-relaxed text-marrom-claro">
-                {about.paragraphs.map((paragrafo) => (
-                  <p key={paragrafo.slice(0, 32)}>{paragrafo}</p>
-                ))}
-              </div>
+            <Reveal
+              delay={140}
+              className="mt-10 space-y-5 text-[0.98rem] leading-[1.75] text-tinta-suave"
+            >
+              {about.paragraphs.map((paragrafo) => (
+                <p key={paragrafo.slice(0, 32)}>{paragrafo}</p>
+              ))}
             </Reveal>
 
-            <Reveal delay={200}>
-              <ul className="mt-10 grid gap-6 sm:grid-cols-3">
-                {about.pillars.map((pilar) => (
-                  <li key={pilar.title}>
-                    <h3 className="font-sans text-[0.72rem] font-bold tracking-[0.16em] text-terracota uppercase">
-                      {pilar.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-marrom-claro">{pilar.text}</p>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-
-            <Reveal delay={260} className="mt-10">
-              <Button href="#galeria" variant="outline">
-                Ver o processo na galeria
-              </Button>
+            <Reveal delay={200} className="mt-10">
+              <LinkEditorial href="#galeria">Ver o processo na galeria</LinkEditorial>
             </Reveal>
           </div>
+        </div>
+
+        {/* Pilares — faixa de três colunas */}
+        <div className="pt-14 lg:pt-20">
+          <Fio />
+          <ul className="grid grid-cols-1 sm:grid-cols-3">
+            {about.pillars.map((pilar, indice) => (
+              <li
+                key={pilar.title}
+                className="border-b border-tinta/10 sm:border-r sm:border-b-0 sm:last:border-r-0"
+              >
+                <Reveal delay={indice * 80} className="h-full py-8 sm:px-7 sm:first:pl-0">
+                  <h3 className="etiqueta text-tijolo">{pilar.title}</h3>
+                  <p className="mt-3 max-w-xs text-sm leading-relaxed text-tinta-suave">
+                    {pilar.text}
+                  </p>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+          <Fio />
         </div>
       </div>
     </section>

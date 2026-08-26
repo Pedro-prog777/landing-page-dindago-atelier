@@ -51,7 +51,7 @@ export function Lightbox({ itens, indice, aoFechar, aoNavegar }: LightboxProps) 
 
   return (
     <div className="fixed inset-0 z-80 flex items-center justify-center p-4 sm:p-8">
-      <div className="absolute inset-0 bg-marrom/92" onClick={aoFechar} aria-hidden="true" />
+      <div className="absolute inset-0 bg-tinta/92" onClick={aoFechar} aria-hidden="true" />
 
       <div
         ref={painelRef}
@@ -61,20 +61,20 @@ export function Lightbox({ itens, indice, aoFechar, aoNavegar }: LightboxProps) 
         className="relative flex max-h-full w-full max-w-5xl flex-col items-center"
       >
         <div className="flex w-full items-center justify-between gap-4 pb-4">
-          <p className="font-sans text-xs tracking-[0.18em] text-creme/70 uppercase">
+          <p className="font-sans text-xs tracking-[0.18em] text-papel/70 uppercase">
             {item.category} · {indice + 1}/{itens.length}
           </p>
           <button
             type="button"
             onClick={aoFechar}
             aria-label="Fechar galeria"
-            className="flex size-11 items-center justify-center rounded-full border border-creme/25 text-creme transition hover:bg-creme hover:text-marrom"
+            className="flex size-11 items-center justify-center border border-papel/25 text-papel transition hover:bg-papel hover:text-tinta"
           >
             <X className="size-5" aria-hidden="true" />
           </button>
         </div>
 
-        <div className="relative flex w-full flex-1 items-center justify-center overflow-hidden rounded-2xl bg-marrom-claro/30">
+        <div className="relative flex w-full flex-1 items-center justify-center overflow-hidden bg-tinta-suave/30">
           <SmartImage
             src={item.src}
             alt={item.alt}
@@ -89,18 +89,18 @@ export function Lightbox({ itens, indice, aoFechar, aoNavegar }: LightboxProps) 
             type="button"
             onClick={() => irPara(-1)}
             aria-label="Imagem anterior"
-            className="flex size-12 items-center justify-center rounded-full border border-creme/25 text-creme transition hover:bg-creme hover:text-marrom"
+            className="flex size-12 items-center justify-center border border-papel/25 text-papel transition hover:bg-papel hover:text-tinta"
           >
             <ChevronLeft className="size-6" aria-hidden="true" />
           </button>
 
-          <p className="flex-1 text-center font-sans text-sm text-creme/80">{item.alt}</p>
+          <p className="flex-1 text-center font-sans text-sm text-papel/80">{item.alt}</p>
 
           <button
             type="button"
             onClick={() => irPara(1)}
             aria-label="Próxima imagem"
-            className="flex size-12 items-center justify-center rounded-full border border-creme/25 text-creme transition hover:bg-creme hover:text-marrom"
+            className="flex size-12 items-center justify-center border border-papel/25 text-papel transition hover:bg-papel hover:text-tinta"
           >
             <ChevronRight className="size-6" aria-hidden="true" />
           </button>

@@ -1,143 +1,119 @@
-import { ArrowUpRight } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
-import { Cactus, SunRays } from './ui/Decorations';
-import { iconesAtelier, type NomeIcone } from './ui/iconMap';
+import { Caderno, Numeral, Xilogravura } from './ui/Catalogo';
+import { LinkEditorial } from './ui/Button';
 import { clientData } from '../data/clientData';
 
 /**
- * Diferenciais em Bento Grid assimétrico.
+ * Diferenciais em bento assimétrico.
  *
- * Não são cinco blocos iguais: a composição mistura 2×2, 1×1, 2×1 e 3×1, e
- * cada peça recebe um tratamento visual diferente — manifesto tipográfico,
- * bloco com ilustração, bloco com número em marca-d'água e faixa com chamada.
- * O que muda por bloco é só a apresentação; o conteúdo continua vindo de
- * `clientData.benefits`.
+ * O que muda em relação a uma grade de cards: cada bloco tem uma superfície
+ * diferente — tinta, tijolo, barro e papel —, os cantos são retos e o lugar
+ * do ícone é ocupado por um numeral de caderno. O contraste tonal entre os
+ * blocos é o que dá o ritmo, não a moldura.
  */
 
-/** Posição de cada diferencial no bento. Composição desenhada, não automática. */
+/** Posição de cada bloco. Composição desenhada: 2×1, 1×1, 1×2, 1×1, 2×1. */
 const posicoes = [
+  'sm:col-span-2 lg:col-span-2 lg:col-start-1 lg:row-start-1',
   'sm:col-span-1 lg:col-span-1 lg:col-start-3 lg:row-start-1',
-  'sm:col-span-1 lg:col-span-1 lg:col-start-4 lg:row-start-1',
-  'sm:col-span-2 lg:col-span-2 lg:col-start-3 lg:row-start-2',
-  'sm:col-span-1 lg:col-span-1 lg:col-start-1 lg:row-start-3',
-  'sm:col-span-1 lg:col-span-3 lg:col-start-2 lg:row-start-3',
+  'sm:col-span-1 lg:col-span-1 lg:col-start-4 lg:row-span-2 lg:row-start-1',
+  'sm:col-span-1 lg:col-span-1 lg:col-start-1 lg:row-start-2',
+  'sm:col-span-1 lg:col-span-2 lg:col-start-2 lg:row-start-2',
 ];
 
-/** Cada bloco tem fundo e tratamento próprios. */
-const estilos = [
-  'bg-creme border border-bege-escuro/50',
-  'bg-kraft/70',
-  'bg-areia',
-  'bg-creme border border-bege-escuro/50',
-  'bg-marrom text-creme',
+/** Superfície de cada bloco: o contraste entre elas é o ritmo da seção. */
+const superficies = [
+  {
+    fundo: 'bg-tinta',
+    texto: 'text-papel',
+    titulo: 'text-ambar',
+    apoio: 'text-papel/70',
+    tom: 'claro' as const,
+  },
+  {
+    fundo: 'bg-areia',
+    texto: 'text-tinta',
+    titulo: 'text-tijolo',
+    apoio: 'text-tinta-suave',
+    tom: 'escuro' as const,
+  },
+  {
+    fundo: 'bg-tijolo',
+    texto: 'text-papel',
+    titulo: 'text-papel',
+    apoio: 'text-papel/75',
+    tom: 'claro' as const,
+  },
+  {
+    fundo: 'bg-papel-claro border border-tinta/12',
+    texto: 'text-tinta',
+    titulo: 'text-tijolo',
+    apoio: 'text-tinta-suave',
+    tom: 'escuro' as const,
+  },
+  {
+    fundo: 'bg-papel-escuro',
+    texto: 'text-tinta',
+    titulo: 'text-tijolo',
+    apoio: 'text-tinta-suave',
+    tom: 'escuro' as const,
+  },
 ];
 
 export function ValuesSection() {
-  const { benefits, company } = clientData;
+  const { benefits, benefitsSection } = clientData;
 
   return (
-    <section
-      aria-labelledby="diferenciais-titulo"
-      className="relative bg-creme pt-6 pb-20 sm:pb-24 lg:pb-28"
-    >
-      <div className="mx-auto max-w-368 px-4 sm:px-6 lg:px-10">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[13.5rem] lg:gap-4">
-          {/* MANIFESTO — bloco tipográfico 2×2, sem ícone */}
-          <Reveal className="grao relative overflow-hidden rounded-3xl bg-terracota p-8 sm:col-span-2 lg:col-span-2 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:p-10">
-            <SunRays
-              className="absolute -top-6 -right-4 w-28 text-creme/15 lg:w-36"
-              aria-hidden="true"
-            />
-            <div className="relative flex h-full flex-col justify-between gap-8">
-              <p className="font-sans text-[0.6rem] font-semibold tracking-[0.3em] text-creme/85 uppercase">
-                O que sustenta o trabalho
-              </p>
-              <h2
-                id="diferenciais-titulo"
-                className="font-display text-[clamp(1.7rem,3.4vw,2.9rem)] leading-[1.06] font-light text-creme"
-              >
-                {company.slogan}
-              </h2>
-            </div>
-          </Reveal>
+    <section aria-labelledby="diferenciais-titulo" className="bg-papel py-16 sm:py-20 lg:py-24">
+      <div className="px-4 sm:px-6 lg:px-10">
+        <Caderno
+          numero={benefitsSection.numero}
+          titulo={benefitsSection.eyebrow}
+          nota="Cinco compromissos"
+        />
 
-          {/* DIFERENCIAIS — cada um com sua composição */}
+        <Reveal delay={80} className="pt-8 pb-10 lg:pt-12 lg:pb-14">
+          <h2 id="diferenciais-titulo" className="max-w-3xl text-[clamp(1.9rem,5vw,4rem)]">
+            {benefitsSection.title}
+          </h2>
+        </Reveal>
+
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[15rem] lg:gap-2.5">
           {benefits.map((valor, indice) => {
-            const Icone = iconesAtelier[valor.icon as NomeIcone] ?? iconesAtelier.sol;
-            const horizontal = indice === 2;
-            const faixa = indice === 4;
+            const s = superficies[indice];
+            const vertical = indice === 2;
+            const chamada = indice === 4;
 
             return (
               <Reveal
                 key={valor.title}
                 delay={indice * 70}
-                className={`group relative overflow-hidden rounded-3xl p-7 transition-transform duration-500 hover:-translate-y-1 ${estilos[indice]} ${posicoes[indice]}`}
+                className={`group relative overflow-hidden p-7 transition-colors duration-500 lg:p-8 ${s.fundo} ${s.texto} ${posicoes[indice]}`}
               >
-                {/* Número em marca-d'água, só no bloco "Autoral" */}
-                {indice === 3 && (
-                  <span
-                    aria-hidden="true"
-                    className="absolute right-5 bottom-4 font-display text-7xl leading-none text-terracota/10"
-                  >
-                    0{indice + 1}
-                  </span>
-                )}
+                <div className="flex h-full flex-col justify-between gap-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <Numeral tone={s.tom} className="text-5xl lg:text-6xl">
+                      {String(indice + 1).padStart(2, '0')}
+                    </Numeral>
+                    {vertical && <Xilogravura className="w-14 shrink-0 text-papel/25" altura={8} />}
+                  </div>
 
-                {/* Cacto ilustrado no bloco largo de identidade */}
-                {horizontal && (
-                  <Cactus
-                    className="absolute -right-2 bottom-0 w-16 text-verde/25 lg:w-20"
-                    aria-hidden="true"
-                  />
-                )}
-
-                <div
-                  className={`relative flex h-full ${
-                    horizontal
-                      ? 'flex-col justify-center gap-4 sm:flex-row sm:items-center sm:gap-7'
-                      : faixa
-                        ? 'flex-col justify-between gap-5 sm:flex-row sm:items-end'
-                        : 'flex-col justify-between gap-5'
-                  }`}
-                >
-                  <span
-                    className={`shrink-0 transition-transform duration-500 group-hover:scale-110 ${
-                      faixa ? 'text-amarelo' : 'text-ocre'
-                    }`}
-                  >
-                    <Icone
-                      className={horizontal ? 'size-14 lg:size-16' : 'size-10'}
-                      strokeWidth={1.3}
-                    />
-                  </span>
-
-                  <div className={horizontal ? 'sm:max-w-md' : ''}>
+                  <div>
                     <h3
-                      className={`font-sans text-[0.72rem] font-bold tracking-[0.16em] uppercase ${
-                        faixa ? 'text-amarelo' : 'text-terracota'
-                      }`}
+                      className={`font-display text-2xl leading-tight lg:text-[1.75rem] ${s.titulo}`}
                     >
                       {valor.title}
                     </h3>
-                    <p
-                      className={`mt-2 text-sm leading-relaxed ${
-                        faixa ? 'text-creme/75' : 'text-marrom-claro'
-                      } ${horizontal ? 'sm:text-base' : ''}`}
-                    >
+                    <p className={`mt-3 max-w-sm text-sm leading-relaxed ${s.apoio}`}>
                       {valor.description}
                     </p>
-                  </div>
 
-                  {/* A faixa de encomendas leva direto para a seção */}
-                  {faixa && (
-                    <a
-                      href="#encomendas"
-                      className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-creme/30 px-5 font-sans text-[0.65rem] font-semibold tracking-[0.16em] text-creme uppercase transition hover:bg-creme hover:text-marrom sm:self-auto"
-                    >
-                      Encomendar
-                      <ArrowUpRight className="size-3.5" aria-hidden="true" />
-                    </a>
-                  )}
+                    {chamada && (
+                      <LinkEditorial href="#encomendas" className="mt-4">
+                        Encomendar uma peça
+                      </LinkEditorial>
+                    )}
+                  </div>
                 </div>
               </Reveal>
             );

@@ -1,91 +1,73 @@
-import { ArrowRight } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
-import { Cactus, SunRays } from './ui/Decorations';
-import { iconesAtelier, type NomeIcone } from './ui/iconMap';
+import { LinkEditorial } from './ui/Button';
+import { Fio, Xilogravura } from './ui/Catalogo';
 import { clientData } from '../data/clientData';
 
 /**
- * Sobre o atelier — composição tipográfica em fundo escuro.
+ * Caderno escuro — o ponto de virada da leitura.
  *
- * É o ponto de virada da narrativa: depois de duas seções claras, a página
- * escurece e a apresentação da marca ganha corpo grande. Os valores entram
- * como uma lista numerada de fios finos, sem card nenhum.
+ * Depois de duas seções sobre papel claro, a página vira tinta. A apresentação
+ * do atelier entra como um grande destaque de abertura e os valores se alinham
+ * numa faixa horizontal separada por fios, com o motivo de xilogravura usado
+ * como marca de leitura.
  */
 export function CultureSection() {
-  const { about, culture } = clientData;
+  const { about, culture, cultureSection } = clientData;
 
   return (
     <section
       aria-labelledby="cultura-titulo"
-      className="grao relative overflow-hidden bg-marrom py-20 sm:py-24 lg:py-32"
+      className="grao grao-claro bg-tinta py-16 text-papel sm:py-20 lg:py-24"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 left-1/3 size-104 rounded-full bg-terracota/25 blur-3xl" />
-        <div className="absolute -right-32 -bottom-40 size-88 rounded-full bg-ocre/12 blur-3xl" />
-        <SunRays className="absolute top-14 right-6 w-24 text-amarelo/20 lg:right-16 lg:w-32" />
-        <Cactus className="absolute bottom-10 left-3 w-12 text-amarelo/12 lg:w-16" />
-      </div>
-
-      <div className="relative mx-auto max-w-368 px-4 sm:px-6 lg:px-10">
-        <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
-          {/* MANIFESTO — tipografia em corpo grande */}
-          <div className="lg:col-span-6">
-            <Reveal>
-              <p className="font-sans text-[0.62rem] font-semibold tracking-[0.3em] text-amarelo uppercase">
-                {about.eyebrow}
-              </p>
-              <h2
-                id="cultura-titulo"
-                className="mt-7 font-display text-[clamp(1.9rem,4.4vw,3.5rem)] leading-[1.08] font-light text-creme"
-              >
-                {about.intro}
-              </h2>
-            </Reveal>
-
-            <Reveal delay={120}>
-              <a
-                href="#historia"
-                className="group mt-10 inline-flex items-center gap-3 font-sans text-[0.66rem] font-semibold tracking-[0.2em] text-creme uppercase transition-colors hover:text-amarelo"
-              >
-                {about.ctaLabel}
-                <span className="flex size-10 items-center justify-center rounded-full border border-creme/30 transition-all duration-300 group-hover:border-amarelo group-hover:bg-amarelo group-hover:text-marrom">
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </span>
-              </a>
-            </Reveal>
+      <div className="px-4 sm:px-6 lg:px-10">
+        <Reveal>
+          <Fio tone="claro" />
+          <div className="flex items-baseline justify-between gap-6 py-3">
+            <span className="etiqueta text-ambar">
+              {cultureSection.numero} — {cultureSection.eyebrow}
+            </span>
+            <Xilogravura className="hidden w-20 text-papel/20 sm:block" altura={7} />
           </div>
+        </Reveal>
 
-          {/* VALORES — lista numerada de fios finos, deslocada */}
-          <ul className="lg:col-span-5 lg:col-start-8 lg:mt-6">
-            {culture.map((bloco, indice) => {
-              const Icone = iconesAtelier[bloco.icon as NomeIcone] ?? iconesAtelier.sol;
-              return (
-                <li key={bloco.title} className="group border-t border-creme/15 py-7 last:border-b">
-                  <Reveal delay={indice * 90}>
-                    <div className="flex items-start gap-5">
-                      <span className="pt-1 font-display text-lg leading-none font-light text-amarelo/50 transition-colors duration-500 group-hover:text-amarelo">
-                        0{indice + 1}
-                      </span>
+        {/* Destaque de abertura, deslocado da margem */}
+        <Reveal delay={90} className="py-14 lg:py-20 lg:pl-[8%]">
+          <h2
+            id="cultura-titulo"
+            className="max-w-5xl text-[clamp(1.8rem,4.6vw,3.8rem)] text-papel"
+          >
+            {about.intro}
+          </h2>
+          <LinkEditorial href="#historia" tone="claro" className="mt-10">
+            {about.ctaLabel}
+          </LinkEditorial>
+        </Reveal>
 
-                      <div className="flex-1">
-                        <h3 className="font-display text-xl leading-tight font-normal text-creme sm:text-2xl">
-                          {bloco.title}
-                        </h3>
-                        <p className="mt-2.5 max-w-sm text-sm leading-relaxed text-creme/65">
-                          {bloco.description}
-                        </p>
-                      </div>
-
-                      <span className="shrink-0 text-amarelo/40 transition-all duration-500 group-hover:scale-110 group-hover:text-amarelo/80">
-                        <Icone className="size-9" strokeWidth={1.2} />
-                      </span>
-                    </div>
-                  </Reveal>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        {/* Valores em faixa horizontal, divididos por fios */}
+        <Fio tone="claro" />
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {culture.map((bloco, indice) => (
+            <li
+              key={bloco.title}
+              className="group border-b border-papel/15 lg:border-r lg:border-b-0 lg:last:border-r-0"
+            >
+              <Reveal delay={indice * 80} className="h-full py-9 lg:px-7 lg:first:pl-0">
+                <span className="etiqueta text-ambar/60">0{indice + 1}</span>
+                <h3 className="mt-4 font-display text-2xl leading-tight text-papel">
+                  {bloco.title}
+                </h3>
+                <p className="mt-3 max-w-xs text-sm leading-relaxed text-papel/60">
+                  {bloco.description}
+                </p>
+                <span
+                  aria-hidden="true"
+                  className="mt-6 block h-px w-10 bg-ambar/40 transition-all duration-500 group-hover:w-20"
+                />
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+        <Fio tone="claro" />
       </div>
     </section>
   );

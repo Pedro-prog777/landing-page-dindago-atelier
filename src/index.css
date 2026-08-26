@@ -1,52 +1,49 @@
 @import 'tailwindcss';
 
 /* ==========================================================================
-   DINDAGÓ ATELIER — tokens de identidade visual
-   Paleta inspirada no sertão: creme, areia, ocre, terracota, barro e verde.
+   DINDAGÓ ATELIER — PROVA DE IMPRESSÃO
+   --------------------------------------------------------------------------
+   A página é tratada como um catálogo de arte impresso: grade visível,
+   cantos retos, tipografia de alto contraste e superfícies de papel e barro.
+   Sem cantos arredondados decorativos e sem ícones folclóricos espalhados —
+   quem constrói a identidade é a composição, a régua e o tipo.
    ========================================================================== */
 @theme {
-  --color-creme: #fcf8ef;
-  --color-areia: #f2e7d2;
-  --color-bege: #e7d6b8;
-  --color-bege-escuro: #d6bf98;
-  --color-kraft: #e3cfa8;
-  --color-ocre: #c89434;
-  --color-amarelo: #d4a03c;
-  --color-terracota: #a8432a;
-  --color-terracota-claro: #c0563a;
-  --color-barro: #8a4b2a;
-  --color-marrom: #43291d;
-  --color-marrom-claro: #6b4632;
-  --color-verde: #5c6b4e;
-  --color-tinta: #3a2418;
+  /* --- Papel: frio o suficiente para o ocre e o tijolo saltarem --- */
+  --color-papel: #f4efe4;
+  --color-papel-claro: #faf7f0;
+  --color-papel-escuro: #e6ddca;
 
-  /* Escala editorial — títulos oversized participam da composição */
-  --text-editorial: clamp(2.75rem, 11vw, 9rem);
-  --text-editorial--line-height: 0.86;
-  --text-manchete: clamp(2rem, 6vw, 4.5rem);
-  --text-manchete--line-height: 0.95;
+  /* --- Terra --- */
+  --color-areia: #dbcdb0;
+  --color-barro: #b98a4e;
+  --color-ocre: #c0873a;
+  --color-ambar: #d9a441;
 
-  /* Raio dos blocos editoriais (destaque, faixas, chamadas). */
-  --radius-bloco: 2.5rem;
+  /* --- Fogo: o vermelho-tijolo é o acento da marca --- */
+  --color-tijolo: #9c3b26;
+  --color-tijolo-claro: #b8523a;
 
-  --radius-organico: 62% 38% 54% 46% / 48% 56% 44% 52%;
+  /* --- Tinta: superfície escura dominante, não apenas detalhe --- */
+  --color-tinta: #241a14;
+  --color-tinta-media: #3d2d22;
+  --color-tinta-suave: #6b5344;
 
-  --font-display: 'Fraunces', 'Georgia', 'Times New Roman', serif;
-  --font-sans: 'Karla', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* --- Vegetação, em doses mínimas --- */
+  --color-cacto: #5c6b4e;
 
-  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-  --animate-girar: girar 26s linear infinite;
+  --font-display: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  @keyframes girar {
-    to {
-      transform: rotate(360deg);
-    }
-  }
+  /* Cantos retos: é papel impresso, não cartão de aplicativo. */
+  --radius-none: 0;
+
+  --animate-fade-up: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   @keyframes fade-up {
     from {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(26px);
     }
     to {
       opacity: 1;
@@ -58,8 +55,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* compensa o header fixo ao navegar por âncoras */
-    scroll-padding-top: 6.5rem;
+    scroll-padding-top: 5.5rem;
   }
 
   html,
@@ -69,7 +65,7 @@
   }
 
   body {
-    background-color: var(--color-creme);
+    background-color: var(--color-papel);
     color: var(--color-tinta);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -81,7 +77,15 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    color: var(--color-marrom);
+    font-weight: 400;
+    color: var(--color-tinta);
+  }
+
+  /* O display é de alto contraste: precisa de entrelinha curta e sem viúvas. */
+  h1,
+  h2 {
+    line-height: 0.92;
+    letter-spacing: -0.015em;
     text-wrap: balance;
   }
 
@@ -89,16 +93,14 @@
     text-wrap: pretty;
   }
 
-  /* Foco sempre visível e com contraste adequado */
   :focus-visible {
-    outline: 2px solid var(--color-terracota);
+    outline: 2px solid var(--color-tijolo);
     outline-offset: 3px;
-    border-radius: 4px;
   }
 
   ::selection {
-    background-color: var(--color-bege);
-    color: var(--color-marrom);
+    background-color: var(--color-tijolo);
+    color: var(--color-papel);
   }
 
   img {
@@ -109,67 +111,78 @@
 
 @layer components {
   /*
-   * Granulado de papel: ruído gerado por SVG (feTurbulence), sem requisição
-   * de rede. Fica em ::after com opacidade baixíssima — dá materialidade sem
-   * pesar na leitura.
+   * Granulado de papel. Mais presente que um ruído decorativo: é o que dá
+   * a sensação de superfície impressa. Sempre em ::after, sem custo de rede.
    */
+  .grao {
+    position: relative;
+  }
+
   .grao::after {
     content: '';
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.32;
+    opacity: 0.5;
     mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23r)' opacity='0.5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
   }
 
-  /* Fio fino usado como respiro entre blocos editoriais */
-  .fio-editorial {
-    background-image: linear-gradient(
+  /* Em superfícies escuras o granulado precisa clarear, não escurecer. */
+  .grao-claro::after {
+    mix-blend-mode: overlay;
+    opacity: 0.28;
+  }
+
+  /*
+   * Grade de impressão: colunas visíveis em fio finíssimo, como a marcação de
+   * diagramação de uma revista. É o elemento que substitui os ícones soltos.
+   */
+  .grade-impressao {
+    background-image: repeating-linear-gradient(
       to right,
-      transparent,
-      var(--color-bege-escuro) 18%,
-      var(--color-bege-escuro) 82%,
-      transparent
+      color-mix(in srgb, var(--color-tinta) 8%, transparent) 0 1px,
+      transparent 1px calc(100% / 6)
     );
-    height: 1px;
   }
 
-  /* Texto na vertical, para legendas laterais */
+  /* Numeração e etiquetas do catálogo. */
+  .etiqueta {
+    font-family: var(--font-sans);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
   .texto-vertical {
     writing-mode: vertical-rl;
     text-orientation: mixed;
   }
 
-  /* Textura sutil de papel aplicada em fundos claros */
-  .textura-papel {
-    background-image:
-      radial-gradient(circle at 15% 20%, rgb(168 84 51 / 0.05) 0, transparent 45%),
-      radial-gradient(circle at 85% 75%, rgb(192 138 62 / 0.06) 0, transparent 40%);
-  }
-
-  .link-sublinhado {
+  /* Sublinhado que cresce a partir da esquerda, sem deslocar o texto. */
+  .sublinhado {
     background-image: linear-gradient(currentColor, currentColor);
     background-position: 0 100%;
     background-repeat: no-repeat;
     background-size: 0 1px;
-    transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .link-sublinhado:hover,
-  .link-sublinhado:focus-visible {
+  .sublinhado:hover,
+  a:hover .sublinhado,
+  a:focus-visible .sublinhado {
     background-size: 100% 1px;
   }
 }
 
 @layer utilities {
-  /* Estado inicial dos elementos animados no scroll (ver useReveal) */
   .reveal {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(30px);
     transition:
-      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .reveal-visivel {
@@ -178,7 +191,6 @@
   }
 }
 
-/* Respeita a preferência do sistema por menos movimento */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

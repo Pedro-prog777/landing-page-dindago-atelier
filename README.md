@@ -168,50 +168,74 @@ landing-page-dindago-atelier/
 
 ## Direção de design
 
-A página é **editorial e assimétrica**: cada seção tem composição própria, e
-nenhuma repete o padrão "título + texto + cards".
+A página é montada como um **catálogo de arte impresso** — não como um site de
+blocos empilhados. O que constrói a identidade é a composição, a régua e o
+tipo; não há ícone folclórico espalhado nem card com sombra.
 
-| Seção           | Composição                                                              |
-| --------------- | ----------------------------------------------------------------------- |
-| Hero            | Palavra em corpo gigante + espaço de imagem em arco sangrando na margem |
-| Diferenciais    | Bento Grid assimétrico (2×2, 1×1, 2×1, 3×1) com tratamento por bloco    |
-| Processo        | Etapas espalhadas em alturas diferentes, número grande sob a palavra    |
-| Peças           | Bloco de destaque + dois quadrados + faixa horizontal                   |
-| Sobre o atelier | Fundo escuro, manifesto tipográfico + lista de fios finos               |
-| Encomendas      | Faixas de largura inteira com indentação em escada                      |
+### Princípios
+
+| Decisão | Por quê |
+| --- | --- |
+| **Cantos retos em tudo** | É papel impresso. Não existe `rounded-*` no projeto. |
+| **Sem caixa central** | As seções vão de margem a margem; algumas pranchas sangram até a borda. |
+| **Grade de impressão visível** | Fios finíssimos marcam as colunas, como a diagramação de uma revista. |
+| **Numeração de caderno** | Cada seção abre com `NN — Nome`, e as pranchas levam `fig. NN`. |
+| **Um só ornamento** | A banda de xilogravura. Sol, cacto e pássaro foram removidos. |
+
+### Cadernos
+
+| Nº | Seção | Composição |
+| --- | --- | --- |
+| 01 | Capa | Manchete em degrau + prancha em sangria total |
+| 02 | Diferenciais | Bento assimétrico com superfícies de tinta, tijolo, barro e papel |
+| 03 | O artesanato | Ensaio em duas colunas com capitular + etapas em faixa de seis |
+| 04 | Coleções | Espelho de pranchas em proporções e alturas diferentes |
+| 05 | Galeria | Mosaico com lightbox |
+| 06 | Nossa história | Retrato estreito + citação em corpo grande |
+| 07 | Sobre o atelier | Caderno escuro — o ponto de virada da leitura |
+| 08 | Encomendas | Quadrantes com numeral em marca-d'água + chamada em sangria |
+| 09–11 | Contato, atelier e redes | Fechamento, com o colofão no rodapé |
 
 ### Sistema visual
 
 Tudo vem de tokens em `src/index.css` (bloco `@theme`):
 
-- **Cores** — creme, areia, bege, kraft, ocre, âmbar, terracota, barro, marrom
-  e verde cacto. Ligadas a `clientData.colors` (ver abaixo).
-- **Tipografia** — Fraunces (serifada, títulos) + Karla (sans, textos).
-  Títulos usam `clamp()` para escalar sem quebrar no mobile.
-- **Textura** — `.grao` aplica granulado de papel gerado por SVG, sem rede.
-- **Fios** — `.fio-editorial` separa blocos sem virar borda de card.
-- **Movimento** — `Reveal` revela no scroll; tudo respeita
-  `prefers-reduced-motion`.
+- **Papel** — `papel`, `papel-claro`, `papel-escuro`: o branco é levemente frio,
+  para o ocre e o tijolo saltarem.
+- **Terra** — `areia`, `barro`, `ocre`, `ambar`.
+- **Fogo** — `tijolo`, `tijolo-claro`: o vermelho-tijolo é o acento da marca.
+- **Tinta** — `tinta`, `tinta-media`, `tinta-suave`: superfície escura dominante,
+  não apenas cor de texto.
+- **Cacto** — verde em doses mínimas.
 
-### Componentes visuais reutilizáveis
+**Tipografia:** Instrument Serif (display, alto contraste) + Archivo (texto).
+Títulos usam `clamp()` e entrelinha curta.
 
-| Componente           | Papel                                                  |
-| -------------------- | ------------------------------------------------------ |
-| `ui/Decorations.tsx` | sol, cactos, pássaros, flor, ornamentos, borda rasgada |
-| `ui/Seal.tsx`        | selo artesanal giratório                               |
-| `ui/SmartImage.tsx`  | espaço reservado de imagem (ver abaixo)                |
-| `ui/Reveal.tsx`      | animação de entrada no scroll                          |
-| `ui/Button.tsx`      | botões nas três variantes                              |
+**Textura:** `.grao` aplica granulado de papel gerado por SVG, sem requisição de
+rede. Em superfícies escuras, `.grao-claro` inverte a mistura.
 
-### Espaços de imagem
+### Componentes de vocabulário
 
-**Nenhuma fotografia fictícia foi usada.** Onde entram imagens reais existe um
-espaço reservado com hachura diagonal, marcas de registro nos cantos e o
-rótulo `[ NOME DO ESPAÇO ]`.
+| Arquivo | Papel |
+| --- | --- |
+| `ui/Catalogo.tsx` | `Fio`, `Caderno`, `Numeral`, `Xilogravura` |
+| `ui/SmartImage.tsx` | prancha de catálogo (ver abaixo) |
+| `ui/Button.tsx` | `Button` (bloco chapado) e `LinkEditorial` (etiqueta + fio) |
+| `ui/SectionHeading.tsx` | abertura de caderno |
+| `ui/Reveal.tsx` | entrada no scroll, com rede de segurança de 1,5s |
 
-Cada espaço já tem a **proporção, posição, sobreposição e o efeito de hover**
-da fotografia definitiva. Ao colocar o arquivo real em `public/images/`, ele
-ocupa exatamente aquele lugar — nada se desloca.
+### Pranchas de imagem
+
+**Nenhuma fotografia fictícia foi usada.** Onde entra imagem real existe uma
+prancha de catálogo: campo chapado de barro, fio de contorno, numeração
+`fig. NN` e a descrição do que vai ali.
+
+Cada prancha já tem a **proporção, posição, sangria e o hover** da fotografia
+definitiva. Ao colocar o arquivo em `public/images/`, ele ocupa exatamente
+aquele lugar — nada se desloca.
+
+> Enquanto as fotos não chegam, a página mostra vários campos de barro vazios.
+> É proposital: o espaço está reservado, não preenchido com imagem genérica.
 
 ## Configuração do cliente
 
