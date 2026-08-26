@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Feather, Menu, MessageCircle, Search, Truck, X } from 'lucide-react';
+import { Menu, Search, X } from 'lucide-react';
 import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
 import { Logo } from './Logo';
 import { SearchDialog } from './SearchDialog';
@@ -7,6 +7,13 @@ import { buildWhatsAppUrl, isConfigured, navLinks, siteConfig } from '../config/
 import { useActiveSection } from '../hooks/useActiveSection';
 import { useScrollPosition } from '../hooks/useScrollPosition';
 
+/**
+ * Masthead da publicação.
+ *
+ * A faixa superior é de tinta, não de âmbar: emoldura a página como o topo de
+ * uma capa impressa. Nenhum botão em pílula — o contato é um bloco chapado e o
+ * item ativo do menu é marcado por um fio, não por cor de fundo.
+ */
 export function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
   const [buscaAberta, setBuscaAberta] = useState(false);
@@ -19,7 +26,6 @@ export function Header() {
   const instagramConfigurado = isConfigured(siteConfig.instagram);
   const facebookConfigurado = isConfigured(siteConfig.facebook);
 
-  // Trava o scroll do fundo enquanto o menu mobile estiver aberto.
   useEffect(() => {
     if (!menuAberto) return;
     const original = document.body.style.overflow;
@@ -29,7 +35,6 @@ export function Header() {
     };
   }, [menuAberto]);
 
-  // Fecha o menu automaticamente ao voltar para a largura de desktop.
   useEffect(() => {
     const media = window.matchMedia('(min-width: 1024px)');
     const fechar = () => media.matches && setMenuAberto(false);
@@ -41,32 +46,28 @@ export function Header() {
     <>
       <a
         href="#conteudo"
-        className="sr-only rounded-full bg-terracota px-5 py-3.5 font-sans text-sm font-semibold text-creme focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-80"
+        className="sr-only bg-tijolo px-6 py-4 font-sans text-sm font-semibold text-papel focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-80"
       >
         Ir para o conteúdo
       </a>
 
       <header className="fixed inset-x-0 top-0 z-50">
-        {/* Barra superior — recolhe ao rolar a página */}
+        {/* Faixa de tinta — recolhe ao rolar */}
         <div
-          className={`overflow-hidden bg-amarelo text-marrom transition-all duration-500 ease-out ${
-            rolou ? 'max-h-0 opacity-0' : 'max-h-20 opacity-100'
+          className={`overflow-hidden bg-tinta text-papel transition-all duration-500 ease-out ${
+            rolou ? 'max-h-0 opacity-0' : 'max-h-16 opacity-100'
           }`}
         >
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-8">
-            <p className="flex items-center gap-2 font-sans text-[0.7rem] leading-snug tracking-[0.04em] text-marrom sm:text-xs">
-              <Feather className="hidden size-3.5 shrink-0 sm:block" aria-hidden="true" />
+          <div className="flex items-center justify-between gap-6 px-4 py-2.5 sm:px-6 lg:px-10">
+            <p className="font-sans text-[0.68rem] leading-snug text-papel/70">
               {siteConfig.tagline}
             </p>
 
-            <div className="flex shrink-0 items-center gap-4">
-              <p className="hidden items-center gap-2 font-sans text-[0.7rem] font-semibold tracking-[0.1em] text-marrom sm:flex">
-                <Truck className="size-3.5" aria-hidden="true" />
-                {siteConfig.shipping}
-              </p>
+            <div className="flex shrink-0 items-center gap-5">
+              <p className="etiqueta hidden text-ambar sm:block">{siteConfig.shipping}</p>
 
               {(instagramConfigurado || facebookConfigurado) && (
-                <ul className="flex items-center gap-2.5 border-marrom/25 sm:border-l sm:pl-4">
+                <ul className="flex items-center gap-3 border-papel/20 sm:border-l sm:pl-5">
                   {instagramConfigurado && (
                     <li>
                       <a
@@ -74,7 +75,7 @@ export function Header() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Instagram do ${siteConfig.name} (abre em nova aba)`}
-                        className="block text-marrom/80 transition hover:text-marrom"
+                        className="flex size-6 items-center justify-center text-papel/70 transition hover:text-ambar"
                       >
                         <InstagramIcon className="size-4" aria-hidden="true" />
                       </a>
@@ -87,7 +88,7 @@ export function Header() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Facebook do ${siteConfig.name} (abre em nova aba)`}
-                        className="block text-marrom/80 transition hover:text-marrom"
+                        className="flex size-6 items-center justify-center text-papel/70 transition hover:text-ambar"
                       >
                         <FacebookIcon className="size-4" aria-hidden="true" />
                       </a>
@@ -99,21 +100,19 @@ export function Header() {
           </div>
         </div>
 
-        {/* Navegação */}
+        {/* Barra de navegação */}
         <div
-          className={`transition-all duration-500 ease-out ${
-            rolou
-              ? 'border-b border-bege/70 bg-creme/95 shadow-[0_8px_28px_-22px_rgba(67,41,29,0.8)] backdrop-blur-md'
-              : 'border-b border-transparent bg-creme'
+          className={`border-b transition-all duration-500 ease-out ${
+            rolou ? 'border-tinta/15 bg-papel/95 backdrop-blur-md' : 'border-transparent bg-papel'
           }`}
         >
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-6 px-4 py-3 sm:px-6 lg:px-10">
             <a href="#inicio" aria-label={`${siteConfig.name} — ir para o início`}>
               <Logo />
             </a>
 
             <nav aria-label="Navegação principal" className="hidden lg:block">
-              <ul className="flex items-center gap-7">
+              <ul className="flex items-center gap-8">
                 {navLinks.map((link) => {
                   const ativo = secaoAtiva === link.href.slice(1);
                   return (
@@ -121,11 +120,18 @@ export function Header() {
                       <a
                         href={link.href}
                         aria-current={ativo ? 'true' : undefined}
-                        className={`flex items-center py-2.5 font-sans text-[0.78rem] font-semibold tracking-[0.14em] uppercase transition-colors ${
-                          ativo ? 'text-terracota' : 'text-marrom hover:text-terracota'
+                        className={`flex flex-col items-center gap-1.5 py-2.5 font-sans text-[0.66rem] font-semibold tracking-[0.2em] uppercase transition-colors ${
+                          ativo ? 'text-tijolo' : 'text-tinta/70 hover:text-tinta'
                         }`}
                       >
-                        <span className="link-sublinhado">{link.label}</span>
+                        {link.label}
+                        {/* O item ativo é marcado por fio, não por fundo colorido */}
+                        <span
+                          aria-hidden="true"
+                          className={`h-px transition-all duration-500 ${
+                            ativo ? 'w-full bg-tijolo' : 'w-0 bg-tinta'
+                          }`}
+                        />
                       </a>
                     </li>
                   );
@@ -133,34 +139,21 @@ export function Header() {
               </ul>
             </nav>
 
-            <div className="flex items-center gap-1 sm:gap-2">
+            <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => setBuscaAberta(true)}
                 aria-label="Abrir busca"
-                className="flex size-10 items-center justify-center rounded-full text-marrom transition hover:bg-areia hover:text-terracota"
+                className="flex size-11 items-center justify-center text-tinta transition hover:text-tijolo"
               >
-                <Search className="size-[1.15rem]" aria-hidden="true" />
+                <Search className="size-[1.1rem]" aria-hidden="true" />
               </button>
-
-              {instagramConfigurado && (
-                <a
-                  href={siteConfig.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Instagram do ${siteConfig.name} (abre em nova aba)`}
-                  className="hidden size-10 items-center justify-center rounded-full text-marrom transition hover:bg-areia hover:text-terracota sm:flex"
-                >
-                  <InstagramIcon className="size-[1.15rem]" aria-hidden="true" />
-                </a>
-              )}
 
               <a
                 href={whatsappUrl ?? '#contato'}
                 {...(whatsappUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="hidden items-center gap-2 rounded-full bg-terracota px-5 py-2.5 font-sans text-[0.7rem] font-semibold tracking-[0.14em] text-creme uppercase transition hover:bg-barro sm:inline-flex"
+                className="hidden min-h-11 items-center bg-tinta px-6 font-sans text-[0.62rem] font-semibold tracking-[0.2em] text-papel uppercase transition hover:bg-tijolo sm:inline-flex"
               >
-                <MessageCircle className="size-4" aria-hidden="true" />
                 {whatsappUrl ? 'WhatsApp' : 'Contato'}
               </a>
 
@@ -170,7 +163,7 @@ export function Header() {
                 aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
                 aria-expanded={menuAberto ? 'true' : 'false'}
                 aria-controls="menu-mobile"
-                className="flex size-10 items-center justify-center rounded-full text-marrom transition hover:bg-areia lg:hidden"
+                className="flex size-11 items-center justify-center text-tinta lg:hidden"
               >
                 {menuAberto ? (
                   <X className="size-6" aria-hidden="true" />
@@ -182,54 +175,40 @@ export function Header() {
           </div>
         </div>
 
-        {/* Menu mobile */}
+        {/* Menu mobile — caderno aberto, com numeração */}
         <div
           id="menu-mobile"
           hidden={!menuAberto}
-          className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-b border-bege bg-creme shadow-xl lg:hidden"
+          className="max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-tinta/15 bg-papel lg:hidden"
         >
-          <nav aria-label="Navegação principal (mobile)" className="px-4 py-4 sm:px-6">
-            <ul className="flex flex-col">
-              {navLinks.map((link) => (
-                <li key={link.href} className="border-b border-bege/70 last:border-none">
+          <nav aria-label="Navegação principal (mobile)" className="px-4 py-2 sm:px-6">
+            <ul>
+              {navLinks.map((link, indice) => (
+                <li key={link.href} className="border-b border-tinta/10 last:border-none">
                   <a
                     href={link.href}
                     onClick={() => setMenuAberto(false)}
-                    className="block py-4 font-display text-lg text-marrom transition hover:text-terracota"
+                    className="flex items-baseline gap-5 py-5 transition-colors hover:text-tijolo"
                   >
-                    {link.label}
+                    <span className="etiqueta text-tijolo/50">
+                      {String(indice + 1).padStart(2, '0')}
+                    </span>
+                    <span className="font-display text-3xl">{link.label}</span>
                   </a>
                 </li>
               ))}
             </ul>
 
-            <div className="mt-5 flex flex-col gap-3">
+            <div className="flex flex-col gap-3 py-6">
               <a
                 href={whatsappUrl ?? '#contato'}
                 {...(whatsappUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 onClick={() => setMenuAberto(false)}
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-terracota px-6 font-sans text-xs font-semibold tracking-[0.14em] text-creme uppercase"
+                className="inline-flex min-h-13 items-center justify-center bg-tijolo px-6 font-sans text-[0.65rem] font-semibold tracking-[0.2em] text-papel uppercase"
               >
-                <MessageCircle className="size-4" aria-hidden="true" />
                 {whatsappUrl ? 'Falar pelo WhatsApp' : 'Ir para contato'}
               </a>
-
-              {instagramConfigurado && (
-                <a
-                  href={siteConfig.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-marrom/25 px-6 font-sans text-xs font-semibold tracking-[0.14em] text-marrom uppercase"
-                >
-                  <InstagramIcon className="size-4" aria-hidden="true" />
-                  Instagram
-                </a>
-              )}
-
-              <p className="flex items-center justify-center gap-2 pt-1 font-sans text-[0.7rem] tracking-[0.12em] text-barro uppercase">
-                <Truck className="size-3.5" aria-hidden="true" />
-                {siteConfig.shipping}
-              </p>
+              <p className="etiqueta pt-1 text-center text-tinta/45">{siteConfig.shipping}</p>
             </div>
           </nav>
         </div>

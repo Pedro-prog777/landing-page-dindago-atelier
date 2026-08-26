@@ -20,8 +20,8 @@ type LogoProps = {
 export function Logo({ tone = 'light', className = '' }: LogoProps) {
   const [semArquivo, setSemArquivo] = useState(false);
 
-  const corPrincipal = tone === 'dark' ? 'text-creme' : 'text-marrom';
-  const corSecundaria = tone === 'dark' ? 'text-amarelo' : 'text-terracota';
+  const corPrincipal = tone === 'dark' ? 'text-papel' : 'text-tinta';
+  const corSecundaria = tone === 'dark' ? 'text-ambar' : 'text-tijolo';
 
   if (semArquivo) {
     return (

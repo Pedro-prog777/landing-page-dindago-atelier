@@ -35,7 +35,7 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
       role="presentation"
     >
       <div
-        className="absolute inset-0 bg-marrom/60 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-tinta/60 backdrop-blur-[2px]"
         onClick={aoFechar}
         aria-hidden="true"
       />
@@ -45,10 +45,10 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Buscar no site"
-        className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-bege bg-creme shadow-2xl"
+        className="relative w-full max-w-xl overflow-hidden border border-papel-escuro bg-papel shadow-2xl"
       >
-        <div className="flex items-center gap-3 border-b border-bege px-5 py-4">
-          <Search className="size-5 shrink-0 text-terracota" aria-hidden="true" />
+        <div className="flex items-center gap-3 border-b border-papel-escuro px-5 py-4">
+          <Search className="size-5 shrink-0 text-tijolo" aria-hidden="true" />
           <label htmlFor="busca-site" className="sr-only">
             Buscar peças e seções do site
           </label>
@@ -59,13 +59,13 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
             onChange={(evento) => setTermo(evento.target.value)}
             placeholder="Buscar peças, processo, encomendas..."
             autoComplete="off"
-            className="min-w-0 flex-1 bg-transparent font-sans text-base text-marrom placeholder:text-marrom-claro/50 focus:outline-none"
+            className="min-w-0 flex-1 bg-transparent font-sans text-base text-tinta placeholder:text-tinta-suave/50 focus:outline-none"
           />
           <button
             type="button"
             onClick={aoFechar}
             aria-label="Fechar busca"
-            className="rounded-full p-1.5 text-marrom-claro transition hover:bg-bege hover:text-marrom"
+            className=" p-1.5 text-tinta-suave transition hover:bg-papel-escuro hover:text-tinta"
           >
             <X className="size-5" aria-hidden="true" />
           </button>
@@ -73,13 +73,13 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
 
         <div className="max-h-[55vh] overflow-y-auto p-2" aria-live="polite">
           {termo.trim().length < 2 && (
-            <p className="px-4 py-6 text-center font-sans text-sm text-marrom-claro/80">
+            <p className="px-4 py-6 text-center font-sans text-sm text-tinta-suave/80">
               Digite ao menos duas letras para buscar.
             </p>
           )}
 
           {termo.trim().length >= 2 && resultados.length === 0 && (
-            <p className="px-4 py-6 text-center font-sans text-sm text-marrom-claro/80">
+            <p className="px-4 py-6 text-center font-sans text-sm text-tinta-suave/80">
               Nada encontrado para “{termo}”. Tente “papel-machê”, “encomendas” ou o nome de uma
               peça.
             </p>
@@ -87,7 +87,7 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
 
           {Object.entries(grupos).map(([grupo, itens]) => (
             <section key={grupo} className="mb-2">
-              <h2 className="px-4 pt-3 pb-1 font-sans text-[0.65rem] font-semibold tracking-[0.22em] text-terracota uppercase">
+              <h2 className="px-4 pt-3 pb-1 font-sans text-[0.65rem] font-semibold tracking-[0.22em] text-tijolo uppercase">
                 {grupo}
               </h2>
               <ul>
@@ -96,10 +96,10 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
                     <a
                       href={item.href}
                       onClick={selecionar}
-                      className="block rounded-xl px-4 py-3 transition hover:bg-areia"
+                      className="block px-4 py-3 transition hover:bg-papel-escuro"
                     >
-                      <span className="block font-display text-base text-marrom">{item.title}</span>
-                      <span className="block font-sans text-sm text-marrom-claro/85">
+                      <span className="block font-display text-base text-tinta">{item.title}</span>
+                      <span className="block font-sans text-sm text-tinta-suave/85">
                         {item.description}
                       </span>
                     </a>

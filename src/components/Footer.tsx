@@ -1,10 +1,16 @@
-import { ArrowUp, Mail, MapPin, MessageCircle } from 'lucide-react';
-import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
 import { buildMailtoUrl, buildWhatsAppUrl, isConfigured, siteConfig } from '../config/site';
-import { Cactus, PatternBand } from './ui/Decorations';
 import { clientData } from '../data/clientData';
 import { Logo } from './Logo';
+import { Fio, Xilogravura } from './ui/Catalogo';
+import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
 
+/**
+ * Colofão — a última página da publicação.
+ *
+ * É a composição mais densa do site: a marca em corpo grande, as colunas de
+ * serviço em fio fino e a faixa de xilogravura fechando o caderno. Sem pílulas
+ * e sem ícones em círculo: os links são texto com fio, como no resto do papel.
+ */
 export function Footer() {
   const { footer } = clientData;
   const whatsappUrl = buildWhatsAppUrl();
@@ -13,134 +19,141 @@ export function Footer() {
   const instagramConfigurado = isConfigured(siteConfig.instagram);
   const facebookConfigurado = isConfigured(siteConfig.facebook);
 
+  const atendimento = [
+    {
+      rotulo: 'WhatsApp',
+      valor: whatsappUrl ? siteConfig.whatsappDisplay : 'A definir',
+      href: whatsappUrl,
+    },
+    { rotulo: 'E-mail', valor: mailtoUrl ? siteConfig.email : 'A definir', href: mailtoUrl },
+    {
+      rotulo: 'Atelier',
+      valor: enderecoDefinido ? siteConfig.address : 'A definir',
+      href: '#atelier',
+    },
+  ];
+
+  const redes = [
+    {
+      nome: 'Instagram',
+      href: instagramConfigurado ? siteConfig.instagram : null,
+      Icone: InstagramIcon,
+    },
+    {
+      nome: 'Facebook',
+      href: facebookConfigurado ? siteConfig.facebook : null,
+      Icone: FacebookIcon,
+    },
+  ].filter((r) => r.href);
+
   return (
-    <footer id="rodape" className="relative overflow-hidden bg-marrom text-creme">
-      <PatternBand className="absolute inset-x-0 top-0 text-amarelo/45" />
+    <footer id="rodape" className="grao grao-claro bg-tinta text-papel">
+      <Xilogravura className="w-full text-tijolo" altura={12} />
 
-      <Cactus
-        aria-hidden="true"
-        className="pointer-events-none absolute right-4 bottom-6 hidden w-14 text-amarelo/20 lg:block"
-      />
-
-      <div className="relative mx-auto max-w-7xl px-4 pt-16 pb-14 sm:px-6 sm:pt-18 sm:pb-16 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-4">
+      <div className="px-4 pt-14 pb-8 sm:px-6 lg:px-10 lg:pt-20">
+        {/* Marca em corpo grande */}
+        <div className="grid gap-10 pb-14 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-6">
             <Logo tone="dark" />
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-creme/70">{footer.tagline}</p>
-            <p className="mt-5 font-sans text-[0.68rem] tracking-[0.18em] text-amarelo uppercase">
-              {siteConfig.shipping}
+            <p className="mt-6 max-w-sm text-base leading-relaxed text-papel/65">
+              {footer.tagline}
             </p>
           </div>
 
+          <p className="etiqueta text-ambar lg:col-span-3 lg:col-start-10 lg:text-right">
+            {siteConfig.shipping}
+          </p>
+        </div>
+
+        <Fio tone="claro" />
+
+        {/* Colunas de serviço */}
+        <div className="grid gap-10 py-12 lg:grid-cols-12 lg:gap-10">
           <nav aria-label="Informações" className="lg:col-span-3">
-            <h2 className="font-sans text-[0.7rem] font-bold tracking-[0.2em] text-creme uppercase">
-              Informações
-            </h2>
-            <ul className="mt-5 space-y-3">
+            <h2 className="etiqueta text-papel/45">Informações</h2>
+            <ul className="mt-5 space-y-1">
               {footer.infoLinks.map((item) => (
                 <li key={item.label}>
                   <a
                     href={item.href}
-                    className="link-sublinhado inline-block py-1 font-sans text-sm text-creme/70 transition hover:text-creme"
+                    className="inline-block py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
                   >
-                    {item.label}
+                    <span className="sublinhado">{item.label}</span>
                   </a>
                 </li>
               ))}
             </ul>
           </nav>
 
-          <div className="lg:col-span-3">
-            <h2 className="font-sans text-[0.7rem] font-bold tracking-[0.2em] text-creme uppercase">
-              Atendimento
-            </h2>
-            <ul className="mt-5 space-y-3.5">
-              <li>
-                <a
-                  href={whatsappUrl ?? '#contato'}
-                  {...(whatsappUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className="flex items-start gap-3 py-1 font-sans text-sm text-creme/70 transition hover:text-creme"
-                >
-                  <MessageCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-                  {whatsappUrl ? siteConfig.whatsappDisplay : 'WhatsApp em breve'}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={mailtoUrl ?? '#contato'}
-                  className="flex items-start gap-3 py-1 font-sans text-sm break-all text-creme/70 transition hover:text-creme"
-                >
-                  <Mail className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-                  {mailtoUrl ? siteConfig.email : 'E-mail em breve'}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#atelier"
-                  className="flex items-start gap-3 py-1 font-sans text-sm text-creme/70 transition hover:text-creme"
-                >
-                  <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-                  {enderecoDefinido ? siteConfig.address : 'Endereço a ser divulgado'}
-                </a>
-              </li>
-            </ul>
+          <div className="lg:col-span-4">
+            <h2 className="etiqueta text-papel/45">Atendimento</h2>
+            <dl className="mt-5 space-y-4">
+              {atendimento.map((item) => (
+                <div key={item.rotulo}>
+                  <dt className="etiqueta text-papel/35">{item.rotulo}</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={item.href ?? '#contato'}
+                      {...(item.href?.startsWith('http')
+                        ? { target: '_blank', rel: 'noopener noreferrer' }
+                        : {})}
+                      className="inline-block py-1 font-display text-lg break-words text-papel transition-colors hover:text-ambar"
+                    >
+                      {item.valor}
+                    </a>
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
-          <div className="lg:col-span-2">
-            <h2 className="font-sans text-[0.7rem] font-bold tracking-[0.2em] text-creme uppercase">
-              Siga-nos
-            </h2>
-            <ul className="mt-5 flex gap-3">
-              {instagramConfigurado && (
-                <li>
+          <div className="lg:col-span-3 lg:col-start-10">
+            <h2 className="etiqueta text-papel/45">Siga o atelier</h2>
+            <ul className="mt-5 space-y-1">
+              {redes.map(({ nome, href, Icone }) => (
+                <li key={nome}>
                   <a
-                    href={siteConfig.instagram}
+                    href={href as string}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Instagram do ${siteConfig.name} (abre em nova aba)`}
-                    className="flex size-11 items-center justify-center rounded-full border border-creme/25 text-creme transition hover:bg-creme hover:text-marrom"
+                    aria-label={`${nome} do ${siteConfig.name} (abre em nova aba)`}
+                    className="inline-flex items-center gap-3 py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
                   >
-                    <InstagramIcon className="size-[1.15rem]" aria-hidden="true" />
+                    <Icone className="size-4 shrink-0" aria-hidden="true" />
+                    <span className="sublinhado">{nome}</span>
+                  </a>
+                </li>
+              ))}
+              {whatsappUrl && (
+                <li>
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
+                  >
+                    <span className="sublinhado">WhatsApp</span>
                   </a>
                 </li>
               )}
-              {facebookConfigurado && (
-                <li>
-                  <a
-                    href={siteConfig.facebook}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Facebook do ${siteConfig.name} (abre em nova aba)`}
-                    className="flex size-11 items-center justify-center rounded-full border border-creme/25 text-creme transition hover:bg-creme hover:text-marrom"
-                  >
-                    <FacebookIcon className="size-[1.15rem]" aria-hidden="true" />
-                  </a>
-                </li>
+              {redes.length === 0 && !whatsappUrl && (
+                <li className="font-sans text-sm text-papel/45">Canais a definir</li>
               )}
-              <li>
-                <a
-                  href={whatsappUrl ?? '#contato'}
-                  {...(whatsappUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  aria-label={`Falar com o ${siteConfig.name} pelo WhatsApp`}
-                  className="flex size-11 items-center justify-center rounded-full border border-creme/25 text-creme transition hover:bg-creme hover:text-marrom"
-                >
-                  <MessageCircle className="size-[1.15rem]" aria-hidden="true" />
-                </a>
-              </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-creme/15 pt-6 sm:flex-row">
-          <p className="text-center font-sans text-xs text-creme/60 sm:text-left">
-            © {footer.copyrightYear} {siteConfig.name}. Todos os direitos reservados.
+        <Fio tone="claro" />
+
+        <div className="flex flex-col items-start justify-between gap-3 pt-6 sm:flex-row sm:items-center">
+          <p className="etiqueta text-papel/40">
+            © {footer.copyrightYear} {siteConfig.name}
           </p>
           <a
             href="#inicio"
-            className="inline-flex items-center gap-2 py-1.5 font-sans text-[0.68rem] tracking-[0.16em] text-creme/70 uppercase transition hover:text-creme"
+            className="etiqueta py-1.5 text-papel/55 transition-colors hover:text-ambar"
           >
-            Voltar ao topo
-            <ArrowUp className="size-3.5" aria-hidden="true" />
+            <span className="sublinhado">Voltar ao início</span>
           </a>
         </div>
       </div>

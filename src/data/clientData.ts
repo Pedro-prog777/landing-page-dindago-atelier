@@ -96,28 +96,39 @@ export const clientData = {
   // --------------------------------------------------------------------------
   hero: {
     /**
-     * O título é composto em três partes para o tratamento editorial:
-     * `titleLead` sai em corpo gigante (funciona quase como elemento gráfico),
-     * `titleRest` segue em manchete e `titleHighlight` recebe a cor de destaque.
-     * Juntas formam a frase completa lida por leitores de tela e pelo Google.
+     * A manchete é composta em linhas: as primeiras saem em corpo de capa e a
+     * última recebe o vermelho-tijolo. Juntas formam a frase completa, que é o
+     * que leitores de tela e buscadores leem.
      */
-    titleLead: 'Arte',
-    titleRest: 'que nasce da memória, da cultura e das',
-    titleHighlight: 'mãos.',
-    /** Texto do selo artesanal que gira no canto da composição. */
-    seal: 'peça única · feito à mão · papel-machê · ',
+    titleLines: ['Arte que nasce', 'da memória, da cultura'],
+    titleHighlight: 'e das mãos.',
     subtitle: 'Peças artesanais que carregam a identidade e a beleza do Nordeste brasileiro.',
     image: '/images/hero/peca-principal.jpg',
     imageAlt:
       'Escultura em papel-machê de uma mulher com cabelos em forma de mar, peixes e um barco',
-    primaryCta: { label: 'Conheça nossas peças', href: '#pecas' },
-    secondaryCta: { label: 'Fale pelo WhatsApp', href: 'whatsapp' },
+    /** Legenda impressa sob a prancha de abertura. */
+    imageCaption: 'Mulher do Mar — papel-machê sobre estrutura de arame',
+    primaryCta: { label: 'Ver as peças', href: '#pecas' },
+    secondaryCta: { label: 'Falar com o atelier', href: 'whatsapp' },
+    /** Colofão: dados curtos da publicação, no canto da capa. */
+    colofao: [
+      { rotulo: 'Técnica', valor: 'Papel-machê' },
+      { rotulo: 'Origem', valor: 'Sertão de Alagoas' },
+      { rotulo: 'Produção', valor: 'Peça única' },
+    ],
     /** Selos exibidos abaixo dos botões. */
     highlights: [
       { value: '100%', label: 'Feito à mão' },
       { value: 'Peças', label: 'Únicas e autorais' },
       { value: 'Papel', label: 'Reaproveitado' },
     ],
+  },
+
+  /** Cabeçalho do caderno de diferenciais. */
+  benefitsSection: {
+    numero: '02',
+    eyebrow: 'Diferenciais',
+    title: 'O que sustenta cada peça',
   },
 
   // --------------------------------------------------------------------------
@@ -156,6 +167,7 @@ export const clientData = {
   // PROCESSO DE CRIAÇÃO
   // --------------------------------------------------------------------------
   process: {
+    numero: '03',
     eyebrow: 'O artesanato',
     title: 'Do papel à arte',
     paragraphs: [
@@ -185,6 +197,7 @@ export const clientData = {
   // exibe "Consultar valor". Para publicar, escreva o número em reais (ex.: 480).
   // --------------------------------------------------------------------------
   productsSection: {
+    numero: '04',
     eyebrow: 'Coleções',
     title: 'Peças em destaque',
     subtitle: 'Esculturas em papel-machê que celebram a vida, a fé e a cultura popular.',
@@ -249,6 +262,7 @@ export const clientData = {
   // GALERIA
   // --------------------------------------------------------------------------
   gallery: {
+    numero: '05',
     eyebrow: 'Galeria',
     title: 'O atelier por dentro',
     subtitle:
@@ -334,6 +348,7 @@ export const clientData = {
   // SOBRE O ATELIER / A ARTESÃ
   // --------------------------------------------------------------------------
   about: {
+    numero: '06',
     eyebrow: 'Sobre o atelier',
     title: 'Por trás de cada peça, existe uma história.',
     /** Texto de apresentação exibido na faixa "Sobre o Atelier". */
@@ -373,6 +388,12 @@ export const clientData = {
   // CULTURA — blocos de valores da marca
   // `icon` aceita: sol | flor | passaro | maos
   // --------------------------------------------------------------------------
+  /** Cabeçalho do caderno escuro. */
+  cultureSection: {
+    numero: '07',
+    eyebrow: 'Sobre o atelier',
+  },
+
   culture: [
     {
       icon: 'sol',
@@ -400,6 +421,7 @@ export const clientData = {
   // ENCOMENDAS
   // --------------------------------------------------------------------------
   orders: {
+    numero: '08',
     eyebrow: 'Encomendas',
     title: 'Uma peça feita especialmente para você.',
     subtitle:
@@ -443,6 +465,7 @@ export const clientData = {
   // CONTATO
   // --------------------------------------------------------------------------
   contact: {
+    numero: '09',
     eyebrow: 'Contato',
     title: 'Vamos conversar?',
     subtitle:

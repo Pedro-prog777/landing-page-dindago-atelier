@@ -1,20 +1,15 @@
-import { Recycle } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
-import { Birds, Ornament } from './ui/Decorations';
+import { Caderno, Fio, Numeral } from './ui/Catalogo';
 import { clientData } from '../data/clientData';
 
 /**
- * O processo como percurso, não como timeline corporativa.
+ * Caderno do artesanato — ensaio impresso.
  *
- * As seis etapas se espalham em alturas diferentes, formando uma descida
- * irregular pela página — o número sai em corpo grande e a palavra pousa por
- * cima dele. Nenhuma etapa mora dentro de um card.
+ * O texto corre em duas colunas com capitular, como o corpo de um artigo de
+ * revista. As seis etapas descem depois numa faixa horizontal separada por
+ * fios verticais, e os materiais fecham a seção sobre tinta chapada.
  */
-
-/** Deslocamento vertical de cada etapa. Escalonamento desenhado, não automático. */
-const alturas = ['lg:mt-0', 'lg:mt-20', 'lg:mt-40', 'lg:mt-4', 'lg:mt-24', 'lg:mt-44'];
-
 export function ProcessSection() {
   const { process } = clientData;
 
@@ -22,124 +17,105 @@ export function ProcessSection() {
     <section
       id="processo"
       aria-labelledby="processo-titulo"
-      className="grao relative overflow-hidden bg-areia py-20 sm:py-24 lg:py-32"
+      className="grao bg-papel py-16 sm:py-20 lg:py-24"
     >
-      <Birds
-        className="pointer-events-none absolute top-16 right-8 w-20 text-barro/25 lg:right-24 lg:w-28"
-        aria-hidden="true"
-      />
+      <div className="px-4 sm:px-6 lg:px-10">
+        <Caderno numero={process.numero} titulo={process.eyebrow} nota="Técnica milenar" />
 
-      <div className="relative mx-auto max-w-368 px-4 sm:px-6 lg:px-10">
-        {/* ABERTURA — texto à esquerda, espaço de imagem descendo à direita */}
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-6">
-            <Reveal>
-              <p className="mb-5 flex items-center gap-3 font-sans text-[0.62rem] font-semibold tracking-[0.3em] text-terracota uppercase">
-                <Ornament lado="esquerda" className="w-12 text-ocre/70" />
-                {process.eyebrow}
-              </p>
-              <h2
-                id="processo-titulo"
-                className="font-display text-[clamp(2.4rem,7vw,5rem)] leading-[0.92] font-light text-marrom"
-              >
-                {process.title}
-              </h2>
-            </Reveal>
+        <div className="grid gap-10 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">
+          {/* Manchete do caderno */}
+          <Reveal className="lg:col-span-5">
+            <h2 id="processo-titulo" className="text-[clamp(2.2rem,6vw,4.75rem)]">
+              {process.title}
+            </h2>
+          </Reveal>
 
-            <div className="mt-8 max-w-xl space-y-5 text-base leading-relaxed text-marrom-claro sm:text-[1.05rem]">
+          {/* Ensaio em duas colunas, com capitular na primeira */}
+          <Reveal delay={90} className="lg:col-span-7">
+            <div className="text-[0.98rem] leading-[1.75] text-tinta-suave sm:columns-2 sm:gap-9">
               {process.paragraphs.map((paragrafo, indice) => (
-                <Reveal as="p" key={paragrafo.slice(0, 32)} delay={60 + indice * 60}>
+                <p
+                  key={paragrafo.slice(0, 32)}
+                  className={
+                    indice === 0
+                      ? 'mb-5 first-letter:float-left first-letter:mr-3 first-letter:font-display first-letter:text-[4.2rem] first-letter:leading-[0.72] first-letter:text-tijolo'
+                      : 'mb-5 break-inside-avoid'
+                  }
+                >
                   {paragrafo}
-                </Reveal>
+                </p>
               ))}
             </div>
-          </div>
-
-          {/* Espaço da fotografia do processo — proporção 4/3, deslocado */}
-          <Reveal delay={140} className="lg:col-span-5 lg:col-start-8 lg:mt-16">
-            <figure className="group relative">
-              <div className="overflow-hidden rounded-bloco bg-bege shadow-[0_30px_60px_-38px_rgba(67,41,29,0.6)]">
-                <SmartImage
-                  src={process.image}
-                  alt={process.imageAlt}
-                  placeholderLabel="Imagem do processo"
-                  className="aspect-4/3 w-full transition-transform duration-[1.1s] ease-out group-hover:scale-[1.04]"
-                />
-              </div>
-              <figcaption className="texto-vertical absolute top-4 -left-7 hidden font-sans text-[0.58rem] tracking-[0.28em] text-barro/70 uppercase lg:block">
-                No atelier
-              </figcaption>
-            </figure>
           </Reveal>
         </div>
 
-        {/* AS ETAPAS — descida irregular, sem caixas */}
-        <div className="mt-20 lg:mt-28">
+        {/* Prancha do processo, em faixa larga */}
+        <Reveal delay={120} className="group pt-12 lg:pt-16">
+          <figure>
+            <div className="overflow-hidden bg-areia">
+              <SmartImage
+                src={process.image}
+                alt={process.imageAlt}
+                placeholderLabel="Prancha do processo"
+                figura="02"
+                className="aspect-4/3 w-full transition-transform duration-[1.3s] ease-out group-hover:scale-[1.03] sm:aspect-[21/8]"
+              />
+            </div>
+            <figcaption className="etiqueta pt-3 text-tinta/45">
+              fig. 02 — {process.imageAlt}
+            </figcaption>
+          </figure>
+        </Reveal>
+
+        {/* AS ETAPAS — faixa horizontal dividida por fios verticais */}
+        <div className="pt-16 lg:pt-20">
           <Reveal>
-            <p className="font-sans text-[0.62rem] font-semibold tracking-[0.3em] text-barro/70 uppercase">
-              As etapas da criação
-            </p>
-            <div className="fio-editorial mt-5" />
+            <Fio />
+            <p className="etiqueta py-3 text-tinta/45">As etapas da criação</p>
+            <Fio />
           </Reveal>
 
-          <ol className="mt-12 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-0">
+          <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6">
             {process.steps.map((etapa, indice) => (
-              <li key={etapa.name} className={`group relative ${alturas[indice] ?? ''}`}>
-                <Reveal delay={indice * 80}>
-                  {/* Número em corpo grande; a palavra pousa sobre ele */}
-                  <span
-                    aria-hidden="true"
-                    className="block font-display text-[clamp(3.5rem,7vw,5.5rem)] leading-[0.8] font-light text-terracota/25 transition-colors duration-500 group-hover:text-terracota/45"
-                  >
+              <li
+                key={etapa.name}
+                className="group border-b border-tinta/10 sm:border-r sm:last:border-r-0 lg:border-b-0"
+              >
+                <Reveal delay={indice * 70} className="h-full px-0 py-7 sm:px-5 lg:px-4">
+                  <Numeral className="text-4xl transition-colors duration-500 group-hover:text-tijolo/60">
                     {String(indice + 1).padStart(2, '0')}
-                  </span>
-
-                  <h3 className="-mt-5 ml-1 font-display text-2xl leading-tight font-normal text-marrom sm:text-[1.7rem]">
-                    {etapa.name}
-                  </h3>
-
-                  <p className="mt-3 ml-1 max-w-xs text-sm leading-relaxed text-marrom-claro">
+                  </Numeral>
+                  <h3 className="mt-4 font-display text-xl leading-tight">{etapa.name}</h3>
+                  <p className="mt-2.5 text-[0.82rem] leading-relaxed text-tinta-suave">
                     {etapa.detail}
                   </p>
-
-                  {/* Fio curto que cresce no hover, apontando para a etapa seguinte */}
-                  <span
-                    aria-hidden="true"
-                    className="mt-6 ml-1 block h-px w-12 bg-terracota/40 transition-all duration-500 group-hover:w-20"
-                  />
                 </Reveal>
               </li>
             ))}
           </ol>
         </div>
-
-        {/* MATERIAIS — faixa horizontal, sem moldura de card */}
-        <Reveal delay={120} className="mt-24 lg:mt-32">
-          <div className="fio-editorial mb-10" />
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-10">
-            <div className="lg:col-span-4">
-              <h3 className="flex items-center gap-3 font-sans text-[0.72rem] font-bold tracking-[0.2em] text-verde uppercase">
-                <Recycle className="size-4" strokeWidth={1.6} aria-hidden="true" />
-                {process.materialsTitle}
-              </h3>
-              <p className="mt-4 text-sm leading-relaxed text-marrom-claro">
-                {process.materialsText}
-              </p>
-            </div>
-
-            <ul className="flex flex-wrap gap-2.5 lg:col-span-7 lg:col-start-6 lg:justify-end">
-              {process.materials.map((material) => (
-                <li
-                  key={material}
-                  className="rounded-full border border-verde/30 px-5 py-2.5 font-sans text-xs tracking-[0.08em] text-verde transition-colors duration-300 hover:bg-verde hover:text-creme"
-                >
-                  {material}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
       </div>
+
+      {/* MATERIAIS — faixa de tinta, em sangria */}
+      <Reveal delay={100} className="grao grao-claro mt-16 bg-tinta lg:mt-20">
+        <div className="grid gap-8 px-4 py-12 sm:px-6 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-10 lg:py-14">
+          <div className="lg:col-span-4">
+            <p className="etiqueta text-ambar">{process.materialsTitle}</p>
+            <p className="mt-4 text-sm leading-relaxed text-papel/70">{process.materialsText}</p>
+          </div>
+
+          <ul className="flex flex-wrap gap-x-8 gap-y-4 lg:col-span-7 lg:col-start-6 lg:justify-end">
+            {process.materials.map((material) => (
+              <li
+                key={material}
+                className="font-display text-xl text-papel/85 transition-colors duration-300 hover:text-ambar sm:text-2xl"
+              >
+                {material}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Reveal>
     </section>
   );
 }

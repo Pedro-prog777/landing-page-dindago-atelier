@@ -1,88 +1,61 @@
 import type { ReactNode } from 'react';
 import { Reveal } from './Reveal';
-import { Ornament } from './Decorations';
+import { Fio } from './Catalogo';
 
 type SectionHeadingProps = {
-  /** Texto pequeno acima do título. */
+  /** Número do caderno, no padrão "05". */
+  numero?: string;
+  /** Nome da seção, exibido na etiqueta. */
   eyebrow?: string;
   title: ReactNode;
   description?: ReactNode;
-  /** `light` para fundos claros, `dark` para fundos terracota/marrom. */
-  tone?: 'light' | 'dark';
-  align?: 'left' | 'center';
-  /** Ornamentos laterais no título (só fazem sentido em títulos centralizados). */
-  ornamentos?: boolean;
+  /** `claro` para fundos de tinta e tijolo. */
+  tone?: 'escuro' | 'claro';
   /** id usado por `aria-labelledby` na section. */
   id?: string;
   className?: string;
 };
 
+/**
+ * Abertura de caderno: fio, etiqueta numerada e manchete em corpo grande.
+ *
+ * Sem ornamentos laterais e sem centralização — o alinhamento é sempre à
+ * esquerda, como numa página impressa, e a hierarquia vem do salto de corpo
+ * entre a etiqueta e o título.
+ */
 export function SectionHeading({
+  numero,
   eyebrow,
   title,
   description,
-  tone = 'light',
-  align = 'center',
-  ornamentos = false,
+  tone = 'escuro',
   id,
   className = '',
 }: SectionHeadingProps) {
-  const alinhamento = align === 'center' ? 'items-center text-center' : 'items-start text-left';
-  const corTitulo = tone === 'dark' ? 'text-creme' : 'text-marrom';
-  const corOrnamento = tone === 'dark' ? 'text-amarelo/70' : 'text-ocre/70';
-
-  const usaOrnamentos = ornamentos && align === 'center';
+  const corEtiqueta = tone === 'claro' ? 'text-ambar' : 'text-tijolo';
+  const corTitulo = tone === 'claro' ? 'text-papel' : 'text-tinta';
+  const corApoio = tone === 'claro' ? 'text-papel/70' : 'text-tinta-suave';
 
   return (
-    <Reveal className={`flex flex-col ${alinhamento} ${className}`}>
-      {eyebrow && (
-        <span
-          className={`mb-4 inline-flex items-center gap-3 font-sans text-[0.68rem] font-semibold tracking-[0.28em] uppercase ${
-            tone === 'dark' ? 'text-amarelo' : 'text-terracota'
-          }`}
-        >
-          <span
-            className={`h-px w-8 ${tone === 'dark' ? 'bg-amarelo/60' : 'bg-terracota/50'}`}
-            aria-hidden="true"
-          />
-          {eyebrow}
-        </span>
-      )}
+    <Reveal className={className}>
+      <Fio tone={tone} />
+      <div className="flex flex-col gap-8 pt-8 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
+        <div className="max-w-3xl">
+          {(numero || eyebrow) && (
+            <p className={`etiqueta mb-6 ${corEtiqueta}`}>
+              {numero ? `${numero} — ` : ''}
+              {eyebrow}
+            </p>
+          )}
+          <h2 id={id} className={`text-[clamp(1.9rem,5vw,4rem)] ${corTitulo}`}>
+            {title}
+          </h2>
+        </div>
 
-      {/*
-        O h2 é montado uma única vez e apenas envolvido pelos ornamentos quando
-        pedido — renderizá-lo em dois ramos duplicaria o mesmo `id` no código.
-      */}
-      <div
-        className={
-          usaOrnamentos ? 'flex w-full items-center justify-center gap-4 sm:gap-6' : 'contents'
-        }
-      >
-        {usaOrnamentos && (
-          <Ornament lado="esquerda" className={`hidden shrink-0 sm:block ${corOrnamento}`} />
-        )}
-
-        <h2
-          id={id}
-          className={`max-w-3xl font-display text-3xl leading-[1.12] font-light sm:text-4xl lg:text-[2.9rem] ${corTitulo}`}
-        >
-          {title}
-        </h2>
-
-        {usaOrnamentos && (
-          <Ornament lado="direita" className={`hidden shrink-0 sm:block ${corOrnamento}`} />
+        {description && (
+          <p className={`max-w-sm text-base leading-relaxed lg:pb-2 ${corApoio}`}>{description}</p>
         )}
       </div>
-
-      {description && (
-        <p
-          className={`mt-5 max-w-2xl text-base leading-relaxed sm:text-lg ${
-            tone === 'dark' ? 'text-creme/75' : 'text-marrom-claro'
-          }`}
-        >
-          {description}
-        </p>
-      )}
     </Reveal>
   );
 }
