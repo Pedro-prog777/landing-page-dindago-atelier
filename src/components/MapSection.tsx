@@ -21,7 +21,7 @@ export function MapSection() {
             <SectionHeading
               id="atelier-titulo"
               eyebrow="Localização"
-              title="Visite o Dindagó Atelier"
+              title={`Visite o ${siteConfig.name}`}
               description="O atelier é onde tudo acontece: a pesquisa, a bancada, a secagem lenta das peças e as conversas sobre cada encomenda."
               align="left"
             />
@@ -69,7 +69,7 @@ export function MapSection() {
             <div className="overflow-hidden rounded-[1.75rem] border border-bege-escuro/60 bg-creme p-2 shadow-[0_24px_50px_-34px_rgba(67,41,29,0.7)]">
               {embedUrl ? (
                 <iframe
-                  title="Mapa com a localização do Dindagó Atelier"
+                  title={`Mapa com a localização do ${siteConfig.name}`}
                   src={embedUrl}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -82,11 +82,11 @@ export function MapSection() {
                   <p className="max-w-sm font-sans text-sm leading-relaxed text-marrom-claro">
                     Preencha{' '}
                     <code className="rounded bg-bege px-1.5 py-0.5 text-[0.85em] text-barro">
-                      ATELIER_ADDRESS
+                      contact.address
                     </code>{' '}
                     em{' '}
                     <code className="rounded bg-bege px-1.5 py-0.5 text-[0.85em] text-barro">
-                      src/config/site.ts
+                      src/data/clientData.ts
                     </code>{' '}
                     e o mapa aparece aqui automaticamente.
                   </p>

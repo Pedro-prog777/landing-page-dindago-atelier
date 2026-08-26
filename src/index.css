@@ -5,14 +5,15 @@
    Paleta inspirada no sertão: creme, areia, ocre, terracota, barro e verde.
    ========================================================================== */
 @theme {
-  --color-creme: #fdfaf4;
-  --color-areia: #f5ede0;
-  --color-bege: #e7d8c0;
-  --color-bege-escuro: #d6c1a1;
-  --color-ocre: #c08a3e;
-  --color-amarelo: #dba53f;
-  --color-terracota: #a85433;
-  --color-terracota-claro: #c26a45;
+  --color-creme: #fcf8ef;
+  --color-areia: #f2e7d2;
+  --color-bege: #e7d6b8;
+  --color-bege-escuro: #d6bf98;
+  --color-kraft: #e3cfa8;
+  --color-ocre: #c89434;
+  --color-amarelo: #d4a03c;
+  --color-terracota: #a8432a;
+  --color-terracota-claro: #c0563a;
   --color-barro: #8a4b2a;
   --color-marrom: #43291d;
   --color-marrom-claro: #6b4632;

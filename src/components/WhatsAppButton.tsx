@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
-import { buildWhatsAppUrl, WHATSAPP_DEFAULT_MESSAGE } from '../config/site';
+import { buildWhatsAppUrl, siteConfig, WHATSAPP_DEFAULT_MESSAGE } from '../config/site';
 import { useScrollPosition } from '../hooks/useScrollPosition';
 
 /**
@@ -33,7 +33,7 @@ export function WhatsAppButton() {
   const visivel = rolou && !sobreRodape;
   const destino = whatsappUrl ?? '#contato';
   const rotulo = whatsappUrl
-    ? 'Falar com o Dindagó Atelier pelo WhatsApp (abre em nova aba)'
+    ? `Falar com o ${siteConfig.name} pelo WhatsApp (abre em nova aba)`
     : 'Ir para o formulário de contato';
 
   return (

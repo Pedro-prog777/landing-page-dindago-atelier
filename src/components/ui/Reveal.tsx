@@ -22,11 +22,17 @@ export function Reveal({ children, as: Tag = 'div', delay = 0, className = '' }:
     const elemento = ref.current;
     if (!elemento || typeof IntersectionObserver === 'undefined') return;
 
+    // Rede de segurança: se o observer não disparar (aba em segundo plano,
+    // iframe fora da tela, navegador exótico), o conteúdo aparece mesmo assim.
+    // Sem isso, uma falha do observer deixaria a seção invisível para sempre.
+    const reserva = window.setTimeout(() => setVisivel(true), 1500);
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             setVisivel(true);
+            window.clearTimeout(reserva);
             observer.disconnect();
           }
         }
@@ -35,7 +41,10 @@ export function Reveal({ children, as: Tag = 'div', delay = 0, className = '' }:
     );
 
     observer.observe(elemento);
-    return () => observer.disconnect();
+    return () => {
+      window.clearTimeout(reserva);
+      observer.disconnect();
+    };
   }, []);
 
   return (

@@ -5,6 +5,7 @@ import { Lightbox } from './Lightbox';
 import { Reveal } from './ui/Reveal';
 import { SectionHeading } from './ui/SectionHeading';
 import { SmartImage } from './ui/SmartImage';
+import { clientData } from '../data/clientData';
 
 type Filtro = GalleryCategory | 'Todas';
 
@@ -36,9 +37,9 @@ export function Gallery() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           id="galeria-titulo"
-          eyebrow="Galeria"
-          title="O atelier por dentro"
-          description="Obras finalizadas, bastidores do processo, a bancada de trabalho e os detalhes que só aparecem de perto."
+          eyebrow={clientData.gallery.eyebrow}
+          title={clientData.gallery.title}
+          description={clientData.gallery.subtitle}
         />
 
         <Reveal className="mt-10 flex flex-wrap justify-center gap-2.5" delay={80}>

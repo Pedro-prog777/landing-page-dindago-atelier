@@ -8,6 +8,7 @@ import {
   siteConfig,
 } from '../config/site';
 import { Reveal } from './ui/Reveal';
+import { clientData } from '../data/clientData';
 import { SectionHeading } from './ui/SectionHeading';
 
 type Campos = {
@@ -20,13 +21,7 @@ type Campos = {
 
 type Erros = Partial<Record<keyof Campos, string>>;
 
-const assuntos = [
-  'Quero conhecer uma peça',
-  'Encomenda personalizada',
-  'Compra para loja ou projeto',
-  'Imprensa e parcerias',
-  'Outro assunto',
-];
+const assuntos = clientData.contact.subjects;
 
 const valoresIniciais: Campos = {
   nome: '',
@@ -129,9 +124,9 @@ export function ContactSection() {
           <div className="lg:col-span-5">
             <SectionHeading
               id="contato-titulo"
-              eyebrow="Contato"
-              title="Vamos conversar?"
-              description="Quer conhecer uma peça, fazer uma encomenda ou levar um pouco dessa arte para o seu espaço? Entre em contato."
+              eyebrow={clientData.contact.eyebrow}
+              title={clientData.contact.title}
+              description={clientData.contact.subtitle}
               align="left"
             />
 
@@ -210,7 +205,7 @@ export function ContactSection() {
                       Os canais de atendimento aparecem aqui assim que WhatsApp e e-mail forem
                       preenchidos em{' '}
                       <code className="rounded bg-bege px-1.5 py-0.5 text-[0.8em] text-barro">
-                        src/config/site.ts
+                        src/data/clientData.ts
                       </code>
                       .
                     </p>
@@ -392,7 +387,7 @@ export function ContactSection() {
                 {enviado
                   ? whatsappConfigurado || emailConfigurado
                     ? 'Mensagem pronta! Abrimos seu aplicativo para finalizar o envio ao atelier.'
-                    : 'Mensagem validada. Configure WhatsApp ou e-mail em src/config/site.ts para concluir o envio.'
+                    : 'Mensagem validada. Configure WhatsApp ou e-mail em src/data/clientData.ts para concluir o envio.'
                   : ''}
               </p>
             </form>

@@ -3,6 +3,7 @@ import { FacebookIcon, InstagramIcon, type IconComponent } from './ui/BrandIcons
 import { buildWhatsAppUrl, isConfigured, siteConfig } from '../config/site';
 import { Reveal } from './ui/Reveal';
 import { SectionHeading } from './ui/SectionHeading';
+import { clientData } from '../data/clientData';
 
 type Rede = {
   nome: string;
@@ -43,9 +44,9 @@ export function SocialSection() {
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           id="redes-titulo"
-          eyebrow="Redes sociais"
-          title="Siga o Dindagó Atelier"
-          description="Acompanhe novas peças, bastidores, processos e histórias."
+          eyebrow={clientData.socialSection.eyebrow}
+          title={clientData.socialSection.title}
+          description={clientData.socialSection.subtitle}
         />
 
         {disponiveis.length > 0 ? (
@@ -78,7 +79,7 @@ export function SocialSection() {
               Os links de Instagram, Facebook e WhatsApp aparecem aqui assim que forem
               preenchidos em{' '}
               <code className="rounded bg-bege px-1.5 py-0.5 text-[0.85em] text-barro">
-                src/config/site.ts
+                src/data/clientData.ts
               </code>
               . Nenhum endereço é inventado enquanto isso.
             </p>

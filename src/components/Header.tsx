@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Menu, MessageCircle, Search, Truck, X } from 'lucide-react';
-import { InstagramIcon } from './ui/BrandIcons';
+import { Feather, Menu, MessageCircle, Search, Truck, X } from 'lucide-react';
+import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
 import { Logo } from './Logo';
 import { SearchDialog } from './SearchDialog';
 import { buildWhatsAppUrl, isConfigured, navLinks, siteConfig } from '../config/site';
@@ -17,6 +17,7 @@ export function Header() {
 
   const whatsappUrl = buildWhatsAppUrl();
   const instagramConfigurado = isConfigured(siteConfig.instagram);
+  const facebookConfigurado = isConfigured(siteConfig.facebook);
 
   // Trava o scroll do fundo enquanto o menu mobile estiver aberto.
   useEffect(() => {
@@ -40,7 +41,7 @@ export function Header() {
     <>
       <a
         href="#conteudo"
-        className="sr-only rounded-full bg-terracota px-5 py-3 font-sans text-sm font-semibold text-creme focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[80]"
+        className="sr-only rounded-full bg-terracota px-5 py-3.5 font-sans text-sm font-semibold text-creme focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[80]"
       >
         Ir para o conteúdo
       </a>
@@ -48,18 +49,53 @@ export function Header() {
       <header className="fixed inset-x-0 top-0 z-50">
         {/* Barra superior — recolhe ao rolar a página */}
         <div
-          className={`overflow-hidden bg-marrom text-creme transition-all duration-500 ease-out ${
+          className={`overflow-hidden bg-amarelo text-marrom transition-all duration-500 ease-out ${
             rolou ? 'max-h-0 opacity-0' : 'max-h-20 opacity-100'
           }`}
         >
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6 lg:px-8">
-            <p className="font-sans text-[0.7rem] leading-snug tracking-[0.06em] text-creme/85 sm:text-xs">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-8">
+            <p className="flex items-center gap-2 font-sans text-[0.7rem] leading-snug tracking-[0.04em] text-marrom sm:text-xs">
+              <Feather className="hidden size-3.5 shrink-0 sm:block" aria-hidden="true" />
               {siteConfig.tagline}
             </p>
-            <p className="hidden shrink-0 items-center gap-2 font-sans text-[0.7rem] font-semibold tracking-[0.14em] text-amarelo uppercase sm:flex">
-              <Truck className="size-3.5" aria-hidden="true" />
-              {siteConfig.shipping}
-            </p>
+
+            <div className="flex shrink-0 items-center gap-4">
+              <p className="hidden items-center gap-2 font-sans text-[0.7rem] font-semibold tracking-[0.1em] text-marrom sm:flex">
+                <Truck className="size-3.5" aria-hidden="true" />
+                {siteConfig.shipping}
+              </p>
+
+              {(instagramConfigurado || facebookConfigurado) && (
+                <ul className="flex items-center gap-2.5 border-marrom/25 sm:border-l sm:pl-4">
+                  {instagramConfigurado && (
+                    <li>
+                      <a
+                        href={siteConfig.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Instagram do ${siteConfig.name} (abre em nova aba)`}
+                        className="block text-marrom/80 transition hover:text-marrom"
+                      >
+                        <InstagramIcon className="size-4" aria-hidden="true" />
+                      </a>
+                    </li>
+                  )}
+                  {facebookConfigurado && (
+                    <li>
+                      <a
+                        href={siteConfig.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Facebook do ${siteConfig.name} (abre em nova aba)`}
+                        className="block text-marrom/80 transition hover:text-marrom"
+                      >
+                        <FacebookIcon className="size-4" aria-hidden="true" />
+                      </a>
+                    </li>
+                  )}
+                </ul>
+              )}
+            </div>
           </div>
         </div>
 
@@ -112,7 +148,7 @@ export function Header() {
                   href={siteConfig.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Instagram do Dindagó Atelier (abre em nova aba)"
+                  aria-label={`Instagram do ${siteConfig.name} (abre em nova aba)`}
                   className="hidden size-10 items-center justify-center rounded-full text-marrom transition hover:bg-areia hover:text-terracota sm:flex"
                 >
                   <InstagramIcon className="size-[1.15rem]" aria-hidden="true" />
@@ -132,7 +168,7 @@ export function Header() {
                 type="button"
                 onClick={() => setMenuAberto((estado) => !estado)}
                 aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
-                aria-expanded={menuAberto}
+                aria-expanded={menuAberto ? "true" : "false"}
                 aria-controls="menu-mobile"
                 className="flex size-10 items-center justify-center rounded-full text-marrom transition hover:bg-areia lg:hidden"
               >
