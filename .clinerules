@@ -1,0 +1,2 @@
+PROIBIDO: Não use layouts genéricos em blocos empilhados. Não use cores cinza padrão do Tailwind. Não crie seções hero tradicionais de três colunas.
+OBRIGATÓRIO: Use layouts assimétricos, Bento Grid (caixas de tamanhos diferentes), tipografia over-sized, gradientes modernos de fundo e micro-interações. Mude o estilo visual a cada componente.

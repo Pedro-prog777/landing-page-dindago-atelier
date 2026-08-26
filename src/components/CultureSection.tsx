@@ -1,12 +1,15 @@
 import { ArrowRight } from 'lucide-react';
 import { Reveal } from './ui/Reveal';
-import { Cactus } from './ui/Decorations';
+import { Cactus, SunRays } from './ui/Decorations';
 import { iconesAtelier, type NomeIcone } from './ui/iconMap';
 import { clientData } from '../data/clientData';
 
 /**
- * Faixa "Sobre o Atelier": apresentação curta da marca à esquerda e os valores
- * (`clientData.culture`) em colunas com ícones à direita.
+ * Sobre o atelier — composição tipográfica em fundo escuro.
+ *
+ * É o ponto de virada da narrativa: depois de duas seções claras, a página
+ * escurece e a apresentação da marca ganha corpo grande. Os valores entram
+ * como uma lista numerada de fios finos, sem card nenhum.
  */
 export function CultureSection() {
   const { about, culture } = clientData;
@@ -14,57 +17,73 @@ export function CultureSection() {
   return (
     <section
       aria-labelledby="cultura-titulo"
-      className="textura-papel relative overflow-hidden bg-kraft py-20 sm:py-24 lg:py-28"
+      className="grao relative overflow-hidden bg-marrom py-20 sm:py-24 lg:py-32"
     >
-      {/* Cactos nas bordas, como na identidade visual */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <Cactus className="absolute bottom-8 left-2 w-12 text-verde/30 lg:w-16" />
-        <Cactus className="absolute right-3 bottom-12 hidden w-10 text-verde/25 lg:block" />
+        <div className="absolute -top-40 left-1/3 size-104 rounded-full bg-terracota/25 blur-3xl" />
+        <div className="absolute -right-32 -bottom-40 size-88 rounded-full bg-ocre/12 blur-3xl" />
+        <SunRays className="absolute top-14 right-6 w-24 text-amarelo/20 lg:right-16 lg:w-32" />
+        <Cactus className="absolute bottom-10 left-3 w-12 text-amarelo/12 lg:w-16" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-14">
-          {/* Apresentação */}
-          <div className="lg:col-span-4">
+      <div className="relative mx-auto max-w-368 px-4 sm:px-6 lg:px-10">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
+          {/* MANIFESTO — tipografia em corpo grande */}
+          <div className="lg:col-span-6">
             <Reveal>
+              <p className="font-sans text-[0.62rem] font-semibold tracking-[0.3em] text-amarelo uppercase">
+                {about.eyebrow}
+              </p>
               <h2
                 id="cultura-titulo"
-                className="font-display text-3xl leading-[1.15] font-light text-marrom sm:text-4xl"
+                className="mt-7 font-display text-[clamp(1.9rem,4.4vw,3.5rem)] leading-[1.08] font-light text-creme"
               >
-                {about.eyebrow}
+                {about.intro}
               </h2>
-              <p className="mt-6 text-base leading-relaxed text-marrom-claro">{about.intro}</p>
+            </Reveal>
 
+            <Reveal delay={120}>
               <a
                 href="#historia"
-                className="mt-8 inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full bg-terracota px-7 font-sans text-[0.7rem] font-semibold tracking-[0.14em] text-creme uppercase transition hover:-translate-y-0.5 hover:bg-barro active:translate-y-0"
+                className="group mt-10 inline-flex items-center gap-3 font-sans text-[0.66rem] font-semibold tracking-[0.2em] text-creme uppercase transition-colors hover:text-amarelo"
               >
                 {about.ctaLabel}
-                <ArrowRight className="size-4" aria-hidden="true" />
+                <span className="flex size-10 items-center justify-center rounded-full border border-creme/30 transition-all duration-300 group-hover:border-amarelo group-hover:bg-amarelo group-hover:text-marrom">
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </span>
               </a>
             </Reveal>
           </div>
 
-          {/* Valores da marca */}
-          <ul className="grid gap-8 sm:grid-cols-2 lg:col-span-8 lg:gap-6 xl:grid-cols-4">
+          {/* VALORES — lista numerada de fios finos, deslocada */}
+          <ul className="lg:col-span-5 lg:col-start-8 lg:mt-6">
             {culture.map((bloco, indice) => {
               const Icone = iconesAtelier[bloco.icon as NomeIcone] ?? iconesAtelier.sol;
               return (
                 <Reveal
                   as="li"
                   key={bloco.title}
-                  delay={indice * 80}
-                  className="group border-marrom/12 text-center sm:px-4 xl:border-l xl:first:border-l-0"
+                  delay={indice * 90}
+                  className="group border-t border-creme/15 py-7 last:border-b"
                 >
-                  <span className="inline-block text-ocre transition-transform duration-500 group-hover:scale-110">
-                    <Icone className="size-12" strokeWidth={1.4} />
-                  </span>
-                  <h3 className="mt-4 font-sans text-[0.76rem] font-bold tracking-[0.14em] text-terracota uppercase">
-                    {bloco.title}
-                  </h3>
-                  <p className="mt-2.5 text-sm leading-relaxed text-marrom-claro">
-                    {bloco.description}
-                  </p>
+                  <div className="flex items-start gap-5">
+                    <span className="pt-1 font-display text-lg leading-none font-light text-amarelo/50 transition-colors duration-500 group-hover:text-amarelo">
+                      0{indice + 1}
+                    </span>
+
+                    <div className="flex-1">
+                      <h3 className="font-display text-xl leading-tight font-normal text-creme sm:text-2xl">
+                        {bloco.title}
+                      </h3>
+                      <p className="mt-2.5 max-w-sm text-sm leading-relaxed text-creme/65">
+                        {bloco.description}
+                      </p>
+                    </div>
+
+                    <span className="shrink-0 text-amarelo/40 transition-all duration-500 group-hover:scale-110 group-hover:text-amarelo/80">
+                      <Icone className="size-9" strokeWidth={1.2} />
+                    </span>
+                  </div>
                 </Reveal>
               );
             })}
