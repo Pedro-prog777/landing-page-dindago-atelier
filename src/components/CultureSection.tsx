@@ -1,6 +1,7 @@
 import { Reveal } from './ui/Reveal';
 import { LinkEditorial } from './ui/Button';
 import { Fio, Xilogravura } from './ui/Catalogo';
+import { iconesAtelier, type NomeIcone } from './ui/iconMap';
 import { clientData } from '../data/clientData';
 
 /**
@@ -46,26 +47,34 @@ export function CultureSection() {
         {/* Valores em faixa horizontal, divididos por fios */}
         <Fio tone="claro" />
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {culture.map((bloco, indice) => (
-            <li
-              key={bloco.title}
-              className="group border-b border-papel/15 lg:border-r lg:border-b-0 lg:last:border-r-0"
-            >
-              <Reveal delay={indice * 80} className="h-full py-9 lg:px-7 lg:first:pl-0">
-                <span className="etiqueta text-ambar/60">0{indice + 1}</span>
-                <h3 className="mt-4 font-display text-2xl leading-tight text-papel">
-                  {bloco.title}
-                </h3>
-                <p className="mt-3 max-w-xs text-sm leading-relaxed text-papel/60">
-                  {bloco.description}
-                </p>
-                <span
-                  aria-hidden="true"
-                  className="mt-6 block h-px w-10 bg-ambar/40 transition-all duration-500 group-hover:w-20"
-                />
-              </Reveal>
-            </li>
-          ))}
+          {culture.map((bloco, indice) => {
+            const Icone = iconesAtelier[bloco.icon as NomeIcone] ?? iconesAtelier.sol;
+            return (
+              <li
+                key={bloco.title}
+                className="group border-b border-papel/15 lg:border-r lg:border-b-0 lg:last:border-r-0"
+              >
+                <Reveal delay={indice * 80} className="h-full py-9 lg:px-7 lg:first:pl-0">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-ambar transition-transform duration-500 group-hover:scale-110">
+                      <Icone className="size-11" strokeWidth={1.25} />
+                    </span>
+                    <span className="etiqueta text-ambar/50">0{indice + 1}</span>
+                  </div>
+                  <h3 className="mt-4 font-display text-2xl leading-tight text-papel">
+                    {bloco.title}
+                  </h3>
+                  <p className="mt-3 max-w-xs text-sm leading-relaxed text-papel/60">
+                    {bloco.description}
+                  </p>
+                  <span
+                    aria-hidden="true"
+                    className="mt-6 block h-px w-10 bg-ambar/40 transition-all duration-500 group-hover:w-20"
+                  />
+                </Reveal>
+              </li>
+            );
+          })}
         </ul>
         <Fio tone="claro" />
       </div>

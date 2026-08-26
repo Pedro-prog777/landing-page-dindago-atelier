@@ -1,6 +1,7 @@
 import { Reveal } from './ui/Reveal';
 import { Button } from './ui/Button';
 import { Caderno, Numeral } from './ui/Catalogo';
+import { Cacto } from './ui/Decorations';
 import { buildWhatsAppUrl } from '../config/site';
 import { clientData } from '../data/clientData';
 
@@ -21,9 +22,14 @@ export function OrdersSection() {
     <section
       id="encomendas"
       aria-labelledby="encomendas-titulo"
-      className="grao bg-papel pt-16 sm:pt-20 lg:pt-24"
+      className="grao relative overflow-hidden bg-papel pt-16 sm:pt-20 lg:pt-24"
     >
-      <div className="px-4 sm:px-6 lg:px-10">
+      <Cacto
+        className="pointer-events-none absolute top-28 left-1 hidden w-12 text-cacto/25 lg:block"
+        aria-hidden="true"
+      />
+
+      <div className="relative px-4 sm:px-6 lg:px-10">
         <Caderno numero={orders.numero} titulo={orders.eyebrow} nota="Quatro tempos" />
 
         <div className="grid gap-8 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">

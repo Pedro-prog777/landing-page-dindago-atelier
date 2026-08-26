@@ -4,6 +4,7 @@ import { ProductDialog } from './ProductDialog';
 import { Reveal } from './ui/Reveal';
 import { LinkEditorial } from './ui/Button';
 import { Caderno } from './ui/Catalogo';
+import { Arabesco } from './ui/Decorations';
 import { clientData, type Produto } from '../data/clientData';
 
 /**
@@ -40,7 +41,11 @@ export function FeaturedPieces() {
 
         <div className="grid gap-8 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">
           <Reveal className="lg:col-span-7">
-            <h2 id="pecas-titulo" className="text-[clamp(2.2rem,6vw,4.75rem)]">
+            <h2
+              id="pecas-titulo"
+              className="flex flex-wrap items-center gap-5 text-[clamp(2.2rem,6vw,4.75rem)]"
+            >
+              <Arabesco className="hidden w-14 shrink-0 text-ocre/60 sm:block" />
               {productsSection.title}
             </h2>
           </Reveal>

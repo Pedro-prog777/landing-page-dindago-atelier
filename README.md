@@ -180,7 +180,8 @@ tipo; não há ícone folclórico espalhado nem card com sombra.
 | **Sem caixa central** | As seções vão de margem a margem; algumas pranchas sangram até a borda. |
 | **Grade de impressão visível** | Fios finíssimos marcam as colunas, como a diagramação de uma revista. |
 | **Numeração de caderno** | Cada seção abre com `NN — Nome`, e as pranchas levam `fig. NN`. |
-| **Um só ornamento** | A banda de xilogravura. Sol, cacto e pássaro foram removidos. |
+| **Desenhos com critério** | Sol, cactos, pássaros e flor em traço fino ocupam margens e quinas — nunca competem com o texto. |
+| **Papel rasgado** | A transição entre a capa e o caderno seguinte, como na identidade aprovada. |
 
 ### Cadernos
 
@@ -200,12 +201,12 @@ tipo; não há ícone folclórico espalhado nem card com sombra.
 
 Tudo vem de tokens em `src/index.css` (bloco `@theme`):
 
-- **Papel** — `papel`, `papel-claro`, `papel-escuro`: o branco é levemente frio,
-  para o ocre e o tijolo saltarem.
+- **Papel** — `papel`, `papel-claro`, `papel-escuro`: creme quente, como o da
+  referência impressa.
 - **Terra** — `areia`, `barro`, `ocre`, `ambar`.
 - **Fogo** — `tijolo`, `tijolo-claro`: o vermelho-tijolo é o acento da marca.
-- **Tinta** — `tinta`, `tinta-media`, `tinta-suave`: superfície escura dominante,
-  não apenas cor de texto.
+- **Tinta** — `tinta`, `tinta-media`, `tinta-suave`: marrom quente de barro
+  queimado, nunca preto. É superfície, não só cor de texto.
 - **Cacto** — verde em doses mínimas.
 
 **Tipografia:** Instrument Serif (display, alto contraste) + Archivo (texto).
@@ -219,6 +220,8 @@ rede. Em superfícies escuras, `.grao-claro` inverte a mistura.
 | Arquivo | Papel |
 | --- | --- |
 | `ui/Catalogo.tsx` | `Fio`, `Caderno`, `Numeral`, `Xilogravura` |
+| `ui/Decorations.tsx` | `Sol`, `Cacto`, `Passaros`, `Flor`, `PapelRasgado`, `Arabesco` |
+| `ui/iconMap.ts` | liga o campo `icon` do clientData ao desenho |
 | `ui/SmartImage.tsx` | prancha de catálogo (ver abaixo) |
 | `ui/Button.tsx` | `Button` (bloco chapado) e `LinkEditorial` (etiqueta + fio) |
 | `ui/SectionHeading.tsx` | abertura de caderno |

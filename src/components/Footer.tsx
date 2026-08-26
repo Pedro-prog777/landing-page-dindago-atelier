@@ -2,6 +2,7 @@ import { buildMailtoUrl, buildWhatsAppUrl, isConfigured, siteConfig } from '../c
 import { clientData } from '../data/clientData';
 import { Logo } from './Logo';
 import { Fio, Xilogravura } from './ui/Catalogo';
+import { Cacto, Flor, Passaro } from './ui/Decorations';
 import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
 
 /**
@@ -47,10 +48,23 @@ export function Footer() {
   ].filter((r) => r.href);
 
   return (
-    <footer id="rodape" className="grao grao-claro bg-tinta text-papel">
+    <footer
+      id="rodape"
+      className="grao grao-claro relative overflow-hidden bg-tinta-media text-papel"
+    >
       <Xilogravura className="w-full text-tijolo" altura={12} />
 
-      <div className="px-4 pt-14 pb-8 sm:px-6 lg:px-10 lg:pt-20">
+      {/*
+        Sertão no colofão. Os desenhos ficam na faixa vazia entre as colunas e
+        o fio de fechamento — nunca sobre texto ou link.
+      */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden lg:block">
+        <Cacto className="absolute right-10 bottom-28 w-20 text-ambar/22" />
+        <Flor className="absolute right-32 bottom-24 w-14 text-tijolo-claro/30" />
+        <Passaro className="absolute top-32 right-[38%] w-16 text-ambar/18" />
+      </div>
+
+      <div className="relative px-4 pt-14 pb-8 sm:px-6 lg:px-10 lg:pt-20">
         {/* Marca em corpo grande */}
         <div className="grid gap-10 pb-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-6">

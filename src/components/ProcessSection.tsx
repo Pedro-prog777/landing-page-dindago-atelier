@@ -1,6 +1,7 @@
 import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
 import { Caderno, Fio, Numeral } from './ui/Catalogo';
+import { Cacto } from './ui/Decorations';
 import { clientData } from '../data/clientData';
 
 /**
@@ -17,9 +18,14 @@ export function ProcessSection() {
     <section
       id="processo"
       aria-labelledby="processo-titulo"
-      className="grao bg-papel py-16 sm:py-20 lg:py-24"
+      className="grao relative overflow-hidden bg-papel py-16 sm:py-20 lg:py-24"
     >
-      <div className="px-4 sm:px-6 lg:px-10">
+      <Cacto
+        className="pointer-events-none absolute top-1/3 right-2 hidden w-14 text-cacto/25 lg:block"
+        aria-hidden="true"
+      />
+
+      <div className="relative px-4 sm:px-6 lg:px-10">
         <Caderno numero={process.numero} titulo={process.eyebrow} nota="Técnica milenar" />
 
         <div className="grid gap-10 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">
@@ -97,7 +103,7 @@ export function ProcessSection() {
       </div>
 
       {/* MATERIAIS — faixa de tinta, em sangria */}
-      <Reveal delay={100} className="grao grao-claro mt-16 bg-tinta lg:mt-20">
+      <Reveal delay={100} className="grao grao-claro mt-16 bg-tinta-media lg:mt-20">
         <div className="grid gap-8 px-4 py-12 sm:px-6 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-10 lg:py-14">
           <div className="lg:col-span-4">
             <p className="etiqueta text-ambar">{process.materialsTitle}</p>
