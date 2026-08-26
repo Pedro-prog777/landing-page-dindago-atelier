@@ -95,9 +95,17 @@ export const clientData = {
   // HERO
   // --------------------------------------------------------------------------
   hero: {
-    /** O título é quebrado em duas partes: a segunda recebe cor de destaque. */
-    title: 'Arte que nasce da memória, da cultura e das',
+    /**
+     * O título é composto em três partes para o tratamento editorial:
+     * `titleLead` sai em corpo gigante (funciona quase como elemento gráfico),
+     * `titleRest` segue em manchete e `titleHighlight` recebe a cor de destaque.
+     * Juntas formam a frase completa lida por leitores de tela e pelo Google.
+     */
+    titleLead: 'Arte',
+    titleRest: 'que nasce da memória, da cultura e das',
     titleHighlight: 'mãos.',
+    /** Texto do selo artesanal que gira no canto da composição. */
+    seal: 'peça única · feito à mão · papel-machê · ',
     subtitle:
       'Peças artesanais que carregam a identidade e a beleza do Nordeste brasileiro.',
     image: '/images/hero/peca-principal.jpg',

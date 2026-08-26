@@ -1,11 +1,20 @@
-import { ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowDown, ArrowRight, MessageCircle } from 'lucide-react';
 import { Button } from './ui/Button';
 import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
 import { Birds, Cactus, SunRays, TornEdge } from './ui/Decorations';
+import { Seal } from './ui/Seal';
 import { clientData } from '../data/clientData';
 import { resolveCtaHref } from '../config/site';
 
+/**
+ * Hero editorial e assimétrico.
+ *
+ * A composição não é de colunas: a palavra "Arte" entra em corpo gigante e
+ * funciona quase como elemento gráfico, o restante da frase desce em manchete
+ * e o espaço da fotografia sobe por cima da tipografia, escapando da margem
+ * direita. Selo artesanal, indicador de rolagem e desenhos completam a página.
+ */
 export function Hero() {
   const { hero } = clientData;
   const hrefPrimario = resolveCtaHref(hero.primaryCta.href);
@@ -19,97 +28,132 @@ export function Hero() {
     <section
       id="inicio"
       aria-labelledby="hero-titulo"
-      className="relative overflow-hidden bg-linear-to-b from-areia via-areia to-bege/70 pt-28 pb-0 sm:pt-32 lg:pt-40"
+      className="grao relative overflow-hidden bg-linear-to-b from-areia via-areia to-bege/60 pt-24 sm:pt-28 lg:pt-32"
     >
-      {/* Camadas decorativas — sol, pássaros, cactos e brilhos de fundo */}
+      {/* Desenhos e brilhos — nunca competem com o conteúdo */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 -right-24 size-104 rounded-full bg-bege/70 blur-3xl" />
-        <div className="absolute -bottom-32 -left-20 size-88 rounded-full bg-ocre/10 blur-3xl" />
-        <SunRays className="absolute top-24 left-4 w-16 text-ocre/70 sm:top-28 sm:left-10 sm:w-20 lg:left-16 lg:w-24" />
-        <Birds className="absolute top-32 right-8 w-16 text-barro/40 sm:right-24 sm:w-20 lg:right-1/3 lg:w-24" />
-        <Cactus className="absolute bottom-24 left-2 w-10 text-verde/50 sm:w-14 lg:bottom-32 lg:w-16" />
-        <Cactus className="absolute right-3 bottom-16 hidden w-8 text-verde/35 lg:block" />
+        <div className="absolute -top-32 right-1/4 size-104 rounded-full bg-ocre/12 blur-3xl" />
+        <div className="absolute -bottom-40 -left-24 size-88 rounded-full bg-terracota/8 blur-3xl" />
+        <SunRays className="absolute top-20 left-3 w-14 text-ocre/60 sm:left-8 sm:w-20 lg:top-16 lg:left-14 lg:w-28" />
+        <Birds className="absolute top-44 right-6 w-16 text-barro/30 sm:w-20 lg:top-36 lg:right-[42%] lg:w-24" />
+        <Cactus className="absolute bottom-40 left-1 w-9 text-verde/40 sm:w-12 lg:bottom-52 lg:w-14" />
       </div>
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-4 pb-16 sm:px-6 lg:flex-row lg:gap-16 lg:px-8 lg:pb-24">
-        {/* Texto — segundo no mobile, primeiro no desktop */}
-        <div className="order-2 w-full max-w-2xl lg:order-1 lg:w-[52%]">
-          <Reveal>
-            <p className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-terracota/25 bg-creme/70 px-4 py-2 font-sans text-[0.65rem] font-semibold tracking-[0.24em] text-terracota uppercase">
-              {clientData.company.segment}
-            </p>
-          </Reveal>
+      <div className="relative mx-auto max-w-368 px-4 sm:px-6 lg:px-10">
+        {/* Linha editorial de abertura */}
+        <Reveal className="flex items-center justify-between gap-6 border-b border-marrom/12 pb-5">
+          <p className="font-sans text-[0.6rem] font-semibold tracking-[0.3em] text-terracota uppercase sm:text-[0.68rem]">
+            {clientData.company.segment}
+          </p>
+          <p className="hidden font-sans text-[0.6rem] tracking-[0.3em] text-marrom-claro/60 uppercase sm:block">
+            Est. Nordeste · Brasil
+          </p>
+        </Reveal>
 
-          <Reveal delay={80}>
-            <h1
-              id="hero-titulo"
-              className="font-display text-[2.1rem] leading-[1.08] font-light text-marrom sm:text-5xl lg:text-[3.6rem]"
-            >
-              {hero.title}{' '}
-              <em className="font-normal text-terracota not-italic">{hero.titleHighlight}</em>
+        {/*
+          Grade assimétrica: a tipografia ocupa as 7 primeiras colunas e o
+          espaço da imagem entra a partir da coluna 6, criando a sobreposição.
+        */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 lg:gap-x-6">
+          {/* TIPOGRAFIA */}
+          <div className="relative z-20 pt-10 lg:col-span-7 lg:col-start-1 lg:row-start-1 lg:pt-16">
+            <h1 id="hero-titulo" className="font-display text-marrom">
+              <span className="block text-[clamp(4.5rem,17vw,11rem)] leading-[0.8] font-light tracking-[-0.03em]">
+                {hero.titleLead}
+              </span>
+              <span className="mt-3 block max-w-[15ch] text-[clamp(1.6rem,4.6vw,3.1rem)] leading-[1.05] font-light lg:mt-5">
+                {hero.titleRest}{' '}
+                <em className="font-normal text-terracota not-italic">{hero.titleHighlight}</em>
+              </span>
             </h1>
+          </div>
+
+          {/*
+            ESPAÇO DA FOTOGRAFIA
+            Sobe sobre a tipografia no desktop e sangra na margem direita.
+            A proporção 4/5 é a mesma da foto definitiva — ao trocar o
+            arquivo, nada se desloca.
+          */}
+          <Reveal
+            delay={120}
+            className="relative z-10 mt-10 lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:-mr-10 lg:pt-20 xl:-mr-14"
+          >
+            <figure className="group relative mx-auto max-w-sm lg:max-w-none">
+              <div className="relative overflow-hidden rounded-t-[14rem] rounded-b-3xl bg-bege shadow-[0_40px_80px_-40px_rgba(67,41,29,0.55)]">
+                <SmartImage
+                  src={hero.image}
+                  alt={hero.imageAlt}
+                  placeholderLabel="Imagem principal"
+                  loading="eager"
+                  className="aspect-4/5 w-full transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]"
+                />
+              </div>
+
+              {/* Selo artesanal sobreposto na quina */}
+              <Seal
+                texto={hero.seal}
+                className="absolute -bottom-8 -left-6 z-20 sm:-left-10 lg:-bottom-10 lg:-left-14"
+              />
+            </figure>
           </Reveal>
 
-          <Reveal delay={160}>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-marrom-claro sm:text-lg">
-              {hero.subtitle}
-            </p>
-          </Reveal>
+          {/* APOIO — desce abaixo da tipografia, alinhado à esquerda */}
+          <div className="relative z-20 mt-16 lg:col-span-6 lg:col-start-1 lg:row-start-2 lg:mt-10">
+            <Reveal delay={160}>
+              <p className="max-w-md text-base leading-relaxed text-marrom-claro sm:text-lg">
+                {hero.subtitle}
+              </p>
+            </Reveal>
 
-          <Reveal delay={240}>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Button href={hrefPrimario} size="lg">
-                {hero.primaryCta.label}
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </Button>
-              <Button href={hrefSecundario} variant="outline" size="lg">
-                <MessageCircle className="size-4" aria-hidden="true" />
-                {secundarioExterno ? hero.secondaryCta.label : 'Fale com o atelier'}
-              </Button>
-            </div>
-          </Reveal>
+            <Reveal delay={220}>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Button href={hrefPrimario} size="lg">
+                  {hero.primaryCta.label}
+                  <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Button>
+                <Button href={hrefSecundario} variant="outline" size="lg">
+                  <MessageCircle className="size-4" aria-hidden="true" />
+                  {secundarioExterno ? hero.secondaryCta.label : 'Fale com o atelier'}
+                </Button>
+              </div>
+            </Reveal>
 
-          <Reveal delay={320}>
-            <dl className="mt-12 grid max-w-lg grid-cols-2 gap-x-6 gap-y-6 border-t border-marrom/10 pt-8 sm:grid-cols-3">
-              {hero.highlights.map((item) => (
-                <div key={item.label}>
-                  <dt className="font-display text-xl font-normal text-terracota sm:text-2xl">
-                    {item.value}
-                  </dt>
-                  <dd className="mt-1 font-sans text-[0.72rem] leading-snug tracking-[0.14em] text-marrom-claro uppercase">
-                    {item.label}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
+            {/* Números editoriais, separados por fios verticais */}
+            <Reveal delay={280}>
+              <dl className="mt-14 flex flex-wrap gap-x-10 gap-y-6">
+                {hero.highlights.map((item, indice) => (
+                  <div
+                    key={item.label}
+                    className={indice > 0 ? 'border-l border-marrom/15 pl-10' : ''}
+                  >
+                    <dt className="font-display text-2xl leading-none font-light text-terracota sm:text-3xl">
+                      {item.value}
+                    </dt>
+                    <dd className="mt-2 font-sans text-[0.62rem] tracking-[0.22em] text-marrom-claro/80 uppercase">
+                      {item.label}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
+          </div>
         </div>
 
-        {/* Imagem — primeira no mobile */}
-        <Reveal className="order-1 w-full lg:order-2 lg:w-[48%]" delay={120}>
-          <figure className="relative mx-auto max-w-md lg:max-w-none">
-            <div
-              aria-hidden="true"
-              className="absolute -top-4 -left-4 h-full w-full rounded-4xl border border-terracota/30 sm:-top-5 sm:-left-5"
-            />
-            <div className="relative overflow-hidden rounded-4xl bg-bege shadow-[0_30px_60px_-32px_rgba(67,41,29,0.6)]">
-              <SmartImage
-                src={hero.image}
-                alt={hero.imageAlt}
-                placeholderLabel="Fotografia da peça"
-                loading="eager"
-                className="aspect-4/5 w-full"
-              />
-            </div>
-            <figcaption className="mt-5 flex items-center gap-3 font-sans text-xs tracking-[0.12em] text-barro uppercase lg:absolute lg:-bottom-7 lg:left-8 lg:mt-0 lg:rounded-full lg:bg-creme lg:px-5 lg:py-3 lg:shadow-lg">
-              <span className="h-px w-6 bg-terracota lg:hidden" aria-hidden="true" />
-              Do papel à arte, peça por peça
-            </figcaption>
-          </figure>
-        </Reveal>
+        {/* Indicador de rolagem, na vertical */}
+        <div className="hidden justify-end pt-10 pb-6 lg:flex">
+          <a
+            href="#processo"
+            className="group inline-flex items-center gap-3 font-sans text-[0.6rem] tracking-[0.3em] text-marrom-claro/70 uppercase transition-colors hover:text-terracota"
+          >
+            Explorar
+            <span className="flex size-9 items-center justify-center rounded-full border border-marrom/20 transition-all duration-300 group-hover:border-terracota group-hover:bg-terracota group-hover:text-creme">
+              <ArrowDown className="size-3.5" aria-hidden="true" />
+            </span>
+          </a>
+        </div>
       </div>
 
-      {/* Transição de papel rasgado para a seção seguinte */}
+      <div className="h-10 lg:h-4" />
       <TornEdge posicao="bottom" className="relative text-creme" />
     </section>
   );

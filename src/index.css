@@ -20,10 +20,25 @@
   --color-verde: #5c6b4e;
   --color-tinta: #3a2418;
 
+  /* Escala editorial — títulos oversized participam da composição */
+  --text-editorial: clamp(2.75rem, 11vw, 9rem);
+  --text-editorial--line-height: 0.86;
+  --text-manchete: clamp(2rem, 6vw, 4.5rem);
+  --text-manchete--line-height: 0.95;
+
+  --radius-organico: 62% 38% 54% 46% / 48% 56% 44% 52%;
+
   --font-display: 'Fraunces', 'Georgia', 'Times New Roman', serif;
   --font-sans: 'Karla', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-girar: girar 26s linear infinite;
+
+  @keyframes girar {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 
   @keyframes fade-up {
     from {
@@ -90,6 +105,39 @@
 }
 
 @layer components {
+  /*
+   * Granulado de papel: ruído gerado por SVG (feTurbulence), sem requisição
+   * de rede. Fica em ::after com opacidade baixíssima — dá materialidade sem
+   * pesar na leitura.
+   */
+  .grao::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.32;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23r)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  /* Fio fino usado como respiro entre blocos editoriais */
+  .fio-editorial {
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      var(--color-bege-escuro) 18%,
+      var(--color-bege-escuro) 82%,
+      transparent
+    );
+    height: 1px;
+  }
+
+  /* Texto na vertical, para legendas laterais */
+  .texto-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
   /* Textura sutil de papel aplicada em fundos claros */
   .textura-papel {
     background-image:

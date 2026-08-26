@@ -18,6 +18,7 @@ sustentabilidade, trabalho manual e identidade nordestina.
 - [Instalação](#instalação)
 - [Como executar](#como-executar)
 - [Estrutura do projeto](#estrutura-do-projeto)
+- [Direção de design](#direção-de-design)
 - [Configuração do cliente](#configuração-do-cliente)
 - [Imagens](#imagens)
 - [Variáveis de ambiente](#variáveis-de-ambiente)
@@ -164,6 +165,53 @@ landing-page-dindago-atelier/
 `src/components/` e adicione-o em `src/App.tsx`.
 
 ---
+
+## Direção de design
+
+A página é **editorial e assimétrica**: cada seção tem composição própria, e
+nenhuma repete o padrão "título + texto + cards".
+
+| Seção | Composição |
+| --- | --- |
+| Hero | Palavra em corpo gigante + espaço de imagem em arco sangrando na margem |
+| Diferenciais | Bento Grid assimétrico (2×2, 1×1, 2×1, 3×1) com tratamento por bloco |
+| Processo | Etapas espalhadas em alturas diferentes, número grande sob a palavra |
+| Peças | Bloco de destaque + dois quadrados + faixa horizontal |
+| Sobre o atelier | Fundo escuro, manifesto tipográfico + lista de fios finos |
+| Encomendas | Faixas de largura inteira com indentação em escada |
+
+### Sistema visual
+
+Tudo vem de tokens em `src/index.css` (bloco `@theme`):
+
+- **Cores** — creme, areia, bege, kraft, ocre, âmbar, terracota, barro, marrom
+  e verde cacto. Ligadas a `clientData.colors` (ver abaixo).
+- **Tipografia** — Fraunces (serifada, títulos) + Karla (sans, textos).
+  Títulos usam `clamp()` para escalar sem quebrar no mobile.
+- **Textura** — `.grao` aplica granulado de papel gerado por SVG, sem rede.
+- **Fios** — `.fio-editorial` separa blocos sem virar borda de card.
+- **Movimento** — `Reveal` revela no scroll; tudo respeita
+  `prefers-reduced-motion`.
+
+### Componentes visuais reutilizáveis
+
+| Componente | Papel |
+| --- | --- |
+| `ui/Decorations.tsx` | sol, cactos, pássaros, flor, ornamentos, borda rasgada |
+| `ui/Seal.tsx` | selo artesanal giratório |
+| `ui/SmartImage.tsx` | espaço reservado de imagem (ver abaixo) |
+| `ui/Reveal.tsx` | animação de entrada no scroll |
+| `ui/Button.tsx` | botões nas três variantes |
+
+### Espaços de imagem
+
+**Nenhuma fotografia fictícia foi usada.** Onde entram imagens reais existe um
+espaço reservado com hachura diagonal, marcas de registro nos cantos e o
+rótulo `[ NOME DO ESPAÇO ]`.
+
+Cada espaço já tem a **proporção, posição, sobreposição e o efeito de hover**
+da fotografia definitiva. Ao colocar o arquivo real em `public/images/`, ele
+ocupa exatamente aquele lugar — nada se desloca.
 
 ## Configuração do cliente
 
