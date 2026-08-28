@@ -7,7 +7,8 @@ import { defineConfig } from 'prisma/config';
  *
  * A partir do Prisma 7 a URL de conexão sai do schema e vem para cá. O cliente
  * em tempo de execução usa o adapter definido em `src/db.ts` — os dois leem a
- * mesma DATABASE_URL do .env.
+ * mesma DATABASE_URL do .env. Sem valor padrão de propósito: é melhor a CLI
+ * falhar dizendo que falta configuração do que conectar num banco inesperado.
  */
 export default defineConfig({
   schema: path.join('prisma', 'schema.prisma'),
@@ -15,6 +16,6 @@ export default defineConfig({
     seed: 'tsx prisma/seed.ts',
   },
   datasource: {
-    url: process.env.DATABASE_URL ?? 'file:./dev.db',
+    url: process.env.DATABASE_URL ?? '',
   },
 });
