@@ -1,8 +1,8 @@
+import { useSite } from '../conteudo/useSite';
 import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
 import { Caderno, Fio, Numeral } from './ui/Catalogo';
 import { Cacto } from './ui/Decorations';
-import { clientData } from '../data/clientData';
 
 /**
  * Caderno do artesanato — ensaio impresso.
@@ -12,6 +12,7 @@ import { clientData } from '../data/clientData';
  * fios verticais, e os materiais fecham a seção sobre tinta chapada.
  */
 export function ProcessSection() {
+  const { conteudo: clientData } = useSite();
   const { process } = clientData;
 
   return (

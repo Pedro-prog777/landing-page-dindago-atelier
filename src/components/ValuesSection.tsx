@@ -1,8 +1,8 @@
+import { useSite } from '../conteudo/useSite';
 import { Reveal } from './ui/Reveal';
 import { Caderno, Numeral, Xilogravura } from './ui/Catalogo';
 import { iconesAtelier, type NomeIcone } from './ui/iconMap';
 import { LinkEditorial } from './ui/Button';
-import { clientData } from '../data/clientData';
 
 /**
  * Diferenciais em bento assimétrico.
@@ -62,6 +62,7 @@ const superficies = [
 ];
 
 export function ValuesSection() {
+  const { conteudo: clientData } = useSite();
   const { benefits, benefitsSection } = clientData;
 
   return (

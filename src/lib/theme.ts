@@ -1,35 +1,31 @@
-import { clientData } from '../data/clientData';
+import type { ConteudoDoSite } from '../conteudo/mesclar';
 
 /**
  * ============================================================================
- * TEMA DINÂMICO
+ * TEMA E SEO DINÂMICOS
  * ----------------------------------------------------------------------------
- * Liga `clientData.colors` às variáveis CSS que o Tailwind já usa em todas as
- * classes (`bg-ocre`, `text-terracota`, ...). Trocar as quatro cores do
- * clientData repinta a página inteira — sem editar CSS nem componente algum.
- *
- * Os valores padrão continuam no `src/index.css`; aqui apenas sobrescrevemos
- * quando o cliente define uma cor própria.
+ * Liga as cores e o SEO do conteúdo às variáveis CSS e às metatags. Como o
+ * conteúdo agora vem da API, isto roda de novo sempre que ele muda — trocar a
+ * paleta no painel repinta o site sem recarregar a página.
  * ============================================================================
  */
 
-/** Cor do clientData → variável CSS correspondente da paleta. */
-const mapaDeCores: Record<keyof typeof clientData.colors, string> = {
+/** Cor do conteúdo → variável CSS correspondente da paleta. */
+const mapaDeCores = {
   primary: '--color-ocre',
-  secondary: '--color-terracota',
-  accent: '--color-amarelo',
-  background: '--color-creme',
-};
+  secondary: '--color-tijolo',
+  accent: '--color-ambar',
+  background: '--color-papel',
+} as const;
 
 const COR_VALIDA = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i;
 
-export function applyTheme(): void {
+export function aplicarTema(conteudo: ConteudoDoSite): void {
   if (typeof document === 'undefined') return;
-
   const raiz = document.documentElement;
 
   for (const [chave, variavel] of Object.entries(mapaDeCores)) {
-    const cor = clientData.colors[chave as keyof typeof clientData.colors];
+    const cor = conteudo.colors[chave as keyof typeof mapaDeCores];
     // Ignora valores vazios ou malformados para não quebrar a paleta padrão.
     if (typeof cor === 'string' && COR_VALIDA.test(cor.trim())) {
       raiz.style.setProperty(variavel, cor.trim());
@@ -38,26 +34,24 @@ export function applyTheme(): void {
 }
 
 /**
- * Sincroniza título e metatags com `clientData.seo`.
+ * Sincroniza título e metatags.
  *
  * O `index.html` continua trazendo os mesmos valores escritos à mão — é o que
- * os robôs de busca leem antes do JavaScript rodar. Esta função garante que,
- * ao trocar de cliente, a aba do navegador e o compartilhamento acompanhem o
- * clientData mesmo que alguém esqueça de atualizar o HTML.
+ * os robôs de busca leem antes do JavaScript rodar.
  */
-export function applySeo(): void {
+export function aplicarSeo(conteudo: ConteudoDoSite): void {
   if (typeof document === 'undefined') return;
 
-  const { title, description, url, ogImage } = clientData.seo;
-  document.title = title;
+  const { title, description, url, ogImage } = conteudo.seo;
+  if (title) document.title = title;
 
-  const metas: Array<[string, string, string]> = [
+  const metas: Array<[string, string, string | undefined]> = [
     ['name', 'description', description],
     ['property', 'og:title', title],
     ['property', 'og:description', description],
     ['property', 'og:url', url],
     ['property', 'og:image', ogImage],
-    ['property', 'og:site_name', clientData.company.name],
+    ['property', 'og:site_name', conteudo.company.name],
     ['name', 'twitter:title', title],
     ['name', 'twitter:description', description],
     ['name', 'twitter:image', ogImage],

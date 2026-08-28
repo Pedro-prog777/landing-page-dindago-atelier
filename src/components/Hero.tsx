@@ -1,10 +1,9 @@
+import { useSite } from '../conteudo/useSite';
 import { Button, LinkEditorial } from './ui/Button';
 import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
 import { Fio, Xilogravura } from './ui/Catalogo';
 import { PapelRasgado, Passaros, Sol } from './ui/Decorations';
-import { clientData } from '../data/clientData';
-import { resolveCtaHref } from '../config/site';
 
 /**
  * Capa do catálogo.
@@ -15,6 +14,7 @@ import { resolveCtaHref } from '../config/site';
  * publicação impressa. A grade de colunas aparece em fio finíssimo ao fundo.
  */
 export function Hero() {
+  const { conteudo: clientData, resolveCtaHref } = useSite();
   const { hero, company } = clientData;
   const hrefPrimario = resolveCtaHref(hero.primaryCta.href);
   const hrefSecundario = resolveCtaHref(

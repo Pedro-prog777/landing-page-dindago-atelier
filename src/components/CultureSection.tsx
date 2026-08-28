@@ -1,8 +1,8 @@
+import { useSite } from '../conteudo/useSite';
 import { Reveal } from './ui/Reveal';
 import { LinkEditorial } from './ui/Button';
 import { Fio, Xilogravura } from './ui/Catalogo';
 import { iconesAtelier, type NomeIcone } from './ui/iconMap';
-import { clientData } from '../data/clientData';
 
 /**
  * Caderno escuro — o ponto de virada da leitura.
@@ -13,6 +13,7 @@ import { clientData } from '../data/clientData';
  * como marca de leitura.
  */
 export function CultureSection() {
+  const { conteudo: clientData } = useSite();
   const { about, culture, cultureSection } = clientData;
 
   return (

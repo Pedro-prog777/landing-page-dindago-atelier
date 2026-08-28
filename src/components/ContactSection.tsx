@@ -1,9 +1,12 @@
+import { useSite } from '../conteudo/useSite';
+
+/** Cliente servido por esta instalação — o mesmo usado pelo provider. */
+const SLUG = import.meta.env.VITE_CLIENT_SLUG ?? 'dindago-atelier';
 import { useRef, useState, type FormEvent } from 'react';
+import { api, ErroDaApi } from '../api/cliente';
 import { Mail, MessageCircle, Send } from 'lucide-react';
 import { InstagramIcon } from './ui/BrandIcons';
-import { buildMailtoUrl, buildWhatsAppUrl, isConfigured, siteConfig } from '../config/site';
 import { Reveal } from './ui/Reveal';
-import { clientData } from '../data/clientData';
 import { SectionHeading } from './ui/SectionHeading';
 
 type Campos = {
@@ -12,19 +15,16 @@ type Campos = {
   whatsapp: string;
   assunto: string;
   mensagem: string;
+  /** Armadilha anti-robô: invisível para pessoas, sempre vazio. */
+  website: string;
 };
 
 type Erros = Partial<Record<keyof Campos, string>>;
 
-const assuntos = clientData.contact.subjects;
-
-const valoresIniciais: Campos = {
-  nome: '',
-  email: '',
-  whatsapp: '',
-  assunto: assuntos[0],
-  mensagem: '',
-};
+/** O assunto inicial vem do conteúdo, então é montado dentro do componente. */
+function valoresIniciaisCom(assunto: string): Campos {
+  return { nome: '', email: '', whatsapp: '', assunto, mensagem: '', website: '' };
+}
 
 function validar(campos: Campos): Erros {
   const erros: Erros = {};
@@ -53,9 +53,17 @@ const estiloCampo =
   'w-full border border-tinta/20 bg-papel-claro px-4 py-3.5 font-sans text-[0.95rem] text-tinta transition placeholder:text-tinta/35 focus:border-tijolo focus:outline-none';
 
 export function ContactSection() {
-  const [campos, setCampos] = useState<Campos>(valoresIniciais);
+  const {
+    conteudo: clientData,
+    buildMailtoUrl,
+    buildWhatsAppUrl,
+    isConfigured,
+    siteConfig,
+  } = useSite();
+  const assuntos = clientData.contact.subjects;
+  const [campos, setCampos] = useState<Campos>(() => valoresIniciaisCom(assuntos[0]));
   const [erros, setErros] = useState<Erros>({});
-  const [enviado, setEnviado] = useState(false);
+  const [envio, setEnvio] = useState<'parado' | 'enviando' | 'enviado' | 'falhou'>('parado');
   const formRef = useRef<HTMLFormElement>(null);
 
   const whatsappConfigurado = isConfigured(siteConfig.whatsapp);
@@ -65,10 +73,10 @@ export function ContactSection() {
   function atualizar(campo: keyof Campos, valor: string) {
     setCampos((anterior) => ({ ...anterior, [campo]: valor }));
     setErros((anterior) => ({ ...anterior, [campo]: undefined }));
-    setEnviado(false);
+    if (envio !== 'enviando') setEnvio('parado');
   }
 
-  function aoEnviar(evento: FormEvent<HTMLFormElement>) {
+  async function aoEnviar(evento: FormEvent<HTMLFormElement>) {
     evento.preventDefault();
 
     const novosErros = validar(campos);
@@ -80,32 +88,73 @@ export function ContactSection() {
       return;
     }
 
-    const texto = [
-      `Contato pelo site do ${siteConfig.name}`,
-      '',
-      `Nome: ${campos.nome.trim()}`,
-      `E-mail: ${campos.email.trim()}`,
-      campos.whatsapp.trim() ? `WhatsApp: ${campos.whatsapp.trim()}` : null,
-      `Assunto: ${campos.assunto}`,
-      '',
-      campos.mensagem.trim(),
-    ]
-      .filter((linha) => linha !== null)
-      .join('\n');
+    setEnvio('enviando');
 
-    // Sem back-end: a mensagem segue pelo canal já configurado no site.
-    const destino =
-      buildWhatsAppUrl(texto) ??
-      (emailConfigurado
-        ? `${buildMailtoUrl(`${campos.assunto} — site`)}&body=${encodeURIComponent(texto)}`
-        : null);
+    try {
+      await api.post(`/site/${SLUG}/contact`, {
+        name: campos.nome.trim(),
+        email: campos.email.trim(),
+        phone: campos.whatsapp.trim() || undefined,
+        subject: campos.assunto,
+        message: campos.mensagem.trim(),
+        // Campo-armadilha: fica escondido e só um robô o preenche.
+        website: campos.website,
+      });
+      setEnvio('enviado');
+      setCampos(valoresIniciaisCom(assuntos[0]));
+      return;
+    } catch (erro) {
+      if (erro instanceof ErroDaApi && erro.errors) {
+        // O servidor recusou algum campo: mostra o erro no campo certo.
+        const doServidor: Erros = {};
+        const mapa: Record<string, keyof Campos> = {
+          name: 'nome',
+          email: 'email',
+          phone: 'whatsapp',
+          subject: 'assunto',
+          message: 'mensagem',
+        };
+        for (const [campo, mensagens] of Object.entries(erro.errors)) {
+          const alvo = mapa[campo];
+          if (alvo && mensagens[0]) doServidor[alvo] = mensagens[0];
+        }
+        setErros(doServidor);
+        setEnvio('parado');
+        return;
+      }
 
-    if (destino) {
-      window.open(destino, '_blank', 'noopener,noreferrer');
+      /*
+       * API fora do ar: em vez de perder a mensagem, abre o canal direto que
+       * já estiver configurado. O visitante consegue falar com o atelier de
+       * um jeito ou de outro.
+       */
+      const texto = [
+        `Contato pelo site do ${siteConfig.name}`,
+        '',
+        `Nome: ${campos.nome.trim()}`,
+        `E-mail: ${campos.email.trim()}`,
+        campos.whatsapp.trim() ? `WhatsApp: ${campos.whatsapp.trim()}` : null,
+        `Assunto: ${campos.assunto}`,
+        '',
+        campos.mensagem.trim(),
+      ]
+        .filter((linha) => linha !== null)
+        .join('\n');
+
+      const destino =
+        buildWhatsAppUrl(texto) ??
+        (emailConfigurado
+          ? `${buildMailtoUrl(`${campos.assunto} — site`)}&body=${encodeURIComponent(texto)}`
+          : null);
+
+      if (destino) {
+        window.open(destino, '_blank', 'noopener,noreferrer');
+        setEnvio('enviado');
+        setCampos(valoresIniciaisCom(assuntos[0]));
+      } else {
+        setEnvio('falhou');
+      }
     }
-
-    setEnviado(true);
-    setCampos(valoresIniciais);
   }
 
   return (
@@ -322,7 +371,7 @@ export function ContactSection() {
                     onChange={(evento) => atualizar('assunto', evento.target.value)}
                     className={estiloCampo}
                   >
-                    {assuntos.map((assunto) => (
+                    {assuntos.map((assunto: string) => (
                       <option key={assunto} value={assunto}>
                         {assunto}
                       </option>
@@ -359,27 +408,51 @@ export function ContactSection() {
                     </p>
                   )}
                 </div>
+                {/*
+                  Armadilha anti-robô: escondida da tela e de leitores de tela,
+                  e fora da ordem de tabulação. Só um preenchimento automático
+                  chega aqui.
+                */}
+                <div aria-hidden="true" className="hidden">
+                  <label htmlFor="website">Não preencha este campo</label>
+                  <input
+                    id="website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={campos.website}
+                    onChange={(evento) => atualizar('website', evento.target.value)}
+                  />
+                </div>
               </div>
 
               <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="submit"
+                  disabled={envio === 'enviando'}
                   className="inline-flex min-h-13 items-center justify-center gap-2.5 bg-tijolo px-8 font-sans text-xs font-semibold tracking-[0.14em] text-papel uppercase transition hover:-translate-y-0.5 hover:bg-tinta-suave active:translate-y-0"
                 >
                   <Send className="size-4" aria-hidden="true" />
-                  Enviar mensagem
+                  {envio === 'enviando' ? 'Enviando...' : 'Enviar mensagem'}
                 </button>
                 <p className="font-sans text-xs text-tinta-suave/75">
                   <span aria-hidden="true">*</span> Campos obrigatórios
                 </p>
               </div>
 
-              <p role="status" aria-live="polite" className="mt-4 font-sans text-sm text-cacto">
-                {enviado
-                  ? whatsappConfigurado || emailConfigurado
-                    ? 'Mensagem pronta! Abrimos seu aplicativo para finalizar o envio ao atelier.'
-                    : 'Mensagem validada. Configure WhatsApp ou e-mail em src/data/clientData.ts para concluir o envio.'
-                  : ''}
+              {/* Um só ponto de retorno para o visitante, em todos os desfechos. */}
+              <p
+                role="status"
+                aria-live="polite"
+                className={`mt-4 font-sans text-sm ${
+                  envio === 'falhou' ? 'text-tijolo' : 'text-cacto'
+                }`}
+              >
+                {envio === 'enviando' && 'Enviando sua mensagem...'}
+                {envio === 'enviado' && 'Mensagem enviada. O atelier responde em breve.'}
+                {envio === 'falhou' &&
+                  'Não conseguimos enviar agora. Tente novamente em instantes ou fale pelo WhatsApp.'}
               </p>
             </form>
           </Reveal>

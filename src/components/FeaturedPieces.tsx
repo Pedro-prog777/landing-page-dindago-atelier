@@ -1,3 +1,4 @@
+import { useSite } from '../conteudo/useSite';
 import { useState } from 'react';
 import { ProductCard } from './ProductCard';
 import { ProductDialog } from './ProductDialog';
@@ -5,7 +6,7 @@ import { Reveal } from './ui/Reveal';
 import { LinkEditorial } from './ui/Button';
 import { Caderno } from './ui/Catalogo';
 import { Arabesco } from './ui/Decorations';
-import { clientData, type Produto } from '../data/clientData';
+import { type Produto } from '../data/clientData';
 
 /**
  * Caderno de coleções — espelho de catálogo.
@@ -23,6 +24,7 @@ const arranjos = [
 ];
 
 export function FeaturedPieces() {
+  const { conteudo: clientData } = useSite();
   const [pecaSelecionada, setPecaSelecionada] = useState<Produto | null>(null);
   const { productsSection, products } = clientData;
 

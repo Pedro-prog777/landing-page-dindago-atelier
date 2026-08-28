@@ -1,6 +1,6 @@
+import { useSite } from '../conteudo/useSite';
 import { useEffect, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
-import { buildWhatsAppUrl, siteConfig, WHATSAPP_DEFAULT_MESSAGE } from '../config/site';
 import { useScrollPosition } from '../hooks/useScrollPosition';
 
 /**
@@ -11,9 +11,10 @@ import { useScrollPosition } from '../hooks/useScrollPosition';
  * leva ao formulário de contato — nunca a um link inventado.
  */
 export function WhatsAppButton() {
+  const { conteudo, buildWhatsAppUrl, siteConfig } = useSite();
   const rolou = useScrollPosition(300);
   const [sobreRodape, setSobreRodape] = useState(false);
-  const whatsappUrl = buildWhatsAppUrl(WHATSAPP_DEFAULT_MESSAGE);
+  const whatsappUrl = buildWhatsAppUrl(conteudo.whatsappDefaultMessage);
 
   // No rodapé o botão sai de cena: lá os contatos já aparecem por extenso e
   // ele cobriria o link "Voltar ao topo".

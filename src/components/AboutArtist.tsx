@@ -1,5 +1,4 @@
-import { isConfigured, siteConfig } from '../config/site';
-import { clientData } from '../data/clientData';
+import { useSite } from '../conteudo/useSite';
 import { LinkEditorial } from './ui/Button';
 import { Caderno, Fio } from './ui/Catalogo';
 import { Reveal } from './ui/Reveal';
@@ -13,6 +12,7 @@ import { SmartImage } from './ui/SmartImage';
  * Os pilares fecham a página numa faixa de três colunas separada por fios.
  */
 export function AboutArtist() {
+  const { conteudo: clientData, isConfigured, siteConfig } = useSite();
   const { about } = clientData;
   const { artist } = about;
   const nomeDefinido = isConfigured(artist.name);

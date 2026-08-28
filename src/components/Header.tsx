@@ -1,9 +1,9 @@
+import { useSite } from '../conteudo/useSite';
 import { useEffect, useMemo, useState } from 'react';
 import { Menu, Search, X } from 'lucide-react';
 import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
 import { Logo } from './Logo';
 import { SearchDialog } from './SearchDialog';
-import { buildWhatsAppUrl, isConfigured, navLinks, siteConfig } from '../config/site';
 import { useActiveSection } from '../hooks/useActiveSection';
 import { useScrollPosition } from '../hooks/useScrollPosition';
 
@@ -15,11 +15,12 @@ import { useScrollPosition } from '../hooks/useScrollPosition';
  * chapado e o item ativo do menu é marcado por um fio, não por cor de fundo.
  */
 export function Header() {
+  const { buildWhatsAppUrl, isConfigured, navLinks, siteConfig } = useSite();
   const [menuAberto, setMenuAberto] = useState(false);
   const [buscaAberta, setBuscaAberta] = useState(false);
   const rolou = useScrollPosition(40);
 
-  const idsSecoes = useMemo(() => navLinks.map((link) => link.href.slice(1)), []);
+  const idsSecoes = useMemo(() => navLinks.map((link) => link.href.slice(1)), [navLinks]);
   const secaoAtiva = useActiveSection(idsSecoes);
 
   const whatsappUrl = buildWhatsAppUrl();
