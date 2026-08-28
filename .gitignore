@@ -76,3 +76,19 @@ coverage
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# ============================================================================
+# Backend
+# ============================================================================
+backend/.env
+backend/dist
+backend/uploads/*
+!backend/uploads/.gitkeep
+# O banco fica na raiz do backend (DATABASE_URL="file:./dev.db"),
+# mas cobrimos as duas possibilidades para nenhum .db escapar.
+backend/*.db
+backend/*.db-journal
+backend/*.db-wal
+backend/*.db-shm
+backend/prisma/*.db
+backend/prisma/*.db-journal
