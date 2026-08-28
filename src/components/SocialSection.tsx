@@ -1,9 +1,8 @@
+import { useSite } from '../conteudo/useSite';
 import { MessageCircle } from 'lucide-react';
 import { FacebookIcon, InstagramIcon, type IconComponent } from './ui/BrandIcons';
-import { buildWhatsAppUrl, isConfigured, siteConfig } from '../config/site';
 import { Reveal } from './ui/Reveal';
 import { SectionHeading } from './ui/SectionHeading';
-import { clientData } from '../data/clientData';
 
 type Rede = {
   nome: string;
@@ -13,6 +12,7 @@ type Rede = {
 };
 
 export function SocialSection() {
+  const { conteudo: clientData, buildWhatsAppUrl, isConfigured, siteConfig } = useSite();
   const redes: Rede[] = [
     {
       nome: 'Instagram',

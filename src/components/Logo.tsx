@@ -1,5 +1,5 @@
+import { useSite } from '../conteudo/useSite';
 import { useState } from 'react';
-import { siteConfig } from '../config/site';
 
 /**
  * ESPAÇO RESERVADO PARA A LOGO REAL.
@@ -18,6 +18,7 @@ type LogoProps = {
 };
 
 export function Logo({ tone = 'light', className = '' }: LogoProps) {
+  const { siteConfig } = useSite();
   const [semArquivo, setSemArquivo] = useState(false);
 
   const corPrincipal = tone === 'dark' ? 'text-papel' : 'text-tinta';

@@ -150,6 +150,22 @@
     );
   }
 
+  /*
+   * O painel administrativo não é a landing page: usa a fonte de interface em
+   * todos os níveis, inclusive nos títulos, que por padrão herdariam a
+   * serifada editorial.
+   */
+  .painel,
+  .painel h1,
+  .painel h2,
+  .painel h3,
+  .painel h4 {
+    font-family: var(--font-sans);
+    letter-spacing: normal;
+    line-height: 1.3;
+    color: inherit;
+  }
+
   /* Numeração e etiquetas do catálogo. */
   .etiqueta {
     font-family: var(--font-sans);

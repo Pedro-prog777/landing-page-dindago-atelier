@@ -1,24 +1,30 @@
+import { useSite } from '../conteudo/useSite';
 import { useMemo, useState } from 'react';
 import { Expand } from 'lucide-react';
-import { galleryCategories, galleryItems, type GalleryCategory } from '../data/gallery';
 import { Lightbox } from './Lightbox';
 import { Reveal } from './ui/Reveal';
 import { SectionHeading } from './ui/SectionHeading';
 import { SmartImage } from './ui/SmartImage';
-import { clientData } from '../data/clientData';
 
-type Filtro = GalleryCategory | 'Todas';
-
-const filtros: Filtro[] = ['Todas', ...galleryCategories];
+type Filtro = string;
 
 export function Gallery() {
+  const { conteudo: clientData } = useSite();
   const [filtro, setFiltro] = useState<Filtro>('Todas');
   const [indiceAberto, setIndiceAberto] = useState<number | null>(null);
+
+  const galleryItems = clientData.gallery.items;
+
+  /** As categorias saem das próprias imagens: nada de lista fixa fora de sincronia. */
+  const filtros = useMemo<Filtro[]>(
+    () => ['Todas', ...new Set(galleryItems.map((item) => item.category))],
+    [galleryItems],
+  );
 
   const itens = useMemo(
     () =>
       filtro === 'Todas' ? galleryItems : galleryItems.filter((item) => item.category === filtro),
-    [filtro],
+    [filtro, galleryItems],
   );
 
   function trocarFiltro(novo: Filtro) {

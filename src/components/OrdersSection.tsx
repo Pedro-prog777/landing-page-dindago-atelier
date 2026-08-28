@@ -1,9 +1,8 @@
+import { useSite } from '../conteudo/useSite';
 import { Reveal } from './ui/Reveal';
 import { Button } from './ui/Button';
 import { Caderno, Numeral } from './ui/Catalogo';
 import { Cacto } from './ui/Decorations';
-import { buildWhatsAppUrl } from '../config/site';
-import { clientData } from '../data/clientData';
 
 /**
  * Caderno de encomendas — quadrantes.
@@ -13,6 +12,7 @@ import { clientData } from '../data/clientData';
  * tijolo, com a tipografia em corpo de capa.
  */
 export function OrdersSection() {
+  const { conteudo: clientData, buildWhatsAppUrl } = useSite();
   const { orders } = clientData;
   const whatsappUrl = buildWhatsAppUrl(
     `Olá! Gostaria de conversar sobre uma encomenda personalizada com o ${clientData.company.name}.`,

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import type { GalleryItem } from '../data/gallery';
+import type { ItemGaleria as GalleryItem } from '../data/clientData';
 import { useModalBehavior } from '../hooks/useModalBehavior';
 import { SmartImage } from './ui/SmartImage';
 

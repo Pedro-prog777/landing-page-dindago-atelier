@@ -1,6 +1,7 @@
-import { formatPrice } from '../config/site';
+import { useSite } from '../conteudo/useSite';
 import { buildWhatsAppUrl } from '../config/site';
-import { mensagemInteresse, type Product } from '../data/products';
+import { mensagemInteresse } from '../data/products';
+import type { Produto as Product } from '../data/clientData';
 import { LinkEditorial } from './ui/Button';
 import { SmartImage } from './ui/SmartImage';
 
@@ -27,6 +28,7 @@ export function ProductCard({
   proporcao = 'aspect-4/5',
   aoVerDetalhes,
 }: ProductCardProps) {
+  const { formatPrice } = useSite();
   const whatsappUrl = buildWhatsAppUrl(mensagemInteresse(product));
 
   return (

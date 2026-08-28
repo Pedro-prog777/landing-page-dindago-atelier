@@ -1,10 +1,11 @@
+import { useSite } from '../conteudo/useSite';
 import { Clock, MapPin, Navigation } from 'lucide-react';
-import { buildMapEmbedUrl, buildMapsUrl, isConfigured, siteConfig } from '../config/site';
 import { Button } from './ui/Button';
 import { Reveal } from './ui/Reveal';
 import { SectionHeading } from './ui/SectionHeading';
 
 export function MapSection() {
+  const { buildMapEmbedUrl, buildMapsUrl, isConfigured, siteConfig } = useSite();
   const enderecoDefinido = isConfigured(siteConfig.address);
   const embedUrl = buildMapEmbedUrl();
   const mapsUrl = buildMapsUrl();

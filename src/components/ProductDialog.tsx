@@ -1,7 +1,8 @@
+import { useSite } from '../conteudo/useSite';
 import { useRef } from 'react';
 import { MessageCircle, X } from 'lucide-react';
-import { formatPrice, mensagemInteresse, type Product } from '../data/products';
-import { buildWhatsAppUrl } from '../config/site';
+import { mensagemInteresse } from '../data/products';
+import type { Produto as Product } from '../data/clientData';
 import { useModalBehavior } from '../hooks/useModalBehavior';
 import { SmartImage } from './ui/SmartImage';
 
@@ -11,6 +12,7 @@ type ProductDialogProps = {
 };
 
 export function ProductDialog({ product, aoFechar }: ProductDialogProps) {
+  const { buildWhatsAppUrl, formatPrice } = useSite();
   const painelRef = useRef<HTMLDivElement>(null);
   useModalBehavior({
     aberto: product !== null,

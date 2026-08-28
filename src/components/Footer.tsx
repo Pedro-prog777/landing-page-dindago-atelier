@@ -1,5 +1,4 @@
-import { buildMailtoUrl, buildWhatsAppUrl, isConfigured, siteConfig } from '../config/site';
-import { clientData } from '../data/clientData';
+import { useSite } from '../conteudo/useSite';
 import { Logo } from './Logo';
 import { Fio, Xilogravura } from './ui/Catalogo';
 import { Cacto, Flor, Passaro } from './ui/Decorations';
@@ -13,6 +12,13 @@ import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
  * e sem ícones em círculo: os links são texto com fio, como no resto do papel.
  */
 export function Footer() {
+  const {
+    conteudo: clientData,
+    buildMailtoUrl,
+    buildWhatsAppUrl,
+    isConfigured,
+    siteConfig,
+  } = useSite();
   const { footer } = clientData;
   const whatsappUrl = buildWhatsAppUrl();
   const mailtoUrl = buildMailtoUrl();
