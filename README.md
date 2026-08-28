@@ -1,7 +1,8 @@
-# Dindagó Atelier — Landing Page
+# Dindagó Atelier — Aplicação Full Stack
 
-Site institucional do **Dindagó Atelier**, ateliê de artesanato autoral em
-papel-machê.
+Landing page do **Dindagó Atelier** com backend, banco de dados, API e painel
+administrativo. O mesmo código serve **vários clientes**: cada um tem seus
+textos, cores, peças e contatos.
 
 A página apresenta a artista, o processo de criação das peças, a galeria de
 obras e os canais para encomendas e contato. A proposta **não é uma loja
@@ -28,6 +29,40 @@ sustentabilidade, trabalho manual e identidade nordestina.
 - [Comandos Git do dia a dia](#comandos-git-do-dia-a-dia)
 - [Problemas comuns](#problemas-comuns)
 - [Acessibilidade e responsividade](#acessibilidade-e-responsividade)
+
+---
+
+## Arquitetura
+
+```
+VISITANTE                        ADMINISTRADOR
+    |                                  |
+    v                                  v
+Landing page  (React)            Painel  /admin  (React)
+    |                                  |
+    +--------------> API <-------------+
+                  (Express)
+                      |
+                      v
+                   Prisma
+                      |
+                      v
+              Banco (SQLite / Postgres)
+```
+
+**O design nunca depende da rede.** A landing page começa a renderizar com o
+conteúdo de `src/data/clientData.ts` e substitui campo a campo quando a API
+responde. Com o backend fora do ar, o site continua idêntico — só um aviso no
+console registra o ocorrido.
+
+| Camada       | Onde                             |
+| ------------ | -------------------------------- |
+| Landing page | `src/components`, `src/conteudo` |
+| Painel       | `src/admin`                      |
+| Cliente HTTP | `src/api/cliente.ts`             |
+| API          | `backend/src/rotas`              |
+| Validação    | `backend/src/schemas`            |
+| Banco        | `backend/prisma/schema.prisma`   |
 
 ---
 
@@ -99,30 +134,161 @@ cd landing-page-dindago-atelier
 npm install
 ```
 
-Isso baixa as dependências para a pasta `node_modules/`, que **não** vai para o
-GitHub — cada pessoa gera a sua.
+Instala frontend e backend de uma vez (o backend é um workspace npm).
+
+### Configurar as variáveis de ambiente
+
+```bash
+cp .env.example .env                  # frontend
+cp backend/.env.example backend/.env  # backend
+```
+
+No `backend/.env`, troque o `JWT_SECRET` por um valor aleatório de pelo menos
+32 caracteres. Em produção:
+
+```bash
+openssl rand -base64 48
+```
+
+> Os arquivos `.env` **nunca** vão para o GitHub — estão no `.gitignore`. Só os
+> `.env.example` são versionados, e eles não têm valores reais.
+
+### Criar o banco e popular
+
+```bash
+npm run db:migrate   # cria o banco e aplica as migrations
+npm run db:seed      # popula com dados de desenvolvimento
+```
+
+O seed cria:
+
+- o cliente **dindago-atelier**, com o conteúdo real do site;
+- o cliente **atelier-demo**, só para demonstrar o multi-cliente;
+- dois usuários de **desenvolvimento** para entrar no painel.
+
+```
+OWNER    admin@dindago.local   / dindago123
+EDITOR   editor@dindago.local  / dindago123
+```
+
+> ⚠️ Essas credenciais são de desenvolvimento. Antes de publicar, crie um
+> usuário real e apague estes.
 
 ---
 
 ## Como executar
 
+São dois processos. Abra dois terminais:
+
 ```bash
-npm run dev
+npm run dev:api    # API em http://localhost:3333
+npm run dev        # site em http://localhost:5173
 ```
 
-Abra <http://localhost:5173>. A página recarrega sozinha a cada alteração
-salva.
+- **Site:** <http://localhost:5173>
+- **Painel:** <http://localhost:5173/admin>
+- **API:** <http://localhost:3333/api/health>
+
+O Vite faz proxy de `/api` e `/uploads` para o backend, então o navegador vê
+tudo na mesma origem — sem CORS e com o cookie de sessão funcionando.
+
+> O site **funciona sem o backend**. Se você rodar só `npm run dev`, a landing
+> page aparece completa com o conteúdo local. Só o painel e o formulário
+> precisam da API.
 
 Outros comandos:
 
-| Comando           | O que faz                                 |
-| ----------------- | ----------------------------------------- |
-| `npm run dev`     | ambiente de desenvolvimento               |
-| `npm run build`   | gera a versão de produção em `dist/`      |
-| `npm run preview` | visualiza localmente o resultado do build |
-| `npm run lint`    | verifica problemas no código              |
+| Comando              | O que faz                       |
+| -------------------- | ------------------------------- |
+| `npm run build`      | build do frontend               |
+| `npm run build:api`  | build do backend                |
+| `npm run lint`       | análise estática                |
+| `npm run db:migrate` | cria/aplica migrations          |
+| `npm run db:seed`    | popula dados de desenvolvimento |
+| `npm run db:reset`   | apaga o banco e recria do zero  |
 
-> Rode `npm run build` e `npm run lint` **antes de abrir um Pull Request**.
+---
+
+## API
+
+Formato de resposta, sempre:
+
+```json
+{ "success": true,  "data": { } }
+{ "success": false, "message": "Peça não encontrada.", "errors": { } }
+```
+
+### Público (sem login)
+
+| Método | Rota                      | O que faz                            |
+| ------ | ------------------------- | ------------------------------------ |
+| `GET`  | `/api/site/:slug`         | conteúdo inteiro de uma landing page |
+| `POST` | `/api/site/:slug/contact` | recebe o formulário de contato       |
+| `GET`  | `/api/health`             | verificação de saúde                 |
+
+### Autenticação
+
+| Método | Rota               |
+| ------ | ------------------ |
+| `POST` | `/api/auth/login`  |
+| `POST` | `/api/auth/logout` |
+| `GET`  | `/api/auth/me`     |
+| `POST` | `/api/auth/senha`  |
+
+### Administração (exige sessão)
+
+| Método               | Rota                                                                             |
+| -------------------- | -------------------------------------------------------------------------------- |
+| `GET` `POST`         | `/api/clients`                                                                   |
+| `GET` `PUT` `DELETE` | `/api/clients/:id`                                                               |
+| `PUT`                | `/api/clients/:id/settings` · `contact-info` · `hero` · `about` · `process`      |
+| `GET` `POST`         | `/api/clients/:id/products` · `benefits` · `gallery` · `testimonials` · `social` |
+| `GET` `POST`         | `/api/clients/:id/process-steps` · `hero-facts` · `about-pillars`                |
+| `PUT` `DELETE`       | `/api/products/:id` (e o mesmo para as demais coleções)                          |
+| `GET`                | `/api/clients/:id/messages`                                                      |
+| `PUT` `DELETE`       | `/api/messages/:id/status` · `/api/messages/:id`                                 |
+| `POST`               | `/api/upload`                                                                    |
+
+### Permissões
+
+| Perfil   | Pode                                                |
+| -------- | --------------------------------------------------- |
+| `OWNER`  | tudo, em todos os clientes; criar e apagar clientes |
+| `EDITOR` | editar apenas o cliente ao qual está vinculado      |
+
+---
+
+## Segurança
+
+- Senha guardada com **bcrypt** (12 rodadas), nunca em texto puro.
+- Sessão em **cookie httpOnly**: o JavaScript da página não lê o token, o que
+  fecha a porta para roubo de sessão por XSS.
+- **Toda** entrada passa por Zod antes de tocar o banco; campos extras são
+  descartados.
+- Consultas via Prisma — sem concatenação de SQL.
+- **Rate limit**: 8 tentativas de login por 10 min, 10 mensagens por hora,
+  600 requisições por 15 min no geral.
+- Erros em produção não expõem stack trace nem detalhe interno.
+- Upload aceita só imagem, no máximo 8 MB, e o nome do arquivo é sempre gerado
+  pelo servidor (nunca o enviado pelo usuário).
+- Armadilha anti-robô no formulário, que aceita em silêncio e descarta.
+
+---
+
+## Multi-cliente
+
+Um mesmo código serve várias landing pages. Para publicar outra:
+
+1. No painel, **Novo cliente** (só o perfil OWNER pode).
+2. Preencha identidade, cores, capa, contato e as coleções.
+3. Na instalação que vai servir esse cliente, ajuste o `.env`:
+
+```env
+VITE_CLIENT_SLUG=slug-do-novo-cliente
+```
+
+Nenhum componente muda. As cores do cliente repintam o site inteiro, porque
+alimentam as mesmas variáveis CSS que o Tailwind usa.
 
 ---
 
@@ -130,39 +296,43 @@ Outros comandos:
 
 ```text
 landing-page-dindago-atelier/
-├── public/
-│   ├── favicon.svg              ícone da aba (substituir pela logo real)
-│   └── images/                  fotografias do ateliê
-│       ├── logo/  hero/  products/  artist/  gallery/
-├── src/
-│   ├── components/              seções da página
-│   │   ├── Header.tsx  Hero.tsx  ValuesSection.tsx  ProcessSection.tsx
-│   │   ├── FeaturedPieces.tsx  Gallery.tsx  AboutArtist.tsx
-│   │   ├── CultureSection.tsx  OrdersSection.tsx  ContactSection.tsx
-│   │   ├── MapSection.tsx  SocialSection.tsx  Footer.tsx
-│   │   ├── WhatsAppButton.tsx  Lightbox.tsx  SearchDialog.tsx
-│   │   ├── ProductCard.tsx  ProductDialog.tsx  Logo.tsx
-│   │   └── ui/                  peças reutilizáveis
-│   │       └── Button.tsx  Reveal.tsx  SmartImage.tsx  SectionHeading.tsx
-│   │           Decorations.tsx  iconMap.ts  BrandIcons.tsx
-│   ├── data/
-│   │   ├── clientData.ts        ← TODOS OS DADOS DO CLIENTE (edite só isto)
-│   │   └── searchIndex.ts       índice da busca
-│   ├── config/site.ts           ajudantes de link (WhatsApp, e-mail, mapa)
-│   ├── lib/theme.ts             aplica as cores do cliente como variáveis CSS
-│   ├── hooks/                   scroll, seção ativa e diálogos
-│   ├── App.tsx                  ordem das seções da página
-│   ├── main.tsx                 ponto de entrada
-│   └── index.css                paleta, tipografia e animações
-├── .env.example                 modelo de variáveis de ambiente
-├── .gitignore                   o que não vai para o GitHub
-├── .gitattributes               padroniza quebras de linha entre sistemas
-├── index.html                   HTML base, título e metatags de SEO
-└── package.json                 dependências e scripts
+├── backend/                     API, banco e autenticação
+│   ├── prisma/
+│   │   ├── schema.prisma        modelo de dados (16 tabelas)
+│   │   ├── migrations/          histórico do banco
+│   │   └── seed.ts              DADOS DE DESENVOLVIMENTO
+│   ├── src/
+│   │   ├── rotas/               auth, site, clientes, coleções, upload
+│   │   ├── schemas/             validação com Zod
+│   │   ├── middleware/          sessão, erros, rate limit
+│   │   ├── lib/                 respostas, senha, token
+│   │   ├── env.ts               configuração validada no boot
+│   │   ├── db.ts                cliente do Prisma
+│   │   └── app.ts / index.ts    servidor
+│   ├── uploads/                 fotografias enviadas pelo painel
+│   └── .env.example
+├── src/                         frontend
+│   ├── components/              seções da landing page
+│   ├── admin/                   painel administrativo
+│   ├── conteudo/                provider, mescla e ajudantes
+│   ├── api/cliente.ts           cliente HTTP
+│   ├── data/clientData.ts       conteúdo padrão (fallback da API)
+│   ├── lib/theme.ts             cores e SEO dinâmicos
+│   └── index.css                paleta, tipografia e texturas
+├── public/images/               fotografias reais do ateliê
+└── .env.example
 ```
 
-**Uma seção = um arquivo.** Ao criar uma seção nova, crie um componente em
-`src/components/` e adicione-o em `src/App.tsx`.
+**Onde mexer no quê**
+
+| Quero...                     | Vou em                                                |
+| ---------------------------- | ----------------------------------------------------- |
+| mudar o conteúdo do site     | painel `/admin` (ou `clientData.ts` para o padrão)    |
+| criar um endpoint            | `backend/src/rotas`                                   |
+| mudar uma regra de validação | `backend/src/schemas/index.ts`                        |
+| alterar o banco              | `backend/prisma/schema.prisma` + `npm run db:migrate` |
+| mexer no visual do site      | `src/components` e `src/index.css`                    |
+| mexer no painel              | `src/admin`                                           |
 
 ---
 
@@ -174,28 +344,28 @@ tipo; não há ícone folclórico espalhado nem card com sombra.
 
 ### Princípios
 
-| Decisão | Por quê |
-| --- | --- |
-| **Cantos retos em tudo** | É papel impresso. Não existe `rounded-*` no projeto. |
-| **Sem caixa central** | As seções vão de margem a margem; algumas pranchas sangram até a borda. |
-| **Grade de impressão visível** | Fios finíssimos marcam as colunas, como a diagramação de uma revista. |
-| **Numeração de caderno** | Cada seção abre com `NN — Nome`, e as pranchas levam `fig. NN`. |
-| **Desenhos com critério** | Sol, cactos, pássaros e flor em traço fino ocupam margens e quinas — nunca competem com o texto. |
-| **Papel rasgado** | A transição entre a capa e o caderno seguinte, como na identidade aprovada. |
+| Decisão                        | Por quê                                                                                          |
+| ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| **Cantos retos em tudo**       | É papel impresso. Não existe `rounded-*` no projeto.                                             |
+| **Sem caixa central**          | As seções vão de margem a margem; algumas pranchas sangram até a borda.                          |
+| **Grade de impressão visível** | Fios finíssimos marcam as colunas, como a diagramação de uma revista.                            |
+| **Numeração de caderno**       | Cada seção abre com `NN — Nome`, e as pranchas levam `fig. NN`.                                  |
+| **Desenhos com critério**      | Sol, cactos, pássaros e flor em traço fino ocupam margens e quinas — nunca competem com o texto. |
+| **Papel rasgado**              | A transição entre a capa e o caderno seguinte, como na identidade aprovada.                      |
 
 ### Cadernos
 
-| Nº | Seção | Composição |
-| --- | --- | --- |
-| 01 | Capa | Manchete em degrau + prancha em sangria total |
-| 02 | Diferenciais | Bento assimétrico com superfícies de tinta, tijolo, barro e papel |
-| 03 | O artesanato | Ensaio em duas colunas com capitular + etapas em faixa de seis |
-| 04 | Coleções | Espelho de pranchas em proporções e alturas diferentes |
-| 05 | Galeria | Mosaico com lightbox |
-| 06 | Nossa história | Retrato estreito + citação em corpo grande |
-| 07 | Sobre o atelier | Caderno escuro — o ponto de virada da leitura |
-| 08 | Encomendas | Quadrantes com numeral em marca-d'água + chamada em sangria |
-| 09–11 | Contato, atelier e redes | Fechamento, com o colofão no rodapé |
+| Nº    | Seção                    | Composição                                                        |
+| ----- | ------------------------ | ----------------------------------------------------------------- |
+| 01    | Capa                     | Manchete em degrau + prancha em sangria total                     |
+| 02    | Diferenciais             | Bento assimétrico com superfícies de tinta, tijolo, barro e papel |
+| 03    | O artesanato             | Ensaio em duas colunas com capitular + etapas em faixa de seis    |
+| 04    | Coleções                 | Espelho de pranchas em proporções e alturas diferentes            |
+| 05    | Galeria                  | Mosaico com lightbox                                              |
+| 06    | Nossa história           | Retrato estreito + citação em corpo grande                        |
+| 07    | Sobre o atelier          | Caderno escuro — o ponto de virada da leitura                     |
+| 08    | Encomendas               | Quadrantes com numeral em marca-d'água + chamada em sangria       |
+| 09–11 | Contato, atelier e redes | Fechamento, com o colofão no rodapé                               |
 
 ### Sistema visual
 
@@ -217,15 +387,15 @@ rede. Em superfícies escuras, `.grao-claro` inverte a mistura.
 
 ### Componentes de vocabulário
 
-| Arquivo | Papel |
-| --- | --- |
-| `ui/Catalogo.tsx` | `Fio`, `Caderno`, `Numeral`, `Xilogravura` |
-| `ui/Decorations.tsx` | `Sol`, `Cacto`, `Passaros`, `Flor`, `PapelRasgado`, `Arabesco` |
-| `ui/iconMap.ts` | liga o campo `icon` do clientData ao desenho |
-| `ui/SmartImage.tsx` | prancha de catálogo (ver abaixo) |
-| `ui/Button.tsx` | `Button` (bloco chapado) e `LinkEditorial` (etiqueta + fio) |
-| `ui/SectionHeading.tsx` | abertura de caderno |
-| `ui/Reveal.tsx` | entrada no scroll, com rede de segurança de 1,5s |
+| Arquivo                 | Papel                                                          |
+| ----------------------- | -------------------------------------------------------------- |
+| `ui/Catalogo.tsx`       | `Fio`, `Caderno`, `Numeral`, `Xilogravura`                     |
+| `ui/Decorations.tsx`    | `Sol`, `Cacto`, `Passaros`, `Flor`, `PapelRasgado`, `Arabesco` |
+| `ui/iconMap.ts`         | liga o campo `icon` do clientData ao desenho                   |
+| `ui/SmartImage.tsx`     | prancha de catálogo (ver abaixo)                               |
+| `ui/Button.tsx`         | `Button` (bloco chapado) e `LinkEditorial` (etiqueta + fio)    |
+| `ui/SectionHeading.tsx` | abertura de caderno                                            |
+| `ui/Reveal.tsx`         | entrada no scroll, com rede de segurança de 1,5s               |
 
 ### Pranchas de imagem
 
@@ -370,13 +540,26 @@ merge na main
 ### Começando (novo integrante)
 
 ```bash
-git clone https://github.com/USUARIO/landing-page-dindago-atelier.git
+git clone https://github.com/Pedro-prog777/landing-page-dindago-atelier.git
 cd landing-page-dindago-atelier
 git checkout main
 git pull origin main
-npm install
-npm run dev
+
+npm install                            # frontend + backend
+cp .env.example .env                   # variáveis do frontend
+cp backend/.env.example backend/.env   # variáveis do backend
+npm run db:migrate                     # cria o banco
+npm run db:seed                        # popula dados de desenvolvimento
+
+npm run dev:api                        # terminal 1 — API
+npm run dev                            # terminal 2 — site
 ```
+
+Pronto: site em <http://localhost:5173> e painel em
+<http://localhost:5173/admin>.
+
+> Depois de um `git pull` que traga mudanças no `schema.prisma`, rode
+> `npm run db:migrate` para atualizar o seu banco local.
 
 ### Trabalhando em uma alteração
 
