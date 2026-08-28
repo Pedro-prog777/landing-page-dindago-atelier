@@ -10,14 +10,20 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:api": "npm run dev --workspace @dindago/backend",
     "build": "tsc -b && vite build",
+    "build:api": "npm run build --workspace @dindago/backend",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "db:migrate": "npm run prisma:migrate --workspace @dindago/backend",
+    "db:seed": "npm run db:seed --workspace @dindago/backend",
+    "db:reset": "npm run db:reset --workspace @dindago/backend"
   },
   "dependencies": {
     "lucide-react": "^1.34.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.2"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -29,5 +35,8 @@
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
     "vite": "^8.2.2"
-  }
+  },
+  "workspaces": [
+    "backend"
+  ]
 }

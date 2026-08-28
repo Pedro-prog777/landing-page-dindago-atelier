@@ -1,0 +1,368 @@
+// ============================================================================
+// DINDAGÓ — MODELO DE DADOS
+// ----------------------------------------------------------------------------
+// A aplicação é multi-cliente: um mesmo código serve várias landing pages.
+// Tudo que é conteúdo pendura em `Client`, e apagar um cliente leva junto o
+// conteúdo dele (onDelete: Cascade).
+//
+// SQLite no desenvolvimento (zero instalação para a equipe). Para produção
+// basta trocar o provider aqui e a DATABASE_URL no .env por Postgres — nenhum
+// model muda.
+//
+// A partir do Prisma 7 a URL de conexão não mora mais neste arquivo: fica em
+// `prisma.config.ts`, e o cliente recebe um adapter (ver src/db.ts).
+// ============================================================================
+
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ============================================================================
+// ACESSO
+// ============================================================================
+
+/// Usuário do painel administrativo.
+/// `role` é texto porque SQLite não suporta enum no Prisma: use "OWNER" (vê
+/// todos os clientes) ou "EDITOR" (restrito ao próprio `clientId`).
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         String   @default("EDITOR")
+  /// Nulo quando o usuário é OWNER e enxerga todos os clientes.
+  clientId     String?
+  client       Client?  @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  lastLoginAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([clientId])
+}
+
+// ============================================================================
+// CLIENTE — a raiz de tudo
+// ============================================================================
+
+model Client {
+  id          String  @id @default(cuid())
+  /// Identificador na URL pública: /api/site/:slug
+  slug        String  @unique
+  name        String
+  segment     String?
+  slogan      String?
+  description String?
+  logoUrl     String?
+  /// Um cliente inativo deixa de ser servido pela API pública.
+  active      Boolean @default(true)
+
+  settings     ClientSettings?
+  contactInfo  ContactInfo?
+  hero         HeroContent?
+  about        AboutContent?
+  process      ProcessContent?
+  products     Product[]
+  benefits     Benefit[]
+  galleryItems GalleryItem[]
+  testimonials Testimonial[]
+  socialLinks  SocialLink[]
+  messages     ContactMessage[]
+  users        User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([active])
+}
+
+/// Cores, SEO e avisos gerais. Separado de Client para não inchar a raiz.
+model ClientSettings {
+  id       String @id @default(cuid())
+  clientId String @unique
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  colorPrimary    String @default("#c0873a")
+  colorSecondary  String @default("#a0472c")
+  colorAccent     String @default("#d9a62e")
+  colorBackground String @default("#fbf6ea")
+
+  seoTitle       String?
+  seoDescription String?
+  seoUrl         String?
+  seoOgImage     String?
+
+  /// Aviso curto da barra superior, ex.: "Frete para todo o Brasil".
+  shippingNote String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Telefone, e-mail e endereço. Isolado por ser o dado mais sensível a mudança.
+model ContactInfo {
+  id       String @id @default(cuid())
+  clientId String @unique
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  phone String?
+  /// Formato internacional, só dígitos. Ex.: "5582999999999"
+  whatsapp        String?
+  /// Como o número aparece na tela. Ex.: "(82) 99999-9999"
+  whatsappDisplay String?
+  email           String?
+  address         String?
+  addressNote     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================================================
+// CONTEÚDO DAS SEÇÕES
+// ============================================================================
+
+model HeroContent {
+  id       String @id @default(cuid())
+  clientId String @unique
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  /// A manchete é composta em três partes para o tratamento editorial.
+  titleLine1     String
+  titleLine2     String?
+  titleHighlight String?
+  subtitle       String?
+
+  imageUrl     String?
+  imageAlt     String?
+  imageCaption String?
+
+  primaryCtaLabel String?
+  primaryCtaHref  String?
+  /// Use o valor "whatsapp" para o link ser montado a partir do ContactInfo.
+  secondaryCtaLabel String?
+  secondaryCtaHref  String?
+
+  /// Ficha técnica curta exibida no canto da capa.
+  facts HeroFact[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HeroFact {
+  id     String      @id @default(cuid())
+  heroId String
+  hero   HeroContent @relation(fields: [heroId], references: [id], onDelete: Cascade)
+
+  label String
+  value String
+  order Int    @default(0)
+
+  @@index([heroId, order])
+}
+
+model AboutContent {
+  id       String @id @default(cuid())
+  clientId String @unique
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  eyebrow String?
+  title   String?
+  /// Apresentação curta usada no caderno escuro.
+  intro   String?
+  quote   String?
+  /// Parágrafos separados por linha em branco.
+  body    String?
+  ctaLabel String?
+
+  artistName     String?
+  artistRole     String?
+  artistPhotoUrl String?
+  artistPhotoAlt String?
+
+  pillars AboutPillar[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AboutPillar {
+  id      String       @id @default(cuid())
+  aboutId String
+  about   AboutContent @relation(fields: [aboutId], references: [id], onDelete: Cascade)
+
+  title String
+  text  String
+  order Int    @default(0)
+
+  @@index([aboutId, order])
+}
+
+model ProcessContent {
+  id       String @id @default(cuid())
+  clientId String @unique
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  eyebrow String?
+  title   String?
+  /// Parágrafos separados por linha em branco.
+  body    String?
+
+  materialsTitle String?
+  materialsText  String?
+  /// Um material por linha.
+  materials      String?
+
+  imageUrl String?
+  imageAlt String?
+
+  steps ProcessStep[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProcessStep {
+  id        String         @id @default(cuid())
+  processId String
+  process   ProcessContent @relation(fields: [processId], references: [id], onDelete: Cascade)
+
+  name   String
+  detail String?
+  order  Int     @default(0)
+  active Boolean @default(true)
+
+  @@index([processId, order])
+}
+
+// ============================================================================
+// COLEÇÕES
+// ============================================================================
+
+model Product {
+  id       String @id @default(cuid())
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  name        String
+  slug        String
+  category    String?
+  description String?
+  /// Texto longo exibido no detalhe da peça.
+  story       String?
+  /// Nulo significa "Consultar valor" — o atelier pode não publicar preço.
+  price       Float?
+  imageUrl    String?
+  imageAlt    String?
+  badge       String?
+  featured    Boolean @default(false)
+  order       Int     @default(0)
+  active      Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([clientId, slug])
+  @@index([clientId, active, order])
+}
+
+model Benefit {
+  id       String @id @default(cuid())
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  /// Nome do desenho: maos | folha | sol | cacto | presente | flor | passaro
+  icon        String  @default("sol")
+  title       String
+  description String?
+  order       Int     @default(0)
+  active      Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clientId, active, order])
+}
+
+model GalleryItem {
+  id       String @id @default(cuid())
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  category String  @default("Obras")
+  imageUrl String
+  alt      String
+  order    Int     @default(0)
+  active   Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clientId, active, order])
+}
+
+model Testimonial {
+  id       String @id @default(cuid())
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  name   String
+  role   String?
+  text   String
+  order  Int     @default(0)
+  active Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clientId, active, order])
+}
+
+model SocialLink {
+  id       String @id @default(cuid())
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  /// instagram | facebook | whatsapp | linkedin | youtube
+  network String
+  url     String
+  order   Int     @default(0)
+  active  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([clientId, network])
+  @@index([clientId, active, order])
+}
+
+// ============================================================================
+// MENSAGENS DO FORMULÁRIO
+// ============================================================================
+
+model ContactMessage {
+  id       String @id @default(cuid())
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  name    String
+  email   String
+  phone   String?
+  subject String?
+  message String
+
+  /// novo | lido | respondido | arquivado
+  status String @default("novo")
+  /// Guardados para rastrear abuso; nunca expostos na API pública.
+  ip        String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clientId, status, createdAt])
+}
