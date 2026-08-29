@@ -1,4 +1,4 @@
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
+import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
 import { emProducao, env } from './env.js';
 
@@ -6,8 +6,8 @@ import { emProducao, env } from './env.js';
  * Cliente do Prisma reaproveitado em todo o processo.
  *
  * A partir do Prisma 7 a conexão é feita por um adapter, e não mais pela URL
- * declarada no schema. Trocar de banco em produção significa trocar este
- * adapter e a DATABASE_URL — nenhum model nem consulta muda.
+ * declarada no schema. O adapter do PostgreSQL mantém internamente um pool de
+ * conexões, reaproveitado entre as requisições.
  *
  * Em desenvolvimento o `tsx watch` reinicia o módulo a cada alteração; guardar
  * a instância no globalThis evita abrir uma conexão nova a cada recarga.
@@ -15,7 +15,7 @@ import { emProducao, env } from './env.js';
 const globalParaPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 function criarCliente() {
-  const adapter = new PrismaBetterSqlite3({ url: env.DATABASE_URL });
+  const adapter = new PrismaPg({ connectionString: env.DATABASE_URL });
   return new PrismaClient({
     adapter,
     log: emProducao ? ['error'] : ['warn', 'error'],

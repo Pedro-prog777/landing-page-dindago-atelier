@@ -18,15 +18,13 @@
  * ============================================================================
  */
 import 'dotenv/config';
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
+import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
 // O seed roda fora do servidor, então monta o próprio cliente com o adapter.
 const prisma = new PrismaClient({
-  adapter: new PrismaBetterSqlite3({
-    url: process.env.DATABASE_URL ?? 'file:./dev.db',
-  }),
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
 });
 
 const EMAIL_ADMIN = process.env.SEED_ADMIN_EMAIL ?? 'admin@dindago.local';
