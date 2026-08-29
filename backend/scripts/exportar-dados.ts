@@ -8,7 +8,15 @@
  *
  * Somente leitura — este script nunca altera nem apaga nada.
  *
+ * ATENCAO: ele depende do driver do SQLite, que foi REMOVIDO do projeto por
+ * exigir compilador C++ na maquina de quem instala. Se voce tiver um banco
+ * SQLite antigo para migrar, instale os dois temporariamente:
+ *
+ *   npm i -w @dindago/backend better-sqlite3 @prisma/adapter-better-sqlite3
  *   npx tsx scripts/exportar-dados.ts
+ *   npm uninstall -w @dindago/backend better-sqlite3 @prisma/adapter-better-sqlite3
+ *
+ * Quem esta comecando do zero nao precisa deste script: use `npm run db:seed`.
  * ============================================================================
  */
 import 'dotenv/config';
