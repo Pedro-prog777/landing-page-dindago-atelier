@@ -153,10 +153,30 @@ openssl rand -base64 48
 > Os arquivos `.env` **nunca** vão para o GitHub — estão no `.gitignore`. Só os
 > `.env.example` são versionados, e eles não têm valores reais.
 
-### Criar o banco e popular
+### Instalar o PostgreSQL
+
+Baixe em <https://www.postgresql.org/download/windows/> e instale. Durante a
+instalação ele pede uma senha para o usuário `postgres` — **anote**, você vai
+precisar dela.
+
+Anote também a **porta** (o padrão é 5432, mas o instalador pode sugerir outra).
+
+Depois crie o banco. Pelo pgAdmin, que vem junto com a instalação:
+**Databases** → botão direito → **Create** → **Database** → nome `dindago`.
+
+Por fim, ajuste a `DATABASE_URL` no `backend/.env` com a sua senha e a sua porta:
+
+```env
+DATABASE_URL="postgresql://postgres:SUA_SENHA@localhost:5432/dindago?schema=public"
+```
+
+> Cada pessoa tem o seu próprio banco, na própria máquina. O `.env` não vai
+> para o Git justamente por isso.
+
+### Criar as tabelas e popular
 
 ```bash
-npm run db:migrate   # cria o banco e aplica as migrations
+npm run db:migrate   # cria as tabelas
 npm run db:seed      # popula com dados de desenvolvimento
 ```
 

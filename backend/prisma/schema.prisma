@@ -5,16 +5,16 @@
 // Tudo que é conteúdo pendura em `Client`, e apagar um cliente leva junto o
 // conteúdo dele (onDelete: Cascade).
 //
-// SQLite no desenvolvimento (zero instalação para a equipe). Para produção
-// basta trocar o provider aqui e a DATABASE_URL no .env por Postgres — nenhum
-// model muda.
+// PostgreSQL em desenvolvimento e em produção — o mesmo banco nos dois lugares,
+// o que evita a classe de bug que só aparece depois de publicar.
 //
 // A partir do Prisma 7 a URL de conexão não mora mais neste arquivo: fica em
-// `prisma.config.ts`, e o cliente recebe um adapter (ver src/db.ts).
+// `prisma.config.ts` (para a CLI) e no adapter em `src/db.ts` (em execução).
+// As duas leem a mesma DATABASE_URL do .env.
 // ============================================================================
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 generator client {
@@ -26,8 +26,9 @@ generator client {
 // ============================================================================
 
 /// Usuário do painel administrativo.
-/// `role` é texto porque SQLite não suporta enum no Prisma: use "OWNER" (vê
-/// todos os clientes) ou "EDITOR" (restrito ao próprio `clientId`).
+/// `role` é texto: use "OWNER" (vê todos os clientes) ou "EDITOR" (restrito ao
+/// próprio `clientId`). Mantido como String na migração para PostgreSQL —
+/// convertê-lo em enum nativo mudaria o schema sem necessidade.
 model User {
   id           String   @id @default(cuid())
   email        String   @unique

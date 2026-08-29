@@ -86,8 +86,8 @@ backend/uploads/*
 !backend/uploads/.gitkeep
 # O banco fica na raiz do backend (DATABASE_URL="file:./dev.db"),
 # mas cobrimos as duas possibilidades para nenhum .db escapar.
-# Backups do banco: contem o arquivo .db e um dump JSON com hashes de
-# senha e mensagens recebidas. Sao artefatos locais, nao codigo.
+# Backups do banco: contem hashes de senha e mensagens recebidas.
+# Sao artefatos locais, nao codigo.
 backend/backups/
 
 backend/*.db
