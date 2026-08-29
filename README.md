@@ -11,6 +11,13 @@ sustentabilidade, trabalho manual e identidade nordestina.
 
 ---
 
+> **É a sua primeira vez neste projeto?** Comece pelo **[SETUP.md](SETUP.md)** —
+> guia passo a passo desde a instalação do Git, do Node e do PostgreSQL numa
+> máquina zerada, com cada comando verificado. Este README é a referência
+> técnica; o SETUP é o caminho de instalação.
+
+---
+
 ## Sumário
 
 - [Tecnologias](#tecnologias)
