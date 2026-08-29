@@ -20,7 +20,7 @@ import { ContextoDoSite, type EstadoDoConteudo, type ValorDoContexto } from './c
  */
 
 /** Qual cliente esta instalação serve. Trocar aqui publica outra landing page. */
-const SLUG_DO_CLIENTE = import.meta.env.VITE_CLIENT_SLUG ?? 'dindago-atelier';
+const SLUG_DO_CLIENTE = import.meta.env.VITE_CLIENT_SLUG || 'dindago-atelier';
 
 export function ConteudoProvider({ children }: { children: ReactNode }) {
   const [conteudo, setConteudo] = useState<ConteudoDoSite>(clientData);

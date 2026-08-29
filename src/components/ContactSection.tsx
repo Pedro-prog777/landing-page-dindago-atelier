@@ -1,7 +1,7 @@
 import { useSite } from '../conteudo/useSite';
 
 /** Cliente servido por esta instalação — o mesmo usado pelo provider. */
-const SLUG = import.meta.env.VITE_CLIENT_SLUG ?? 'dindago-atelier';
+const SLUG = import.meta.env.VITE_CLIENT_SLUG || 'dindago-atelier';
 import { useRef, useState, type FormEvent } from 'react';
 import { api, ErroDaApi } from '../api/cliente';
 import { Mail, MessageCircle, Send } from 'lucide-react';

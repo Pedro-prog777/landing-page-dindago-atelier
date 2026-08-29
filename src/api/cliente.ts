@@ -10,7 +10,7 @@
  */
 
 /** Em desenvolvimento o Vite faz proxy de /api para o backend (ver vite.config). */
-const BASE = import.meta.env.VITE_API_URL ?? '/api';
+const BASE = import.meta.env.VITE_API_URL || '/api';
 
 export class ErroDaApi extends Error {
   status: number;
