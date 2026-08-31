@@ -21,7 +21,7 @@ export function CultureSection() {
       aria-labelledby="cultura-titulo"
       className="grao grao-claro bg-tinta py-16 text-papel sm:py-20 lg:py-24"
     >
-      <div className="px-4 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal>
           <Fio tone="claro" />
           <div className="flex items-baseline justify-between gap-6 py-3">
@@ -36,7 +36,7 @@ export function CultureSection() {
         <Reveal delay={90} className="py-14 lg:py-20 lg:pl-[8%]">
           <h2
             id="cultura-titulo"
-            className="max-w-5xl text-[clamp(1.8rem,4.6vw,3.8rem)] text-papel"
+            className="max-w-5xl text-[clamp(1.7rem,3.4vw,2.8rem)] text-papel"
           >
             {about.intro}
           </h2>

@@ -67,7 +67,7 @@ export function ValuesSection() {
 
   return (
     <section aria-labelledby="diferenciais-titulo" className="bg-papel py-16 sm:py-20 lg:py-24">
-      <div className="px-4 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Caderno
           numero={benefitsSection.numero}
           titulo={benefitsSection.eyebrow}
@@ -75,7 +75,7 @@ export function ValuesSection() {
         />
 
         <Reveal delay={80} className="pt-8 pb-10 lg:pt-12 lg:pb-14">
-          <h2 id="diferenciais-titulo" className="max-w-3xl text-[clamp(1.9rem,5vw,4rem)]">
+          <h2 id="diferenciais-titulo" className="max-w-3xl text-[clamp(1.7rem,3.6vw,2.8rem)]">
             {benefitsSection.title}
           </h2>
         </Reveal>

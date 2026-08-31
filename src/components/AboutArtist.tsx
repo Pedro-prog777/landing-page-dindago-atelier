@@ -23,7 +23,7 @@ export function AboutArtist() {
       aria-labelledby="historia-titulo"
       className="grao bg-papel py-16 sm:py-20 lg:py-24"
     >
-      <div className="px-4 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Caderno numero={about.numero} titulo="Nossa história" nota="Retrato e depoimento" />
 
         <div className="grid gap-10 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">
@@ -48,7 +48,7 @@ export function AboutArtist() {
           {/* Texto */}
           <div className="lg:col-span-7 lg:col-start-6">
             <Reveal>
-              <h2 id="historia-titulo" className="text-[clamp(1.9rem,4.6vw,3.6rem)]">
+              <h2 id="historia-titulo" className="text-[clamp(1.7rem,3.4vw,2.7rem)]">
                 {about.title}
               </h2>
             </Reveal>

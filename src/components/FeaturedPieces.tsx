@@ -34,7 +34,7 @@ export function FeaturedPieces() {
       aria-labelledby="pecas-titulo"
       className="grao bg-papel py-16 sm:py-20 lg:py-24"
     >
-      <div className="px-4 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Caderno
           numero={productsSection.numero}
           titulo={productsSection.eyebrow}
@@ -45,7 +45,7 @@ export function FeaturedPieces() {
           <Reveal className="lg:col-span-7">
             <h2
               id="pecas-titulo"
-              className="flex flex-wrap items-center gap-5 text-[clamp(2.2rem,6vw,4.75rem)]"
+              className="flex flex-wrap items-center gap-5 text-[clamp(1.9rem,4.2vw,3.25rem)]"
             >
               <Arabesco className="hidden w-14 shrink-0 text-ocre/60 sm:block" />
               {productsSection.title}

@@ -70,7 +70,7 @@ export function Footer() {
         <Passaro className="absolute top-32 right-[38%] w-16 text-ambar/18" />
       </div>
 
-      <div className="relative px-4 pt-14 pb-8 sm:px-6 lg:px-10 lg:pt-20">
+      <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-8 sm:px-6 lg:px-8 lg:pt-20">
         {/* Marca em corpo grande */}
         <div className="grid gap-10 pb-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-6">
