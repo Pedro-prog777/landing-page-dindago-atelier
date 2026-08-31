@@ -29,12 +29,12 @@ export function OrdersSection() {
         aria-hidden="true"
       />
 
-      <div className="relative px-4 sm:px-6 lg:px-10">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Caderno numero={orders.numero} titulo={orders.eyebrow} nota="Quatro tempos" />
 
         <div className="grid gap-8 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">
           <Reveal className="lg:col-span-7">
-            <h2 id="encomendas-titulo" className="text-[clamp(2.2rem,6vw,4.75rem)]">
+            <h2 id="encomendas-titulo" className="text-[clamp(1.9rem,4.2vw,3.25rem)]">
               {orders.title}
             </h2>
           </Reveal>
@@ -75,7 +75,7 @@ export function OrdersSection() {
       <Reveal delay={100} className="grao grao-claro mt-16 bg-tijolo lg:mt-20">
         <div className="grid gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:items-end lg:gap-10 lg:px-10 lg:py-24">
           <div className="lg:col-span-8">
-            <h3 className="text-[clamp(2rem,5.4vw,4.25rem)] text-papel">{orders.ctaTitle}</h3>
+            <h3 className="text-[clamp(1.75rem,3.8vw,3rem)] text-papel">{orders.ctaTitle}</h3>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-papel/75">
               {orders.ctaText}
             </p>

@@ -26,13 +26,13 @@ export function ProcessSection() {
         aria-hidden="true"
       />
 
-      <div className="relative px-4 sm:px-6 lg:px-10">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Caderno numero={process.numero} titulo={process.eyebrow} nota="Técnica milenar" />
 
         <div className="grid gap-10 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">
           {/* Manchete do caderno */}
           <Reveal className="lg:col-span-5">
-            <h2 id="processo-titulo" className="text-[clamp(2.2rem,6vw,4.75rem)]">
+            <h2 id="processo-titulo" className="text-[clamp(1.9rem,4.2vw,3.25rem)]">
               {process.title}
             </h2>
           </Reveal>
