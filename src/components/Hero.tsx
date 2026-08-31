@@ -28,13 +28,47 @@ export function Hero() {
       aria-labelledby="hero-titulo"
       className="grao relative bg-papel pt-24 sm:pt-28"
     >
+      {/*
+       * Fundo ilustrado do sertão.
+       *
+       * Fica numa camada própria, e não no `background` da seção, por dois
+       * motivos: o `grao` já ocupa o ::after, e assim o véu de papel logo
+       * abaixo pode clarear a arte sem clarear junto o texto.
+       *
+       * Se o arquivo não existir, esta camada simplesmente não pinta nada e o
+       * `bg-papel` da seção continua valendo — a capa não quebra.
+       */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[url('/bg-nordeste.jpg')] bg-cover bg-center bg-no-repeat"
+      />
+      {/*
+       * Véu de papel. Medido, não estimado: o pixel mais escuro da arte é
+       * RGB(73,23,0), e a manchete sobre ele daria 1.22:1 — ilegível. O véu a
+       * 72% leva esse pior caso a 6.34:1 no texto e 3.18:1 na linha em tijolo,
+       * acima dos 4.5 e 3.0 exigidos, e ainda deixa a textura aparecer.
+       *
+       * 72% é o piso, não uma escolha estética: abaixo disso a linha em tijolo
+       * cai de 3.0 — ela é a mais frágil, porque #a0472c tem luminância
+       * próxima da terracota da ilustração.
+       */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-papel/72" />
+
       {/* Grade de impressão ao fundo, quase imperceptível */}
       <div
         aria-hidden="true"
         className="grade-impressao pointer-events-none absolute inset-x-0 top-0 hidden h-[70vh] lg:block"
       />
 
-      {/* Desenhos do sertão nas margens — nunca sobre o texto */}
+      {/*
+       * Desenhos do sertão nas margens — nunca sobre o texto.
+       *
+       * Continuam aqui mesmo com a ilustração de fundo. A imagem é 1.79:1 e a
+       * capa é mais alta que larga: com `cover`, as pontas dela — justamente
+       * onde ficam os cactos e os sóis — são cortadas. Quem desenha os cantos
+       * de fato são estes SVGs, posicionados para este layout e nítidos em
+       * qualquer tela. A fotografia entra pela textura e pelo tom do papel.
+       */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <Sol className="absolute top-28 right-6 w-16 text-ocre/70 sm:top-32 sm:w-20 lg:top-44 lg:right-20 lg:w-28" />
         <Passaros className="absolute top-52 right-8 hidden w-20 text-tinta-suave/30 lg:top-80 lg:right-28 lg:block" />
