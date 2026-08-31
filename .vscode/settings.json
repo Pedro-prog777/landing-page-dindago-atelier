@@ -1,0 +1,32 @@
+{
+  // O Tailwind 4 usa `@import 'tailwindcss'` e `@theme { ... }` no
+  // src/index.css. O validador de CSS embutido do VS Code não conhece essas
+  // diretivas e as marca como problema, mesmo com o build passando sem erro.
+  //
+  // Desligar a checagem inteira do CSS esconderia erros de verdade, então
+  // silenciamos apenas as at-rules desconhecidas. Quem valida a sintaxe do
+  // Tailwind é a extensão bradlc.vscode-tailwindcss, recomendada em
+  // .vscode/extensions.json.
+  "css.lint.unknownAtRules": "ignore",
+
+  // Faz o autocomplete do Tailwind funcionar dentro das strings de className.
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+
+  // O projeto tem .prettierrc na raiz (aspas simples, 100 colunas).
+  // Sem isto, cada pessoa formata de um jeito e o diff enche de ruído.
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+
+  // Os arquivos do projeto são UTF-8 com quebra LF. No Windows o padrão do
+  // editor seria CRLF, o que faz o git acusar o arquivo inteiro como alterado.
+  "files.eol": "\n",
+
+  // Não faz sentido buscar dentro destas pastas.
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/backend/dist": true
+  }
+}
