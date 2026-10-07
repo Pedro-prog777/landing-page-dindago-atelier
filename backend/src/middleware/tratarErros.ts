@@ -56,6 +56,13 @@ export function tratarErros(
     if (codigo === 'P2025') {
       return res.status(404).json({ success: false, message: 'Registro não encontrado.' });
     }
+    if (['P1000', 'P1001', 'P1017'].includes(codigo ?? '')) {
+      return res.status(503).json({
+        success: false,
+        message:
+          'Não foi possível conectar ao banco de dados. Verifique a DATABASE_URL, usuário, senha e se o PostgreSQL está rodando localmente.',
+      });
+    }
   }
 
   console.error('[erro nao tratado]', erro);
