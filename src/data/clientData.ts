@@ -231,18 +231,6 @@ export const clientData = {
     },
     {
       id: 3,
-      name: 'Conjunto de Figuras da Cultura Popular',
-      category: 'Escultura em papel-machê',
-      description: 'Conjunto de figuras em papel-machê inspirado na cultura popular.',
-      story:
-        'Um conjunto de figuras moldadas à mão e inspirado na riqueza da cultura popular. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
-      price: null,
-      image: '/images/products/Conjuntodefigurasempapel-machêinspiradasnaculturapopular.jpg',
-      imageAlt: 'Conjunto de figuras em papel-machê inspiradas na cultura popular',
-      badge: 'Peça única',
-    },
-    {
-      id: 4,
       name: 'Dona Espanhola',
       category: 'Escultura em papel-machê',
       description: 'Figura autoral que celebra a expressividade da personagem espanhola.',
@@ -254,7 +242,7 @@ export const clientData = {
       badge: 'Peça única',
     },
     {
-      id: 5,
+      id: 4,
       name: 'Dona Ribeirinha',
       category: 'Escultura em papel-machê',
       description: 'Figura inspirada nas mulheres e histórias das comunidades ribeirinhas.',
@@ -266,7 +254,7 @@ export const clientData = {
       badge: 'Peça única',
     },
     {
-      id: 6,
+      id: 5,
       name: 'Moça com Candeeiro',
       category: 'Escultura em papel-machê',
       description: 'Figura feminina acompanhada de um candeeiro, símbolo de luz e acolhimento.',
@@ -278,7 +266,7 @@ export const clientData = {
       badge: 'Peça única',
     },
     {
-      id: 7,
+      id: 6,
       name: 'Morada de Passarinhos',
       category: 'Escultura em papel-machê',
       description: 'Composição que celebra os pássaros e a ideia de um lar na natureza.',
@@ -290,7 +278,7 @@ export const clientData = {
       badge: 'Peça única',
     },
     {
-      id: 8,
+      id: 7,
       name: 'Nossa Senhora Mãe dos Homens',
       category: 'Escultura em papel-machê',
       description: 'Imagem devocional dedicada a Nossa Senhora Mãe dos Homens.',
@@ -302,7 +290,7 @@ export const clientData = {
       badge: 'Peça única',
     },
     {
-      id: 9,
+      id: 8,
       name: 'Palhaço e Bailarina',
       category: 'Escultura em papel-machê',
       description: 'Encontro de duas figuras do universo circense em uma composição cheia de movimento.',
@@ -314,31 +302,7 @@ export const clientData = {
       badge: 'Peça única',
     },
     {
-      id: 10,
-      name: 'Ciranda do Sertão',
-      category: 'Escultura em papel-machê',
-      description: 'Composição que celebra a roda e a cultura popular do sertão.',
-      story:
-        'Uma obra inspirada na ciranda e nas tradições populares do sertão. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
-      price: null,
-      image: '/images/products/ciranda-do-sertao.jpg',
-      imageAlt: 'Escultura em papel-machê intitulada Ciranda do Sertão',
-      badge: 'Peça única',
-    },
-    {
-      id: 11,
-      name: 'Mãe e Filho',
-      category: 'Escultura em papel-machê',
-      description: 'Cena de afeto que retrata o vínculo entre mãe e filho.',
-      story:
-        'Uma composição feita à mão que representa o carinho entre mãe e filho. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
-      price: null,
-      image: '/images/products/mae-e-filho.jpg',
-      imageAlt: 'Escultura em papel-machê intitulada Mãe e Filho',
-      badge: 'Peça única',
-    },
-    {
-      id: 12,
+      id: 9,
       name: 'Moça e Candeeiro, Moça e Beija-flor',
       category: 'Escultura em papel-machê',
       description: 'Composição que aproxima a luz do candeeiro da delicadeza do beija-flor.',
@@ -350,19 +314,7 @@ export const clientData = {
       badge: 'Peça única',
     },
     {
-      id: 13,
-      name: 'Santa',
-      category: 'Escultura em papel-machê',
-      description: 'Figura devocional em papel-machê, criada com cuidado artesanal.',
-      story:
-        'Uma imagem religiosa modelada à mão em papel-machê. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
-      price: null,
-      image: '/images/products/santa.jpg',
-      imageAlt: 'Escultura religiosa em papel-machê intitulada Santa',
-      badge: 'Peça única',
-    },
-    {
-      id: 14,
+      id: 10,
       name: 'Sereia',
       category: 'Escultura em papel-machê',
       description: 'Figura inspirada nas narrativas populares do mar e no imaginário das sereias.',
@@ -396,7 +348,7 @@ export const clientData = {
         id: 2,
         category: 'Obras',
         src: '/images/gallery/obra-02.jpg',
-        alt: 'Conjunto de figuras em papel-machê inspiradas na cultura popular',
+        alt: 'Brincantes do Guerreiro Alagoano em papel-machê',
       },
       {
         id: 3,
