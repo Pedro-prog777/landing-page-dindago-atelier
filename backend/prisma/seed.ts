@@ -18,14 +18,10 @@
  * ============================================================================
  */
 import 'dotenv/config';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { criarClientePrisma } from '../src/criarClientePrisma.js';
 
-// O seed roda fora do servidor, então monta o próprio cliente com o adapter.
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
-});
+const prisma = criarClientePrisma(process.env.DATABASE_URL);
 
 const EMAIL_ADMIN = process.env.SEED_ADMIN_EMAIL ?? 'admin@dindago.local';
 const SENHA_ADMIN = process.env.SEED_ADMIN_PASSWORD ?? 'dindago123';

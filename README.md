@@ -85,8 +85,8 @@ console registra o ocorrido.
 | [oxlint](https://oxc.rs)                     | análise estática do código          |
 | Google Fonts                                 | tipografias Fraunces e Karla        |
 
-Não há back-end: o site é estático e pode ser publicado em Vercel, Netlify,
-GitHub Pages ou qualquer hospedagem de arquivos.
+O site público continua funcionando com conteúdo local sem o backend. O painel
+administrativo e os formulários usam a API Express e o banco configurado.
 
 ---
 
@@ -160,9 +160,27 @@ openssl rand -base64 48
 > Os arquivos `.env` **nunca** vão para o GitHub — estão no `.gitignore`. Só os
 > `.env.example` são versionados, e eles não têm valores reais.
 
-### Instalar o PostgreSQL
+### Banco local
 
-Baixe em <https://www.postgresql.org/download/windows/> e instale. Durante a
+O caminho recomendado para desenvolvimento usa SQLite e não exige instalar um
+servidor de banco. No `backend/.env`, use:
+
+```env
+DATABASE_URL="file:./dev.db"
+```
+
+Crie as tabelas e carregue os dados:
+
+```bash
+npm run db:push
+npm run db:seed
+```
+
+O arquivo `backend/dev.db` é local e está ignorado pelo Git.
+
+### PostgreSQL (opcional)
+
+Para usar PostgreSQL, baixe em <https://www.postgresql.org/download/windows/> e instale. Durante a
 instalação ele pede uma senha para o usuário `postgres` — **anote**, você vai
 precisar dela.
 
@@ -171,7 +189,7 @@ Anote também a **porta** (o padrão é 5432, mas o instalador pode sugerir outr
 Depois crie o banco. Pelo pgAdmin, que vem junto com a instalação:
 **Databases** → botão direito → **Create** → **Database** → nome `dindago`.
 
-Por fim, ajuste a `DATABASE_URL` no `backend/.env` com a sua senha e a sua porta:
+Configure `DATABASE_URL` no `backend/.env` com a sua senha e a sua porta:
 
 ```env
 DATABASE_URL="postgresql://postgres:SUA_SENHA@localhost:5432/dindago?schema=public"
@@ -230,9 +248,10 @@ Outros comandos:
 | `npm run build`      | build do frontend               |
 | `npm run build:api`  | build do backend                |
 | `npm run lint`       | análise estática                |
-| `npm run db:migrate` | cria/aplica migrations          |
+| `npm run db:push`    | cria tabelas com o schema SQLite |
+| `npm run db:migrate` | cria/aplica migrations PostgreSQL |
 | `npm run db:seed`    | popula dados de desenvolvimento |
-| `npm run db:reset`   | apaga o banco e recria do zero  |
+| `npm run db:reset`   | reinicia o banco PostgreSQL     |
 
 ---
 
