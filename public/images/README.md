@@ -17,8 +17,8 @@ products/
   casal-olhos-fechados-com-chapeu.jpeg
   mulher-com-flores.jpeg
   mulher-com-passaros.jpeg
+  mulher-com-peixes-na-cabeca.jpeg
   mulher-do-mar.jpeg
-  mulher-do-mar2.jpeg
   olhos-fechados-com-chapeu.jpeg
   palhaco.jpeg
   santa.jpeg
