@@ -9,9 +9,8 @@
  * de passar a ler da API. O segundo cliente ("atelier-demo") existe só para
  * provar o multi-cliente e pode ser apagado à vontade.
  *
- * NENHUMA FOTOGRAFIA é cadastrada: os campos de imagem apontam para os
- * caminhos onde a equipe vai colocar os arquivos reais. Enquanto não existirem,
- * a interface mostra as pranchas de catálogo reservadas.
+ * Os campos de imagem apontam para os arquivos reais em `public/images/`.
+ * Fotos ainda não adicionadas continuam exibindo as pranchas reservadas.
  *
  * A senha do administrador vem de SEED_ADMIN_PASSWORD no .env e serve apenas
  * para desenvolvimento local — troque antes de qualquer publicação.
