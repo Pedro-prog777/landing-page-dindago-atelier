@@ -516,7 +516,7 @@ identificado no lugar — nunca uma foto genérica.
 
 - **Logo:** `public/images/logo/dindago-atelier.svg`
 - **Favicon:** substitua `public/favicon.svg`
-- **Peças e galeria:** caminhos em `src/data/products.ts` e `src/data/gallery.ts`
+- **Peças e galeria:** caminhos em `src/data/clientData.ts`
 
 Exporte em JPG ou WebP com no máximo ~1600px no maior lado, para o site
 continuar leve.

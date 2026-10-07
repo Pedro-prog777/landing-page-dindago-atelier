@@ -13,10 +13,16 @@ hero/
   og-image.jpg             imagem de compartilhamento em redes (1200x630)
 
 products/
-  ciranda-do-sertao.jpg
-  mae-e-filho.jpg
-  sanfoneiro.jpg
-  mulher-do-mar.jpg        fotos das peças (vertical, 4:5)
+  casal-nordestino.jpeg
+  casal-olhos-fechados-com-chapeu.jpeg
+  mulher-com-flores.jpeg
+  mulher-com-passaros.jpeg
+  mulher-do-mar.jpeg
+  mulher-do-mar2.jpeg
+  olhos-fechados-com-chapeu.jpeg
+  palhaco.jpeg
+  santa.jpeg
+  sereia.jpeg              fotos das peças
 
 artist/
   artesa.jpg               retrato da artesã, de preferência trabalhando
@@ -28,8 +34,8 @@ gallery/
   detalhe-01.jpg, detalhe-02.jpg
 ```
 
-Para trocar caminhos ou acrescentar novas fotos, edite
-`src/data/products.ts` e `src/data/gallery.ts`.
+Para trocar caminhos ou acrescentar novas fotos, edite os campos `products`
+e `gallery` em `src/data/clientData.ts`.
 
 Dica: exporte em JPG/WebP com no máximo ~1600px no maior lado para o site
 continuar leve.
