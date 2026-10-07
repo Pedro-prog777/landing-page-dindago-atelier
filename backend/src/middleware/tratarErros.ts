@@ -55,7 +55,7 @@ export function tratarErros(erro: unknown, _req: Request, res: Response, _next: 
       return res.status(503).json({
         success: false,
         message:
-          'Não foi possível conectar ao banco de dados. Verifique a DATABASE_URL, usuário, senha e se o PostgreSQL está rodando localmente.',
+          'Não foi possível conectar ao banco de dados. Verifique a DATABASE_URL, as credenciais e se o serviço configurado está disponível.',
       });
     }
   }
