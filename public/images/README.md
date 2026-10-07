@@ -15,13 +15,17 @@ hero/
 products/
   AMocaDoMar.jpeg
   BrincantesDoGuerreiroAlagoano.jpeg
+  Conjuntodefigurasempapel-machêinspiradasnaculturapopular.jpg
   DonaEspanhola.jpeg
   DonaRibeirinha.jpeg
   MocaComCandeeiro.jpeg
   MoradaDePassarinhos.jpeg
   NossaSenhoraMaeDosHomens.jpeg
   PalhacoEBailarina.jpeg
+  ciranda-do-sertao.jpg
+  mae-e-filho.jpg
   mocaECandeiroMocaEBeija-Flor.jpeg
+  santa.jpg
   sereia.jpeg              fotos das peças
 
 artist/

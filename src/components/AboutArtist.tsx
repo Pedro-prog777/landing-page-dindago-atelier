@@ -1,4 +1,5 @@
 import { useSite } from '../conteudo/useSite';
+import { LinkEditorial } from './ui/Button';
 import { Caderno, Fio } from './ui/Catalogo';
 import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
@@ -71,6 +72,9 @@ export function AboutArtist() {
               ))}
             </Reveal>
 
+            <Reveal delay={200} className="mt-10">
+              <LinkEditorial href="#galeria">Ver o processo na galeria</LinkEditorial>
+            </Reveal>
           </div>
         </div>
 

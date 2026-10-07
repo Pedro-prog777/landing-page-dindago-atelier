@@ -15,10 +15,10 @@ const secoes: SearchEntry[] = [
   {
     id: 'sec-processo',
     group: 'Seções',
-    title: 'Como fazer papel mache?',
-    description: 'Materiais essenciais para criar peças de papel mache.',
+    title: 'Do papel à arte',
+    description: 'A técnica do papel-machê, etapa por etapa.',
     href: '#processo',
-    keywords: ['artesanato', 'processo', 'papel mache', 'materiais', 'cola', 'água', 'moldar'],
+    keywords: ['artesanato', 'processo', 'papel-machê', 'polpa', 'sustentável', 'reaproveitado'],
   },
   {
     id: 'sec-pecas',
@@ -27,6 +27,14 @@ const secoes: SearchEntry[] = [
     description: 'Esculturas autorais disponíveis no atelier.',
     href: '#pecas',
     keywords: ['coleções', 'esculturas', 'obras', 'produtos', 'comprar'],
+  },
+  {
+    id: 'sec-galeria',
+    group: 'Seções',
+    title: 'Galeria',
+    description: 'Obras, processo, atelier e detalhes.',
+    href: '#galeria',
+    keywords: ['fotos', 'imagens', 'bastidores'],
   },
   {
     id: 'sec-historia',
