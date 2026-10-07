@@ -1,5 +1,5 @@
 import { useSite } from '../conteudo/useSite';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Menu, Search, X } from 'lucide-react';
 import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
 import { Logo } from './Logo';
@@ -18,6 +18,7 @@ export function Header() {
   const { buildWhatsAppUrl, isConfigured, navLinks, siteConfig } = useSite();
   const [menuAberto, setMenuAberto] = useState(false);
   const [buscaAberta, setBuscaAberta] = useState(false);
+  const botaoMenuRef = useRef<HTMLButtonElement>(null);
   const rolou = useScrollPosition(40);
 
   const idsSecoes = useMemo(() => navLinks.map((link) => link.href.slice(1)), [navLinks]);
@@ -34,6 +35,19 @@ export function Header() {
     return () => {
       document.body.style.overflow = original;
     };
+  }, [menuAberto]);
+
+  useEffect(() => {
+    if (!menuAberto) return;
+
+    const fecharComEscape = (evento: KeyboardEvent) => {
+      if (evento.key !== 'Escape') return;
+      setMenuAberto(false);
+      botaoMenuRef.current?.focus();
+    };
+
+    document.addEventListener('keydown', fecharComEscape);
+    return () => document.removeEventListener('keydown', fecharComEscape);
   }, [menuAberto]);
 
   useEffect(() => {
@@ -160,6 +174,7 @@ export function Header() {
 
               <button
                 type="button"
+                ref={botaoMenuRef}
                 onClick={() => setMenuAberto((estado) => !estado)}
                 aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
                 aria-expanded={menuAberto ? 'true' : 'false'}

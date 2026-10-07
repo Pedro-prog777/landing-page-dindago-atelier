@@ -25,33 +25,26 @@ export function Footer() {
   const enderecoDefinido = isConfigured(siteConfig.address);
   const instagramConfigurado = isConfigured(siteConfig.instagram);
   const facebookConfigurado = isConfigured(siteConfig.facebook);
+  const infoLinks = footer.infoLinks.filter((item) => item.href !== '#contato');
 
   const atendimento = [
-    {
-      rotulo: 'WhatsApp',
-      valor: whatsappUrl ? siteConfig.whatsappDisplay : 'A definir',
-      href: whatsappUrl,
-    },
-    { rotulo: 'E-mail', valor: mailtoUrl ? siteConfig.email : 'A definir', href: mailtoUrl },
-    {
-      rotulo: 'Atelier',
-      valor: enderecoDefinido ? siteConfig.address : 'A definir',
-      href: '#atelier',
-    },
+    ...(whatsappUrl
+      ? [{ rotulo: 'WhatsApp', valor: siteConfig.whatsappDisplay, href: whatsappUrl }]
+      : []),
+    ...(mailtoUrl ? [{ rotulo: 'E-mail', valor: siteConfig.email, href: mailtoUrl }] : []),
+    ...(enderecoDefinido
+      ? [{ rotulo: 'Atelier', valor: siteConfig.address, href: '#atelier' }]
+      : []),
   ];
 
   const redes = [
-    {
-      nome: 'Instagram',
-      href: instagramConfigurado ? siteConfig.instagram : null,
-      Icone: InstagramIcon,
-    },
-    {
-      nome: 'Facebook',
-      href: facebookConfigurado ? siteConfig.facebook : null,
-      Icone: FacebookIcon,
-    },
-  ].filter((r) => r.href);
+    ...(instagramConfigurado
+      ? [{ nome: 'Instagram', href: siteConfig.instagram, Icone: InstagramIcon }]
+      : []),
+    ...(facebookConfigurado
+      ? [{ nome: 'Facebook', href: siteConfig.facebook, Icone: FacebookIcon }]
+      : []),
+  ];
 
   return (
     <footer
@@ -89,21 +82,23 @@ export function Footer() {
 
         {/* Colunas de serviço */}
         <div className="grid gap-10 py-12 lg:grid-cols-12 lg:gap-10">
-          <nav aria-label="Informações" className="lg:col-span-3">
-            <h2 className="etiqueta text-papel/45">Informações</h2>
-            <ul className="mt-5 space-y-1">
-              {footer.infoLinks.map((item) => (
-                <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className="inline-block py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
-                  >
-                    <span className="sublinhado">{item.label}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {infoLinks.length > 0 && (
+            <nav aria-label="Informações" className="lg:col-span-3">
+              <h2 className="etiqueta text-papel/45">Informações</h2>
+              <ul className="mt-5 space-y-1">
+                {infoLinks.map((item) => (
+                  <li key={item.label}>
+                    <a
+                      href={item.href}
+                      className="inline-block py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
+                    >
+                      <span className="sublinhado">{item.label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
 
           <div className="lg:col-span-4">
             <h2 className="etiqueta text-papel/45">Atendimento</h2>
@@ -127,40 +122,39 @@ export function Footer() {
             </dl>
           </div>
 
-          <div className="lg:col-span-3 lg:col-start-10">
-            <h2 className="etiqueta text-papel/45">Siga o atelier</h2>
-            <ul className="mt-5 space-y-1">
-              {redes.map(({ nome, href, Icone }) => (
-                <li key={nome}>
-                  <a
-                    href={href as string}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${nome} do ${siteConfig.name} (abre em nova aba)`}
-                    className="inline-flex items-center gap-3 py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
-                  >
-                    <Icone className="size-4 shrink-0" aria-hidden="true" />
-                    <span className="sublinhado">{nome}</span>
-                  </a>
-                </li>
-              ))}
-              {whatsappUrl && (
-                <li>
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
-                  >
-                    <span className="sublinhado">WhatsApp</span>
-                  </a>
-                </li>
-              )}
-              {redes.length === 0 && !whatsappUrl && (
-                <li className="font-sans text-sm text-papel/45">Canais a definir</li>
-              )}
-            </ul>
-          </div>
+          {(redes.length > 0 || whatsappUrl) && (
+            <div className="lg:col-span-3 lg:col-start-10">
+              <h2 className="etiqueta text-papel/45">Siga o atelier</h2>
+              <ul className="mt-5 space-y-1">
+                {redes.map(({ nome, href, Icone }) => (
+                  <li key={nome}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${nome} do ${siteConfig.name} (abre em nova aba)`}
+                      className="inline-flex items-center gap-3 py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
+                    >
+                      <Icone className="size-4 shrink-0" aria-hidden="true" />
+                      <span className="sublinhado">{nome}</span>
+                    </a>
+                  </li>
+                ))}
+                {whatsappUrl && (
+                  <li>
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
+                    >
+                      <span className="sublinhado">WhatsApp</span>
+                    </a>
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
         </div>
 
         <Fio tone="claro" />
