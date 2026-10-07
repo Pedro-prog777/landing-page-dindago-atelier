@@ -13,19 +13,23 @@ hero/
   og-image.jpg             imagem de compartilhamento em redes (1200x630)
 
 products/
-  casal-nordestino.jpeg
-  casal-olhos-fechados-com-chapeu.jpeg
-  mulher-com-flores.jpeg
-  mulher-com-passaros.jpeg
-  mulher-com-peixes-na-cabeca.jpeg
-  mulher-do-mar.jpeg
-  olhos-fechados-com-chapeu.jpeg
-  palhaco.jpeg
-  santa.jpeg
+  AMocaDoMar.jpeg
+  BrincantesDoGuerreiroAlagoano.jpeg
+  Conjuntodefigurasempapel-machêinspiradasnaculturapopular.jpg
+  DonaEspanhola.jpeg
+  DonaRibeirinha.jpeg
+  MocaComCandeeiro.jpeg
+  MoradaDePassarinhos.jpeg
+  NossaSenhoraMaeDosHomens.jpeg
+  PalhacoEBailarina.jpeg
+  ciranda-do-sertao.jpg
+  mae-e-filho.jpg
+  mocaECandeiroMocaEBeija-Flor.jpeg
+  santa.jpg
   sereia.jpeg              fotos das peças
 
 artist/
-  artesa.jpg               retrato da artesã, de preferência trabalhando
+  Retratodaartista.jpeg    retrato da artesã
 
 gallery/
   obra-01.jpg ... obra-03.jpg
