@@ -54,7 +54,7 @@ export function FeaturedPieces() {
 
           <Reveal delay={90} className="lg:col-span-4 lg:col-start-9 lg:pb-2">
             <p className="text-base leading-relaxed text-tinta-suave">{productsSection.subtitle}</p>
-            <LinkEditorial href="#galeria" className="mt-5">
+            <LinkEditorial href="#pecas" className="mt-5">
               {productsSection.ctaLabel}
             </LinkEditorial>
           </Reveal>
