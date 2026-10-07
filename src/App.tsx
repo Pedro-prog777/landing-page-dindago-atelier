@@ -3,7 +3,6 @@ import { ContactSection } from './components/ContactSection';
 import { CultureSection } from './components/CultureSection';
 import { FeaturedPieces } from './components/FeaturedPieces';
 import { Footer } from './components/Footer';
-import { Gallery } from './components/Gallery';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { MapSection } from './components/MapSection';
@@ -21,9 +20,8 @@ export default function App() {
       <main id="conteudo">
         <Hero />
         <ValuesSection />
-        <ProcessSection />
         <FeaturedPieces />
-        <Gallery />
+        <ProcessSection />
         <AboutArtist />
         <CultureSection />
         <OrdersSection />

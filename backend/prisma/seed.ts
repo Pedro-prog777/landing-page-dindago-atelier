@@ -242,20 +242,6 @@ async function main() {
       },
       {
         clientId: dindago.id,
-        name: 'Conjunto de figuras em papel-machê inspiradas na cultura popular',
-        slug: 'conjunto-de-figuras-inspiradas-na-cultura-popular',
-        category: 'Escultura em papel-machê',
-        description: 'Conjunto de figuras em papel-machê inspirado na cultura popular.',
-        story:
-          'Um conjunto de figuras moldadas à mão e inspirado na riqueza da cultura popular. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
-        price: null,
-        imageUrl: '/images/products/Conjuntodefigurasempapel-machêinspiradasnaculturapopular.jpg',
-        imageAlt: 'Conjunto de figuras em papel-machê inspiradas na cultura popular',
-        badge: 'Peça única',
-        order: 2,
-      },
-      {
-        clientId: dindago.id,
         name: 'Dona Espanhola',
         slug: 'dona-espanhola',
         category: 'Escultura em papel-machê',
@@ -266,7 +252,7 @@ async function main() {
         imageUrl: '/images/products/DonaEspanhola.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Dona Espanhola',
         badge: 'Peça única',
-        order: 3,
+        order: 2,
       },
       {
         clientId: dindago.id,
@@ -280,7 +266,7 @@ async function main() {
         imageUrl: '/images/products/DonaRibeirinha.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Dona Ribeirinha',
         badge: 'Peça única',
-        order: 4,
+        order: 3,
       },
       {
         clientId: dindago.id,
@@ -294,7 +280,7 @@ async function main() {
         imageUrl: '/images/products/MocaComCandeeiro.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Moça com Candeeiro',
         badge: 'Peça única',
-        order: 5,
+        order: 4,
       },
       {
         clientId: dindago.id,
@@ -308,7 +294,7 @@ async function main() {
         imageUrl: '/images/products/MoradaDePassarinhos.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Morada de Passarinhos',
         badge: 'Peça única',
-        order: 6,
+        order: 5,
       },
       {
         clientId: dindago.id,
@@ -322,7 +308,7 @@ async function main() {
         imageUrl: '/images/products/NossaSenhoraMaeDosHomens.jpeg',
         imageAlt: 'Escultura religiosa em papel-machê de Nossa Senhora Mãe dos Homens',
         badge: 'Peça única',
-        order: 7,
+        order: 6,
       },
       {
         clientId: dindago.id,
@@ -336,35 +322,7 @@ async function main() {
         imageUrl: '/images/products/PalhacoEBailarina.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Palhaço e Bailarina',
         badge: 'Peça única',
-        order: 8,
-      },
-      {
-        clientId: dindago.id,
-        name: 'Ciranda do Sertão',
-        slug: 'ciranda-do-sertao',
-        category: 'Escultura em papel-machê',
-        description: 'Composição que celebra a roda e a cultura popular do sertão.',
-        story:
-          'Uma obra inspirada na ciranda e nas tradições populares do sertão. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
-        price: null,
-        imageUrl: '/images/products/ciranda-do-sertao.jpg',
-        imageAlt: 'Escultura em papel-machê intitulada Ciranda do Sertão',
-        badge: 'Peça única',
-        order: 9,
-      },
-      {
-        clientId: dindago.id,
-        name: 'Mãe e Filho',
-        slug: 'mae-e-filho',
-        category: 'Escultura em papel-machê',
-        description: 'Cena de afeto que retrata o vínculo entre mãe e filho.',
-        story:
-          'Uma composição feita à mão que representa o carinho entre mãe e filho. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
-        price: null,
-        imageUrl: '/images/products/mae-e-filho.jpg',
-        imageAlt: 'Escultura em papel-machê intitulada Mãe e Filho',
-        badge: 'Peça única',
-        order: 10,
+        order: 7,
       },
       {
         clientId: dindago.id,
@@ -378,21 +336,7 @@ async function main() {
         imageUrl: '/images/products/mocaECandeiroMocaEBeija-Flor.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Moça e Candeeiro, Moça e Beija-flor',
         badge: 'Peça única',
-        order: 11,
-      },
-      {
-        clientId: dindago.id,
-        name: 'Santa',
-        slug: 'santa',
-        category: 'Escultura em papel-machê',
-        description: 'Figura devocional em papel-machê, criada com cuidado artesanal.',
-        story:
-          'Uma imagem religiosa modelada à mão em papel-machê. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
-        price: null,
-        imageUrl: '/images/products/santa.jpg',
-        imageAlt: 'Escultura religiosa em papel-machê intitulada Santa',
-        badge: 'Peça única',
-        order: 12,
+        order: 8,
       },
       {
         clientId: dindago.id,
@@ -406,7 +350,7 @@ async function main() {
         imageUrl: '/images/products/sereia.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Sereia',
         badge: 'Peça única',
-        order: 13,
+        order: 9,
       },
     ],
   });
@@ -415,7 +359,7 @@ async function main() {
   await prisma.galleryItem.deleteMany({ where: { clientId: dindago.id } });
   const galeria = [
     ['Obras', 'obra-01', 'Escultura em papel-machê finalizada sobre fundo neutro'],
-    ['Obras', 'obra-02', 'Conjunto de figuras em papel-machê inspiradas na cultura popular'],
+    ['Obras', 'obra-02', 'Brincantes do Guerreiro Alagoano em papel-machê'],
     ['Obras', 'obra-03', 'Escultura de figura humana em papel-machê com pintura em tons de terra'],
     ['Processo', 'processo-01', 'Papel de molho em água, primeira etapa da produção do papel-machê'],
     ['Processo', 'processo-02', 'Polpa de papel triturada pronta para receber a cola caseira'],
