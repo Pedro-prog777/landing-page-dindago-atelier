@@ -380,7 +380,7 @@ export const clientData = {
       name: 'Goretti Brandão',
       role: 'Artista e criadora do Dindagó Atelier',
       photo: '/images/artist/artesa.jpg',
-      photoAlt: 'Goretti Brandão trabalhando em uma peça de papel-machê no atelier',
+      photoAlt: 'Retrato de Goretti Brandão no atelier, diante de peças de papel-machê',
     },
   },
 
