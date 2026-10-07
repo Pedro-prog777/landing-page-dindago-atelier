@@ -17,12 +17,7 @@ export function rotaNaoEncontrada(req: Request, res: Response) {
  * Em produção o cliente recebe só a mensagem — stack trace e detalhes internos
  * ficam no log do servidor, para não vazarem estrutura da aplicação.
  */
-export function tratarErros(
-  erro: unknown,
-  _req: Request,
-  res: Response,
-  _next: NextFunction,
-) {
+export function tratarErros(erro: unknown, _req: Request, res: Response, _next: NextFunction) {
   if (erro instanceof ZodError) {
     const errors: Record<string, string[]> = {};
     for (const problema of erro.issues) {
