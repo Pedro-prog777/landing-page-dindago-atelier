@@ -358,7 +358,7 @@ export const clientData = {
       'Cada peça começa muito antes das mãos tocarem o papel. Começa na imaginação, na pesquisa e na memória.',
     paragraphs: [
       'O Dindagó Atelier nasce do encontro entre pesquisa e trabalho manual. As esculturas em papel-machê partem de histórias vividas e ouvidas — festas, ofícios, personagens do cotidiano nordestino — e ganham forma no tempo lento do papel.',
-      '[BIOGRAFIA DA ARTESÃ] Espaço reservado para formação, trajetória, o começo do atelier e o que a levou ao papel-machê. Substitua por suas próprias palavras — é o texto que mais aproxima quem chega ao site.',
+      'A artista alagoana Goretti Brandão transforma papel-machê em esculturas autorais inspiradas pela cultura popular nordestina. No atelier, pesquisa, memória e trabalho manual dão forma a peças únicas.',
     ],
     ctaLabel: 'Conheça nossa história',
     pillars: [
