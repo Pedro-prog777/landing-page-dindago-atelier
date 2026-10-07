@@ -267,14 +267,14 @@ export const clientData = {
     },
     {
       id: 6,
-      name: 'Mulher do Mar — Barco',
+      name: 'Mulher com Peixes na Cabeça',
       category: 'Escultura em papel-machê',
-      description: 'Figura inspirada no mar, com barco e paisagem azul.',
+      description: 'Figura feminina com peixes coloridos entre os cabelos azuis.',
       story:
-        'A peça apresenta uma figura cercada por ondas, peixes e um barco. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
+        'A escultura transforma os cabelos em ondas e destaca peixes coloridos na composição. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
       price: null,
-      image: '/images/products/mulher-do-mar2.jpeg',
-      imageAlt: 'Escultura de figura feminina com ondas, peixes e um barco',
+      image: '/images/products/mulher-com-peixes-na-cabeca.jpeg',
+      imageAlt: 'Escultura de mulher com cabelos azuis e peixes coloridos',
       badge: 'Peça única',
     },
     {
