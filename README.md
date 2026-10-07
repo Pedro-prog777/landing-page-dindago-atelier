@@ -54,7 +54,7 @@ Landing page  (React)            Painel  /admin  (React)
                    Prisma
                       |
                       v
-              Banco (SQLite / Postgres)
+              Banco (PostgreSQL padrão / SQLite local)
 ```
 
 **O design nunca depende da rede.** A landing page começa a renderizar com o
@@ -160,25 +160,7 @@ openssl rand -base64 48
 > Os arquivos `.env` **nunca** vão para o GitHub — estão no `.gitignore`. Só os
 > `.env.example` são versionados, e eles não têm valores reais.
 
-### Banco local
-
-O caminho recomendado para desenvolvimento usa SQLite e não exige instalar um
-servidor de banco. No `backend/.env`, use:
-
-```env
-DATABASE_URL="file:./dev.db"
-```
-
-Crie as tabelas e carregue os dados:
-
-```bash
-npm run db:push
-npm run db:seed
-```
-
-O arquivo `backend/dev.db` é local e está ignorado pelo Git.
-
-### PostgreSQL (opcional)
+### Banco local — PostgreSQL
 
 Para usar PostgreSQL, baixe em <https://www.postgresql.org/download/windows/> e instale. Durante a
 instalação ele pede uma senha para o usuário `postgres` — **anote**, você vai
@@ -197,6 +179,9 @@ DATABASE_URL="postgresql://postgres:SUA_SENHA@localhost:5432/dindago?schema=publ
 
 > Cada pessoa tem o seu próprio banco, na própria máquina. O `.env` não vai
 > para o Git justamente por isso.
+
+SQLite continua disponível como alternativa para desenvolvimento sem servidor.
+Nesse caso, use `DATABASE_URL="file:./dev.db"` e `npm run db:push`.
 
 ### Criar as tabelas e popular
 
@@ -248,7 +233,7 @@ Outros comandos:
 | `npm run build`      | build do frontend               |
 | `npm run build:api`  | build do backend                |
 | `npm run lint`       | análise estática                |
-| `npm run db:push`    | cria tabelas com o schema SQLite |
+| `npm run db:push`    | sincroniza o schema diretamente (útil para SQLite local) |
 | `npm run db:migrate` | cria/aplica migrations PostgreSQL |
 | `npm run db:seed`    | popula dados de desenvolvimento |
 | `npm run db:reset`   | reinicia o banco PostgreSQL     |

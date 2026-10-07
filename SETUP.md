@@ -2,8 +2,8 @@
 
 Guia de instalação do zero, para quem nunca configurou este projeto.
 
-O caminho recomendado usa SQLite local e não exige instalar nem configurar um
-servidor de banco. PostgreSQL continua disponível como alternativa.
+O caminho recomendado usa PostgreSQL, como no ambiente compartilhado da equipe.
+SQLite continua disponível como alternativa local sem servidor.
 
 **Windows/PowerShell é o caminho principal.** Onde Linux e macOS diferem, há
 uma seção separada no final.
@@ -29,7 +29,7 @@ Descoberto a partir dos arquivos do repositório, não de suposição.
 | Validação       | Zod                    | 4.5.2                     |
 | Senhas          | bcryptjs               | 3.0.3                     |
 | Sessão          | jsonwebtoken em cookie | 9.0.3                     |
-| Banco           | SQLite (local) / PostgreSQL (opcional) | —          |
+| Banco           | PostgreSQL (padrão) / SQLite (alternativa) | —       |
 | Runtime         | Node.js                | 20.19+ (`.nvmrc` pede 24) |
 | Gerenciador     | npm (workspaces)       | 10+                       |
 | Lint            | oxlint                 | 1.79.0                    |
@@ -46,7 +46,7 @@ Nenhum serviço externo é chamado. Não há chave de API de terceiros.
 | ----- | -------------------- | ------------------------ |
 | 5173  | Vite (site e painel) | `vite.config.ts`         |
 | 3333  | API Express          | `PORT` no `backend/.env` |
-| 5432  | PostgreSQL (opcional) | definido ao instalar    |
+| 5432  | PostgreSQL | definido ao instalar                         |
 
 ---
 
@@ -54,14 +54,14 @@ Nenhum serviço externo é chamado. Não há chave de API de terceiros.
 
 - [x] **Git**
 - [x] **Node.js 20.19+** (traz o npm junto)
-- [x] **SQLite** (já incluído; não requer serviço)
-- [ ] **PostgreSQL 16+** (opcional)
+- [x] **PostgreSQL 16+** (necessário para o caminho recomendado)
+- [ ] **SQLite** (alternativa local; já incluído)
 - [ ] ~~Python~~ — não usado
 - [ ] ~~Java/JDK~~ — não usado
 - [ ] ~~Docker~~ — não usado
 - [ ] ~~pnpm / yarn~~ — o projeto usa npm
 
-São **dois** programas obrigatórios. PostgreSQL é opcional.
+São **três** programas para o caminho recomendado: Git, Node.js e PostgreSQL.
 
 ---
 
@@ -98,7 +98,7 @@ winget install --id OpenJS.NodeJS.LTS -e --source winget
 
 ---
 
-## 1.3 PostgreSQL (opcional)
+## 1.3 PostgreSQL
 
 **COMANDO**
 
@@ -257,23 +257,14 @@ npm install
 added 319 packages, and audited 321 packages in 51s
 ```
 
-O número pode variar um pouco. O SQLite usa um módulo nativo com binários
-pré-compilados para versões suportadas do Node; em geral não exige compilador.
+O número pode variar um pouco. Os adaptadores dos bancos são instalados pelo
+projeto junto com as dependências.
 
 ---
 
 # PARTE 3 — Configurar
 
-## 3.1 Banco de dados local
-
-O padrão é SQLite. Não crie banco manualmente nem instale PostgreSQL para
-executar o projeto localmente; o arquivo `backend/dev.db` será criado pelo
-Prisma no próximo passo.
-
-Para usar PostgreSQL em vez disso, siga o procedimento opcional abaixo e ajuste
-`DATABASE_URL` no `backend/.env` para a porta e senha da sua instalação.
-
-### Opcional: criar banco PostgreSQL
+## 3.1 Banco de dados local — PostgreSQL
 
 **COMANDO** (troque `SUA_SENHA`; ajuste a porta se for 5433)
 
@@ -282,7 +273,7 @@ $env:PGPASSWORD = "SUA_SENHA"
 & "$env:ProgramFiles\PostgreSQL\18\bin\psql.exe" -h localhost -p 5432 -U postgres -c "CREATE DATABASE dindago;"
 ```
 
-**O QUE FAZ:** cria o banco `dindago`, vazio.
+**O QUE FAZ:** cria o banco `dindago`, vazio, usado como padrão pelo projeto.
 
 Se a sua versão do PostgreSQL não for a 18, ajuste o número no caminho.
 
@@ -307,11 +298,15 @@ notepad backend\.env
 **O QUE FAZ:** cria as duas configurações locais e abre a do backend para
 edição.
 
-Para SQLite, mantenha `DATABASE_URL="file:./dev.db"`.
+Configure `DATABASE_URL` com a senha e a porta corretas do PostgreSQL. A senha
+de `SEED_ADMIN_PASSWORD` é apenas a senha de entrada do painel e não é a senha
+do PostgreSQL.
 
-Se optou por PostgreSQL, configure `DATABASE_URL` com a senha e a porta
-corretas do servidor. A senha de `SEED_ADMIN_PASSWORD` é apenas a senha de
-entrada do painel e não é a senha do PostgreSQL.
+```
+DATABASE_URL="postgresql://postgres:SUA_SENHA@localhost:5432/dindago?schema=public"
+```
+
+Se preferir desenvolver sem instalar PostgreSQL, use SQLite como alternativa:
 
 ```
 DATABASE_URL="file:./dev.db"
@@ -344,7 +339,7 @@ GitHub; cada pessoa tem os seus.
 
 | Variável              | Obrigatória | De onde vem                                                                                                                                                     |
 | --------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DATABASE_URL`        | **sim**     | SQLite: `file:./dev.db` (padrão). PostgreSQL: usuário, senha, porta e banco definidos na sua instalação.                                                       |
+| `DATABASE_URL`        | **sim**     | PostgreSQL (padrão): usuário, senha, porta e banco da instalação. SQLite opcional: `file:./dev.db`. |
 | `JWT_SECRET`          | **sim**     | Assina o cookie de sessão. **Mínimo 32 caracteres** — o backend não sobe se for menor. O valor do exemplo serve para desenvolvimento; em produção gere um novo. |
 | `PORT`                | não         | Porta da API. Padrão 3333.                                                                                                                                      |
 | `CORS_ORIGIN`         | não         | Padrão `http://localhost:5173`.                                                                                                                                 |
@@ -365,12 +360,11 @@ Para gerar um `JWT_SECRET` novo:
 **COMANDO**
 
 ```powershell
-npm run db:push
+npm run db:migrate
 ```
 
-**O QUE FAZ:** cria as tabelas SQLite a partir do schema local.
-
-Se estiver usando PostgreSQL, rode `npm run db:migrate` em vez disso.
+**O QUE FAZ:** cria/aplica as migrations PostgreSQL. Se estiver usando SQLite,
+rode `npm run db:push` em vez disso.
 
 **RESULTADO ESPERADO:** `Your database is now in sync with your schema.`
 
@@ -479,14 +473,13 @@ Confira também, no navegador:
 ## 5.1 Antes de começar, atualize
 
 ```powershell
-git checkout main
-git pull origin main
+git pull
 npm install
 ```
 
 O `npm install` só é necessário quando alguém mudou dependências, mas rodar
-sempre não faz mal. Se alguém mudou o schema, rode `npm run db:push` para
-SQLite ou `npm run db:migrate` para PostgreSQL.
+sempre não faz mal. Se alguém mudou o schema, rode `npm run db:migrate` para
+PostgreSQL ou `npm run db:push` para SQLite.
 
 ## 5.2 Ver o que você alterou
 
@@ -558,8 +551,8 @@ git push
 
 | Item          | Valor                                                         |
 | ------------- | ------------------------------------------------------------- |
-| Banco local   | SQLite (`backend/dev.db`)                                     |
-| Banco opcional| PostgreSQL 16+ (`dindago`)                                    |
+| Banco padrão  | PostgreSQL 16+ (`dindago`)                                    |
+| Banco opcional| SQLite (`backend/dev.db`)                                      |
 | Tabelas       | 16                                                            |
 | Migration     | `backend/prisma/migrations/20260829000000_inicial_postgresql` |
 | Schema        | PostgreSQL: `schema.prisma`; SQLite: `schema.sqlite.prisma`   |
