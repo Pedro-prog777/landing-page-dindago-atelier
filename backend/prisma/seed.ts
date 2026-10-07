@@ -113,7 +113,12 @@ async function main() {
   // Sobre
   const sobre = await prisma.aboutContent.upsert({
     where: { clientId: dindago.id },
-    update: {},
+    update: {
+      body: [
+        'O Dindagó Atelier nasce do encontro entre pesquisa e trabalho manual. As esculturas em papel-machê partem de histórias vividas e ouvidas — festas, ofícios, personagens do cotidiano nordestino — e ganham forma no tempo lento do papel.',
+        'A artista alagoana Goretti Brandão transforma papel-machê em esculturas autorais inspiradas pela cultura popular nordestina. No atelier, pesquisa, memória e trabalho manual dão forma a peças únicas.',
+      ].join('\n\n'),
+    },
     create: {
       clientId: dindago.id,
       eyebrow: 'Sobre o atelier',
