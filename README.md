@@ -1,13 +1,81 @@
-# Dindagó Atelier — Aplicação Full Stack
+# Dindagó Atelier — Landing Page
 
-Landing page do **Dindagó Atelier** com backend, banco de dados, API e painel
-administrativo. O mesmo código serve **vários clientes**: cada um tem seus
+Landing page do **Dindagó Atelier**, espaço criativo da artista alagoana
+**Goretti Brandão**, que cria esculturas autorais em **papel-machê** inspiradas
+na cultura popular nordestina. Acompanha backend, banco de dados, API e painel
+administrativo; o mesmo código serve **vários clientes**, cada um com seus
 textos, cores, peças e contatos.
 
-A página apresenta a artista, o processo de criação das peças, a galeria de
-obras e os canais para encomendas e contato. A proposta **não é uma loja
-virtual**: é um portfólio digital que transmite arte, cultura, memória,
-sustentabilidade, trabalho manual e identidade nordestina.
+A proposta **não é uma loja virtual**: é um portfólio digital que apresenta as
+peças, conta a história da artista, ensina o básico do papel-machê e leva o
+visitante a pedir uma encomenda ou entrar em contato.
+
+## Sobre o projeto
+
+**Objetivo:** dar ao atelier uma presença on-line profissional, em que quem
+nunca ouviu falar dele entenda em poucos segundos o que é, veja as obras e
+saiba como encomendar.
+
+**Para quem:** pessoas que procuram arte popular e decoração com identidade,
+quem quer dar um presente feito à mão e lojistas, arquitetos e decoradores
+interessados em peças autorais.
+
+**Ordem de leitura da página**
+
+| Nº  | Seção           | Responde a                                                |
+| --- | --------------- | --------------------------------------------------------- |
+| 01  | Capa            | O que é: esculturas em papel-machê de Goretti Brandão, AL |
+| 02  | Diferenciais    | Por que importa: feito à mão, sustentável, autoral        |
+| 03  | Coleções        | O trabalho: 10 obras, com detalhes de cada uma            |
+| 04  | O artesanato    | Como se faz: tutorial "Como fazer papel-machê?"           |
+| 05  | Sobre o atelier | Quem é e no que acredita                                  |
+| 06  | Nossa história  | A artista, em retrato e depoimento                        |
+| 07  | Encomendas      | Como funciona uma peça personalizada, em 4 etapas         |
+| 08  | Contato         | Formulário + canais de atendimento                        |
+| 09  | Localização     | Onde fica o atelier (mapa e rota)                         |
+| 10  | Redes sociais   | Aparece sozinha quando os links reais forem preenchidos   |
+
+**Principais funcionalidades**
+
+- Mosaico de peças com diálogo de detalhes: foto inteira, ficha técnica e
+  navegação entre as peças (botões e setas do teclado).
+- "Tenho interesse" numa peça e "Fazer uma encomenda" levam ao formulário já
+  preenchido com a peça e o assunto.
+- Formulário de contato com validação, proteção anti-robô e três desfechos:
+  grava na API; sem API, monta a mensagem no WhatsApp ou no e-mail do atelier.
+- Busca no site (peças e seções); um resultado de peça abre a própria peça.
+- Menu com a seção atual destacada, menu mobile e botão flutuante de contato.
+- Painel `/admin` para editar textos, cores e peças e ler as mensagens.
+- Funciona sem backend: o conteúdo padrão está em `src/data/clientData.ts`.
+
+---
+
+## Para a apresentação
+
+O jeito mais simples (não precisa de banco de dados):
+
+```bash
+npm install
+npm run dev        # abre em http://localhost:5173
+```
+
+Para mostrar também o painel administrativo e o formulário gravando no banco,
+rode a API em outro terminal (`npm run dev:api`) — veja [Instalação](#instalação).
+
+Roteiro sugerido de demonstração:
+
+1. Capa: o que é o atelier, em uma frase, e a arte "Eu amo meu Nordeste".
+2. Coleções: abrir uma peça, navegar com as setas, clicar em "Tenho interesse"
+   e mostrar o formulário já preenchido.
+3. Busca (lupa no topo): digitar "sereia" e abrir a peça.
+4. Encomendas: as 4 etapas e o botão que escolhe o assunto do formulário.
+5. Celular: no navegador, `F12` → ícone de celular (`Ctrl+Shift+M`), escolher
+   um iPhone ou Galaxy e abrir o menu ☰.
+
+> Sem a API rodando, o console do navegador mostra um aviso de que ela está
+> indisponível — é esperado, e o site segue com o conteúdo local. Para não ter
+> nem esse aviso, use `VITE_SEM_API=true` no `.env` (ver
+> [Variáveis de ambiente](#variáveis-de-ambiente)).
 
 ---
 
@@ -20,6 +88,8 @@ sustentabilidade, trabalho manual e identidade nordestina.
 
 ## Sumário
 
+- [Sobre o projeto](#sobre-o-projeto)
+- [Para a apresentação](#para-a-apresentação)
 - [Tecnologias](#tecnologias)
 - [Pré-requisitos](#pré-requisitos)
 - [Como clonar](#como-clonar)
@@ -30,6 +100,7 @@ sustentabilidade, trabalho manual e identidade nordestina.
 - [Configuração do cliente](#configuração-do-cliente)
 - [Imagens](#imagens)
 - [Variáveis de ambiente](#variáveis-de-ambiente)
+- [Publicação gratuita](#publicação-gratuita)
 - [Desenvolvimento em equipe](#desenvolvimento-em-equipe)
 - [Padrão de commits](#padrão-de-commits)
 - [Fluxo de Pull Request](#fluxo-de-pull-request)
@@ -83,7 +154,7 @@ console registra o ocorrido.
 | [Tailwind CSS v4](https://tailwindcss.com)   | estilização por classes utilitárias |
 | [lucide-react](https://lucide.dev)           | ícones                              |
 | [oxlint](https://oxc.rs)                     | análise estática do código          |
-| Google Fonts                                 | tipografias Fraunces e Karla        |
+| Google Fonts                                 | tipografias Instrument Serif e Archivo |
 
 O site público continua funcionando com conteúdo local sem o backend. O painel
 administrativo e os formulários usam a API Express e o banco configurado.
@@ -386,17 +457,19 @@ tipo; não há ícone folclórico espalhado nem card com sombra.
 
 ### Cadernos
 
-| Nº    | Seção                    | Composição                                                        |
-| ----- | ------------------------ | ----------------------------------------------------------------- |
-| 01    | Capa                     | Manchete em degrau + prancha em sangria total                     |
-| 02    | Diferenciais             | Bento assimétrico com superfícies de tinta, tijolo, barro e papel |
-| 03    | O artesanato             | Ensaio em duas colunas com capitular + etapas em faixa de seis    |
-| 04    | Coleções                 | Espelho de pranchas em proporções e alturas diferentes            |
-| 05    | Galeria                  | Mosaico com lightbox                                              |
-| 06    | Nossa história           | Retrato estreito + citação em corpo grande                        |
-| 07    | Sobre o atelier          | Caderno escuro — o ponto de virada da leitura                     |
-| 08    | Encomendas               | Quadrantes com numeral em marca-d'água + chamada em sangria       |
-| 09–11 | Contato, atelier e redes | Fechamento, com o colofão no rodapé                               |
+| Nº    | Seção                    | Composição                                                          |
+| ----- | ------------------------ | ------------------------------------------------------------------- |
+| 01    | Capa                     | Manchete em degrau + prancha na proporção original da arte          |
+| 02    | Diferenciais             | Bento assimétrico com superfícies de tinta, tijolo, barro e papel   |
+| 03    | Coleções                 | Mosaico em retrato: duas pranchas grandes alternando o lado         |
+| 04    | O artesanato             | Tutorial: pergunta fixa à esquerda + materiais em cartões numerados |
+| 05    | Sobre o atelier          | Caderno escuro — o ponto de virada da leitura                       |
+| 06    | Nossa história           | Retrato estreito + citação em corpo grande                          |
+| 07    | Encomendas               | Quadrantes com numeral em marca-d'água + chamada em sangria         |
+| 08–10 | Contato, atelier e redes | Fechamento, com o colofão no rodapé                                 |
+
+A numeração fica nos campos `numero` de `src/data/clientData.ts` e segue a
+ordem de `src/App.tsx`. O menu (`nav`) usa a mesma ordem.
 
 ### Sistema visual
 
@@ -423,23 +496,20 @@ rede. Em superfícies escuras, `.grao-claro` inverte a mistura.
 | `ui/Catalogo.tsx`       | `Fio`, `Caderno`, `Numeral`, `Xilogravura`                     |
 | `ui/Decorations.tsx`    | `Sol`, `Cacto`, `Passaros`, `Flor`, `PapelRasgado`, `Arabesco` |
 | `ui/iconMap.ts`         | liga o campo `icon` do clientData ao desenho                   |
-| `ui/SmartImage.tsx`     | prancha de catálogo (ver abaixo)                               |
+| `ui/SmartImage.tsx`     | imagem com prancha de reserva se o arquivo faltar              |
 | `ui/Button.tsx`         | `Button` (bloco chapado) e `LinkEditorial` (etiqueta + fio)    |
 | `ui/SectionHeading.tsx` | abertura de caderno                                            |
 | `ui/Reveal.tsx`         | entrada no scroll, com rede de segurança de 1,5s               |
 
 ### Pranchas de imagem
 
-**Nenhuma fotografia fictícia foi usada.** Onde entra imagem real existe uma
-prancha de catálogo: campo chapado de barro, fio de contorno, numeração
-`fig. NN` e a descrição do que vai ali.
+**Nenhuma fotografia fictícia foi usada:** todas as imagens são do atelier.
+Se um arquivo faltar ou falhar ao carregar, o lugar dele vira uma prancha de
+catálogo (campo de barro, fio de contorno e `fig. NN`) com a mesma proporção —
+nunca uma imagem quebrada.
 
-Cada prancha já tem a **proporção, posição, sangria e o hover** da fotografia
-definitiva. Ao colocar o arquivo em `public/images/`, ele ocupa exatamente
-aquele lugar — nada se desloca.
-
-> Enquanto as fotos não chegam, a página mostra vários campos de barro vazios.
-> É proposital: o espaço está reservado, não preenchido com imagem genérica.
+As fotos das peças são verticais, então o mosaico de coleções usa pranchas em
+retrato; no diálogo de detalhes a foto aparece inteira, sem corte.
 
 ## Configuração do cliente
 
@@ -458,9 +528,9 @@ sociais, cores e SEO.
 | **Cores do site**                | `colors`                     |
 | Título e imagem do topo          | `hero`                       |
 | Os 5 diferenciais                | `benefits`                   |
-| Etapas do processo               | `process`                    |
+| Tutorial de papel-machê          | `tutorial`                   |
 | Peças e preços                   | `products`                   |
-| Fotos da galeria                 | `gallery`                    |
+| Texto da localização             | `mapSection`                 |
 | História e dados da artista      | `about`                      |
 | Blocos de valores                | `culture`                    |
 | Fluxo de encomendas              | `orders`                     |
@@ -515,11 +585,14 @@ Nenhum componente em `src/components/` precisa ser tocado.
 ## Imagens
 
 Coloque as fotografias em `public/images/`, seguindo os nomes descritos em
-`public/images/README.md`. Enquanto o arquivo não existir, aparece um marcador
-identificado no lugar — nunca uma foto genérica.
+`public/images/README.md`. Se um arquivo não existir, aparece uma prancha de
+reserva no lugar — nunca uma foto genérica nem um ícone de imagem quebrada.
 
-- **Logo:** `public/images/logo/dindago-atelier.svg`
-- **Favicon:** substitua `public/favicon.svg`
+- **Logo:** salve o arquivo em `public/images/logo/` e escreva o caminho em
+  `company.logo` no `clientData.ts`. Vazio, o site usa a assinatura tipográfica.
+- **Favicon:** `public/favicon.svg` (sol do sertão) e
+  `public/apple-touch-icon.png`; troque pela logo quando ela existir.
+- **Compartilhamento:** `public/images/hero/og-image.jpg` (1200×630).
 - **Peças e galeria:** caminhos em `src/data/clientData.ts`
 
 Exporte em JPG ou WebP com no máximo ~1600px no maior lado, para o site
@@ -529,21 +602,47 @@ continuar leve.
 
 ## Variáveis de ambiente
 
-O projeto funciona **sem nenhuma variável de ambiente**. Elas existem para
-integrações futuras (formulário, analytics).
+O site funciona **sem nenhuma variável de ambiente**. As do frontend ficam no
+`.env` da raiz; as da API, em `backend/.env`.
 
 ```bash
 cp .env.example .env      # Linux/macOS
 copy .env.example .env    # Windows
 ```
 
-Preencha o `.env` com seus valores locais.
+| Variável           | Para que serve                                                  |
+| ------------------ | --------------------------------------------------------------- |
+| `VITE_API_URL`     | endereço da API quando ela não está no mesmo domínio (produção) |
+| `VITE_CLIENT_SLUG` | qual cliente o site exibe (padrão: `dindago-atelier`)           |
+| `VITE_SEM_API`     | `true` para publicar só o site, sem backend (ver abaixo)        |
 
 > ⚠️ **O `.env` nunca vai para o GitHub** — ele está no `.gitignore`. Só o
 > `.env.example` é versionado, e ele não contém valores reais.
 >
 > No Vite, tudo que tem prefixo `VITE_` fica **visível no navegador**. Nunca
 > coloque senha, chave privada ou token secreto nessas variáveis.
+
+---
+
+## Publicação gratuita
+
+Depois do build, o site é um conjunto de arquivos estáticos: qualquer
+hospedagem gratuita de sites estáticos serve (Vercel, Netlify, Cloudflare
+Pages).
+
+1. Na hospedagem, configure o comando de build `npm run build`, a pasta de
+   saída `dist` e Node 20.19 ou maior.
+2. Sem backend publicado, defina a variável `VITE_SEM_API=true`. O site mostra
+   o conteúdo de `src/data/clientData.ts` e o formulário monta a mensagem no
+   WhatsApp ou no e-mail do atelier.
+3. Com a API publicada em outro endereço, defina `VITE_API_URL` (ex.:
+   `https://api.seudominio.com.br/api`) e, no `backend/.env`, `CORS_ORIGIN`
+   com o endereço do site.
+4. Troque `https://dindagoatelier.com.br/` no `index.html` e em `seo.url` pelo
+   endereço final, e deixe `og:image` com o endereço absoluto da imagem.
+
+> O painel `/admin` só funciona com a API. Em hospedagem estática, a rota
+> `/admin` também precisa de uma regra de rewrite para `index.html`.
 
 ---
 
@@ -778,9 +877,14 @@ ele precisa ser **revogado e trocado**, pois continua no histórico do Git.
 O que já está garantido e precisa ser mantido nas próximas alterações:
 
 - HTML semântico, um único `h1` e hierarquia de títulos sem saltos.
-- Todas as imagens com `alt`, todos os campos com `label`, foco sempre visível.
-- Diálogos (busca, detalhes da peça e galeria) fecham com `Esc`, prendem o foco
-  e o devolvem ao elemento de origem; a galeria navega com as setas.
-- Sem rolagem horizontal em 360, 390, 430, 768, 1024, 1440 e 1920px.
+- Todas as imagens com `alt`, todos os campos com `label`, foco sempre visível
+  e link "Ir para o conteúdo" no primeiro `Tab`.
+- Diálogos (busca e detalhes da peça) fecham com `Esc`, prendem o foco e o
+  devolvem ao elemento de origem; o detalhe da peça navega com as setas.
+- Sem rolagem horizontal em 320, 375, 390, 414, 430, 768, 834, 1024, 1280,
+  1440 e 1920px (verificado no navegador).
+- Botões principais com área de toque de 44px; campos com 16px no celular
+  (o iPhone não dá zoom ao focar).
+- Texto de apoio em `tinta-media` ou `tinta-suave` sobre papel, acima de
+  4,5:1 de contraste. Evite rótulos em `text-tinta/40` ou mais claros.
 - Animações respeitam `prefers-reduced-motion`.
-- Contraste de 7:1 no texto e 12,8:1 nos títulos.
