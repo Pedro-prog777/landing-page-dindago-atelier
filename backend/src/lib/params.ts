@@ -15,6 +15,23 @@ export function param(req: Request, nome: string): string {
   throw new ErroApi(400, `Parâmetro "${nome}" inválido na URL.`);
 }
 
+/**
+ * Lê um inteiro da query string, dentro de [min, max]. Valor ausente, repetido
+ * (?page=1&page=2) ou que não é número cai no padrão — antes um `?page=abc`
+ * virava NaN e derrubava a consulta com erro 500.
+ */
+export function inteiroDaQuery(
+  req: Request,
+  nome: string,
+  padrao: number,
+  min: number,
+  max: number,
+): number {
+  const numero = Number.parseInt(query(req, nome) ?? '', 10);
+  if (!Number.isFinite(numero)) return padrao;
+  return Math.min(max, Math.max(min, numero));
+}
+
 /** Lê um parâmetro de query string como texto simples, se existir. */
 export function query(req: Request, nome: string): string | undefined {
   const valor = req.query[nome];

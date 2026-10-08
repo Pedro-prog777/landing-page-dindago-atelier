@@ -4,6 +4,7 @@ import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
 import { Fio, Xilogravura } from './ui/Catalogo';
 import { PapelRasgado } from './ui/Decorations';
+import { clientData as conteudoPadrao } from '../data/clientData';
 
 /**
  * Capa do catálogo.
@@ -135,8 +136,10 @@ export function Hero() {
               <figure className="group">
                 <div className="overflow-hidden bg-areia shadow-[0_30px_60px_-34px_rgba(74,47,33,0.85)] transition-transform duration-700 ease-out sm:ring-1 sm:ring-tinta/10 lg:-rotate-1 lg:group-hover:rotate-0">
                   <SmartImage
+                    key={hero.image}
                     src={hero.image}
                     alt={hero.imageAlt}
+                    alternativa={{ src: conteudoPadrao.hero.image, alt: conteudoPadrao.hero.imageAlt }}
                     placeholderLabel="Prancha de abertura"
                     figura="01"
                     loading="eager"

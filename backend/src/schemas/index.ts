@@ -31,6 +31,18 @@ const urlOpcional = z
     'Informe uma URL http(s) ou um caminho começando com "/".',
   );
 
+/**
+ * Destino de botão (CTA): âncora (#secao), caminho (/pagina), http(s), mailto:,
+ * tel: ou a palavra "whatsapp", que o site troca pelo link do WhatsApp.
+ * Bloqueia `javascript:` e afins — o valor vai direto para um href na página
+ * pública, onde rodaria no navegador de quem clicasse.
+ */
+const destinoDeLink = (max: number) =>
+  opcional(max).refine(
+    (v) => v === null || v === 'whatsapp' || /^(#|\/(?!\/)|https?:\/\/|mailto:|tel:)/i.test(v),
+    'Use uma âncora (#secao), um caminho (/pagina), um link http(s), mailto:, tel: ou "whatsapp".',
+  );
+
 const corHex = z
   .string()
   .trim()
@@ -54,7 +66,7 @@ export const trocarSenhaSchema = z.object({
 // CLIENTE
 // ============================================================================
 
-export const clienteSchema = z.object({
+const camposDoCliente = {
   slug: z
     .string()
     .trim()
@@ -66,10 +78,16 @@ export const clienteSchema = z.object({
   slogan: opcional(240),
   description: opcional(600),
   logoUrl: urlOpcional,
-  active: z.boolean().default(true),
-});
+};
 
-export const clienteParcialSchema = clienteSchema.partial();
+export const clienteSchema = z.object({ ...camposDoCliente, active: z.boolean().default(true) });
+
+/**
+ * Edição parcial: sem `default` no `active`. Com o padrão herdado do schema de
+ * criação, salvar só o nome devolvia `active: true` e reativava um site que
+ * tinha sido desativado de propósito.
+ */
+export const clienteParcialSchema = z.object({ ...camposDoCliente, active: z.boolean() }).partial();
 
 export const configuracoesSchema = z.object({
   colorPrimary: corHex,
@@ -111,9 +129,9 @@ export const heroSchema = z.object({
   imageAlt: opcional(240),
   imageCaption: opcional(160),
   primaryCtaLabel: opcional(40),
-  primaryCtaHref: opcional(200),
+  primaryCtaHref: destinoDeLink(200),
   secondaryCtaLabel: opcional(40),
-  secondaryCtaHref: opcional(200),
+  secondaryCtaHref: destinoDeLink(200),
 });
 
 export const heroFactSchema = z.object({
@@ -221,7 +239,8 @@ export const depoimentoSchema = z.object({
 
 export const redeSocialSchema = z.object({
   network: z.enum(['instagram', 'facebook', 'whatsapp', 'linkedin', 'youtube']),
-  url: z.url('Informe uma URL válida.').max(500),
+  // Só http(s): o endereço vira link público, e `javascript:` passaria num z.url() simples.
+  url: z.url({ protocol: /^https?$/, error: 'Informe um endereço que comece com https://.' }).max(500),
   order: z.coerce.number().int().min(0).default(0),
   active: z.boolean().default(true),
 });

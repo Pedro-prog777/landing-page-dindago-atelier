@@ -33,7 +33,8 @@ async function main() {
   // --------------------------------------------------------------------------
   const dindago = await prisma.client.upsert({
     where: { slug: 'dindago-atelier' },
-    update: {},
+    // Sem logo até o arquivo real existir (bancos antigos apontavam para um SVG ausente).
+    update: { logoUrl: null },
     create: {
       slug: 'dindago-atelier',
       name: 'Dindagó Atelier',
@@ -90,19 +91,25 @@ async function main() {
   const subtituloCapa =
     'Esculturas autorais em papel-machê, feitas à mão pela artista alagoana Goretti Brandão. Peças únicas que carregam a memória, a fé e a cultura popular do Nordeste.';
 
+  // A arte da capa vai também no `update`: bancos antigos guardavam o caminho de
+  // uma foto que não existe mais, e a capa aparecia sem imagem com a API ligada.
+  const arteDaCapa = {
+    imageUrl: '/images/hero/EuAmoNordeste.jpeg',
+    imageAlt:
+      'Arte em papel com a frase “Eu amo meu Nordeste” e ilustrações do sertão, cactos e mandacarus',
+    imageCaption: 'Eu amo meu Nordeste — arte inspirada na cultura sertaneja',
+  };
+
   const hero = await prisma.heroContent.upsert({
     where: { clientId: dindago.id },
-    update: { subtitle: subtituloCapa },
+    update: { subtitle: subtituloCapa, ...arteDaCapa },
     create: {
       clientId: dindago.id,
       titleLine1: 'Arte que nasce',
       titleLine2: 'da memória, da cultura',
       titleHighlight: 'e das mãos.',
       subtitle: subtituloCapa,
-      imageUrl: '/images/hero/EuAmoNordeste.jpeg',
-      imageAlt:
-        'Arte em papel com a frase “Eu amo meu Nordeste” e ilustrações do sertão, cactos e mandacarus',
-      imageCaption: 'Eu amo meu Nordeste — arte inspirada na cultura sertaneja',
+      ...arteDaCapa,
       primaryCtaLabel: 'Ver as peças',
       primaryCtaHref: '#pecas',
       secondaryCtaLabel: 'Falar com o atelier',

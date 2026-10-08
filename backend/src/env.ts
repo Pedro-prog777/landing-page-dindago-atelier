@@ -31,5 +31,16 @@ export const env = resultado.data;
 
 export const emProducao = env.NODE_ENV === 'production';
 
+/*
+ * O segredo de exemplo do .env.example é público (está no GitHub). Em
+ * produção ele permitiria a qualquer pessoa forjar uma sessão de OWNER.
+ */
+if (emProducao && env.JWT_SECRET.startsWith('troque-este-valor')) {
+  console.error(
+    '\nJWT_SECRET ainda é o valor de exemplo. Gere um segredo novo (openssl rand -base64 48) antes de publicar.\n',
+  );
+  process.exit(1);
+}
+
 /** Origens liberadas no CORS. Aceita lista separada por vírgula. */
 export const origensPermitidas = env.CORS_ORIGIN.split(',').map((o) => o.trim());

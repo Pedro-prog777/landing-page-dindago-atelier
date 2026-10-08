@@ -1,4 +1,4 @@
-import { param, query } from '../lib/params.js';
+import { inteiroDaQuery, param, query } from '../lib/params.js';
 import { Router } from 'express';
 import { prisma } from '../db.js';
 import { ErroApi, criado, ok, semConteudo } from '../lib/respostas.js';
@@ -109,7 +109,13 @@ rotasClientes.post(
   }),
 );
 
-/** PUT /api/clients/:id */
+/**
+ * PUT /api/clients/:id
+ *
+ * O EDITOR edita nome, slogan, logo e descrição, mas não muda o endereço do
+ * site (slug) nem o desativa: as duas coisas tiram a landing page do ar. O
+ * formulário do painel sempre envia o slug, então só a *mudança* é barrada.
+ */
 rotasClientes.put(
   '/clients/:id',
   exigirLogin,
@@ -117,6 +123,23 @@ rotasClientes.put(
   assincrono(async (req, res) => {
     const id = param(req, 'id');
     conferirAcessoAoCliente(req.sessao, id);
+
+    if (req.sessao!.role !== 'OWNER') {
+      const dados = req.body as { slug?: string; active?: boolean };
+      const atual = await prisma.client.findUnique({
+        where: { id },
+        select: { slug: true, active: true },
+      });
+      if (!atual) throw ErroApi.naoEncontrado('Cliente');
+      const mudaSlug = dados.slug !== undefined && dados.slug !== atual.slug;
+      const mudaAtivo = dados.active !== undefined && dados.active !== atual.active;
+      if (mudaSlug || mudaAtivo) {
+        throw ErroApi.semPermissao(
+          'Só o perfil OWNER pode mudar o identificador na URL ou desativar o site.',
+        );
+      }
+    }
+
     const cliente = await prisma.client.update({ where: { id }, data: req.body });
     return ok(res, cliente);
   }),
@@ -186,8 +209,8 @@ rotasClientes.get(
     const clientId = param(req, 'id');
     conferirAcessoAoCliente(req.sessao, clientId);
 
-    const pagina = Math.max(1, Number(req.query.page ?? 1));
-    const porPagina = Math.min(100, Math.max(1, Number(req.query.perPage ?? 20)));
+    const pagina = inteiroDaQuery(req, 'page', 1, 1, 100_000);
+    const porPagina = inteiroDaQuery(req, 'perPage', 20, 1, 100);
     const status = query(req, 'status');
 
     const where = { clientId, ...(status ? { status } : {}) };

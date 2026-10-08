@@ -2,6 +2,7 @@ import { useSite } from '../conteudo/useSite';
 import { Caderno, Fio } from './ui/Catalogo';
 import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
+import { clientData as conteudoPadrao } from '../data/clientData';
 
 /**
  * Caderno da história — retrato e depoimento.
@@ -31,8 +32,13 @@ export function AboutArtist() {
             <figure>
               <div className="overflow-hidden bg-areia">
                 <SmartImage
+                  key={artist.photo}
                   src={artist.photo}
                   alt={artist.photoAlt}
+                  alternativa={{
+                    src: conteudoPadrao.about.artist.photo,
+                    alt: conteudoPadrao.about.artist.photoAlt,
+                  }}
                   placeholderLabel="Retrato da artista"
                   className="aspect-4/5 w-full object-[50%_30%] transition-transform md:aspect-3/4 duration-[1.3s] ease-out group-hover:scale-[1.04]"
                 />

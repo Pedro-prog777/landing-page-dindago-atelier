@@ -37,6 +37,18 @@ export function criarApp() {
       maxAge: '7d',
       index: false,
       dotfiles: 'deny',
+      setHeaders: (res) => {
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        /*
+         * Um SVG enviado pelo painel pode conter <script>. Dentro de <img> o
+         * navegador já não executa nada; esta política cobre o caso de alguém
+         * abrir o arquivo direto pelo endereço.
+         */
+        res.setHeader(
+          'Content-Security-Policy',
+          "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox",
+        );
+      },
     }),
   );
 

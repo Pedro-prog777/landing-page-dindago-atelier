@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { prisma } from '../db.js';
 import { ErroApi, ok } from '../lib/respostas.js';
-import { conferirSenha, gerarHash } from '../lib/senha.js';
+import { conferirSenha, gerarHash, hashParaComparacaoFalsa } from '../lib/senha.js';
 import { assinarToken, NOME_COOKIE, opcoesCookie } from '../lib/token.js';
 import { exigirLogin } from '../middleware/autenticar.js';
 import { limiteLogin } from '../middleware/limitarTaxa.js';
@@ -25,10 +25,12 @@ rotasAuth.post(
     const { email, password } = req.body as { email: string; password: string };
 
     const usuario = await prisma.user.findUnique({ where: { email } });
-    if (!usuario) throw ErroApi.naoAutorizado('E-mail ou senha inválidos.');
 
-    const senhaConfere = await conferirSenha(password, usuario.passwordHash);
-    if (!senhaConfere) throw ErroApi.naoAutorizado('E-mail ou senha inválidos.');
+    // A senha é sempre conferida — com o hash real ou com um falso —, para o
+    // tempo de resposta não revelar se o e-mail existe.
+    const hash = usuario?.passwordHash ?? (await hashParaComparacaoFalsa());
+    const senhaConfere = await conferirSenha(password, hash);
+    if (!usuario || !senhaConfere) throw ErroApi.naoAutorizado('E-mail ou senha inválidos.');
 
     const sessao = {
       userId: usuario.id,

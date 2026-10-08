@@ -39,6 +39,25 @@ export function tratarErros(erro: unknown, _req: Request, res: Response, _next: 
     });
   }
 
+  /*
+   * Erros do leitor de JSON do Express: corpo malformado ou grande demais. Eles
+   * já trazem o status 4xx certo; antes caíam no 500 como se fosse falha nossa.
+   */
+  if (typeof erro === 'object' && erro !== null && 'type' in erro && 'status' in erro) {
+    const { type, status } = erro as { type?: string; status?: number };
+    if (type === 'entity.parse.failed') {
+      return res
+        .status(400)
+        .json({ success: false, message: 'O corpo da requisição não é um JSON válido.' });
+    }
+    if (type === 'entity.too.large') {
+      return res.status(413).json({ success: false, message: 'O conteúdo enviado é grande demais.' });
+    }
+    if (typeof status === 'number' && status >= 400 && status < 500) {
+      return res.status(status).json({ success: false, message: 'Requisição inválida.' });
+    }
+  }
+
   // Violação de restrição única do Prisma (P2002).
   if (typeof erro === 'object' && erro !== null && 'code' in erro) {
     const codigo = (erro as { code?: string }).code;
