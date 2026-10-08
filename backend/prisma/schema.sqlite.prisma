@@ -1,20 +1,13 @@
 // ============================================================================
-// DINDAGÓ — MODELO DE DADOS
+// DINDAGO — MODELO DE DADOS SQLITE PARA DESENVOLVIMENTO LOCAL
 // ----------------------------------------------------------------------------
-// A aplicação é multi-cliente: um mesmo código serve várias landing pages.
-// Tudo que é conteúdo pendura em `Client`, e apagar um cliente leva junto o
-// conteúdo dele (onDelete: Cascade).
-//
-// PostgreSQL em desenvolvimento e em produção — o mesmo banco nos dois lugares,
-// o que evita a classe de bug que só aparece depois de publicar.
-//
-// A partir do Prisma 7 a URL de conexão não mora mais neste arquivo: fica em
-// `prisma.config.ts` (para a CLI) e no adapter em `src/db.ts` (em execução).
-// As duas leem a mesma DATABASE_URL do .env.
+// Mantém os mesmos modelos de schema.prisma (PostgreSQL), mas usa SQLite para
+// que cada desenvolvedor possa abrir o painel sem instalar ou configurar um
+// servidor de banco. O schema PostgreSQL continua sendo o padrão de produção.
 // ============================================================================
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
 }
 
 generator client {
@@ -27,8 +20,7 @@ generator client {
 
 /// Usuário do painel administrativo.
 /// `role` é texto: use "OWNER" (vê todos os clientes) ou "EDITOR" (restrito ao
-/// próprio `clientId`). Mantido como String na migração para PostgreSQL —
-/// convertê-lo em enum nativo mudaria o schema sem necessidade.
+/// próprio `clientId`).
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -46,7 +38,7 @@ model User {
 }
 
 // ============================================================================
-// CLIENTE — a raiz de tudo
+// CLIENTE — A RAIZ DE TUDO
 // ============================================================================
 
 model Client {
@@ -103,13 +95,13 @@ model ClientSettings {
   updatedAt DateTime @updatedAt
 }
 
-/// Telefone, e-mail e endereço. Isolado por ser o dado mais sensível a mudança.
+/// Telefone, e-mail e endereço.
 model ContactInfo {
   id       String @id @default(cuid())
   clientId String @unique
   client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
 
-  phone String?
+  phone           String?
   /// Formato internacional, só dígitos. Ex.: "5582999482886"
   whatsapp        String?
   /// Como o número aparece na tela. Ex.: "+55 82 99948-2886"

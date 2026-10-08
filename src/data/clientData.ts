@@ -15,7 +15,7 @@
  *
  * REGRA DOS PLACEHOLDERS
  *   Campos ainda não definidos ficam como "INSERIR_ALGUMA_COISA".
- *   A interface detecta isso sozinha (ver `isConfigured` em config/site.ts):
+ *   A interface detecta isso sozinha (ver `isConfigured` em conteudo/ajudantes.ts):
  *   o link some, o mapa vira um aviso e o botão passa a levar ao formulário.
  *   Assim o site nunca exibe um dado inventado nem um link quebrado.
  * ============================================================================
@@ -26,7 +26,8 @@
 // ============================================================================
 
 export type Produto = {
-  id: number;
+  /** Número no arquivo local; texto (cuid) quando a peça vem do banco pela API. */
+  id: number | string;
   name: string;
   category: string;
   /** Frase curta usada no card. */
@@ -71,8 +72,13 @@ export const clientData = {
     slogan: 'Arte que nasce da cultura popular e das mãos que transformam.',
     description:
       'Esculturas em papel-machê que celebram a vida, a fé e a cultura popular nordestina.',
-    /** Logo real da marca. Enquanto o arquivo não existir, aparece a assinatura tipográfica. */
-    logo: '/images/logo/dindago-atelier.svg',
+    /**
+     * Logo real da marca. Vazio enquanto o arquivo não existir: assim o site
+     * mostra a assinatura tipográfica sem tentar baixar uma imagem inexistente.
+     * Ao receber a logo, salve em public/images/logo/ e escreva o caminho aqui
+     * (ex.: '/images/logo/dindago-atelier.svg').
+     */
+    logo: '',
     /** Aviso curto exibido na barra superior. */
     shipping: 'Frete para todo o Brasil',
   },
@@ -102,7 +108,8 @@ export const clientData = {
      */
     titleLines: ['Arte que nasce', 'da memória, da cultura'],
     titleHighlight: 'e das mãos.',
-    subtitle: 'Peças artesanais que carregam a identidade e a beleza do Nordeste brasileiro.',
+    subtitle:
+      'Esculturas autorais em papel-machê, feitas à mão pela artista alagoana Goretti Brandão. Peças únicas que carregam a memória, a fé e a cultura popular do Nordeste.',
     image: '/images/hero/EuAmoNordeste.jpeg',
     imageAlt:
       'Arte em papel com a frase “Eu amo meu Nordeste” e ilustrações do sertão, cactos e mandacarus',
@@ -164,7 +171,43 @@ export const clientData = {
   ],
 
   // --------------------------------------------------------------------------
+  // TUTORIAL — caderno 04, "Como fazer papel-machê?"
+  // É o conteúdo exibido na seção #processo da landing page.
+  // --------------------------------------------------------------------------
+  tutorial: {
+    numero: '04',
+    eyebrow: 'O artesanato',
+    nota: 'Materiais essenciais',
+    title: 'Como fazer papel-machê?',
+    intro:
+      'Antes de mergulhar na criação das suas próprias peças de papel-machê, é importante ter os materiais certos à disposição. Estes são os itens essenciais para começar:',
+    materials: [
+      {
+        name: 'Papel',
+        text: 'O mais usado é o jornal, pela disponibilidade e pela facilidade de moldagem. Papel de revista ou papel kraft também funcionam, desde que cortados ou rasgados em pedaços pequenos.',
+      },
+      {
+        name: 'Cola branca',
+        text: 'Funciona como aglutinante do papel e cria a pasta que será moldada. Prefira uma cola de boa qualidade para obter os melhores resultados.',
+      },
+      {
+        name: 'Água',
+        text: 'Dilui a cola e deixa a mistura mais fácil de trabalhar. Também amacia o papel, o que facilita a moldagem.',
+      },
+      {
+        name: 'Base para moldar',
+        text: 'Para dar forma à peça é preciso uma base sólida. O arame é uma opção popular, porque pode ser dobrado conforme a necessidade; outra alternativa é uma estrutura de papelão.',
+      },
+    ],
+    extrasTitle: 'Para o acabamento',
+    extrasText:
+      'Além dos materiais básicos, outros itens ajudam a aprimorar as criações: tintas acrílicas, vernizes e pincéis decoram e protegem a peça depois da secagem, e tecidos, linhas e miçangas acrescentam texturas e detalhes.',
+    extras: ['Tintas acrílicas', 'Vernizes', 'Pincéis', 'Tecidos', 'Linhas', 'Miçangas'],
+  },
+
+  // --------------------------------------------------------------------------
   // PROCESSO DE CRIAÇÃO
+  // Editável pelo painel /admin. A landing page exibe hoje o `tutorial` acima.
   // --------------------------------------------------------------------------
   process: {
     numero: '03',
@@ -197,26 +240,16 @@ export const clientData = {
   // exibe "Consultar valor". Para publicar, escreva o número em reais (ex.: 480).
   // --------------------------------------------------------------------------
   productsSection: {
-    numero: '04',
+    numero: '03',
     eyebrow: 'Coleções',
     title: 'Peças em destaque',
-    subtitle: 'Esculturas em papel-machê que celebram a vida, a fé e a cultura popular.',
-    ctaLabel: 'Ver toda a coleção',
+    subtitle:
+      'Esculturas em papel-machê que celebram a vida, a fé e a cultura popular. Toque em uma peça para ver os detalhes.',
+    /** Leva ao caderno de encomendas. */
+    ctaLabel: 'Fazer uma encomenda',
   },
 
   products: [
-    {
-      id: 1,
-      name: 'A Moça do Mar',
-      category: 'Escultura em papel-machê',
-      description: 'Figura autoral que evoca o imaginário e os encantos do mar.',
-      story:
-        'Uma criação em papel-machê inspirada na força e na beleza do mar. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
-      price: null,
-      image: '/images/products/AMocaDoMar.jpeg',
-      imageAlt: 'Escultura em papel-machê intitulada A Moça do Mar',
-      badge: 'Peça única',
-    },
     {
       id: 2,
       name: 'Brincantes do Guerreiro Alagoano',
@@ -242,18 +275,6 @@ export const clientData = {
       badge: 'Peça única',
     },
     {
-      id: 4,
-      name: 'Dona Ribeirinha',
-      category: 'Escultura em papel-machê',
-      description: 'Figura inspirada nas mulheres e histórias das comunidades ribeirinhas.',
-      story:
-        'Uma criação artesanal que evoca a vida e as histórias às margens dos rios. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
-      price: null,
-      image: '/images/products/DonaRibeirinha.jpeg',
-      imageAlt: 'Escultura em papel-machê intitulada Dona Ribeirinha',
-      badge: 'Peça única',
-    },
-    {
       id: 5,
       name: 'Moça com Candeeiro',
       category: 'Escultura em papel-machê',
@@ -266,15 +287,15 @@ export const clientData = {
       badge: 'Peça única',
     },
     {
-      id: 6,
-      name: 'Morada de Passarinhos',
+      id: 1,
+      name: 'A Moça do Mar',
       category: 'Escultura em papel-machê',
-      description: 'Composição que celebra os pássaros e a ideia de um lar na natureza.',
+      description: 'Figura autoral que evoca o imaginário e os encantos do mar.',
       story:
-        'Uma obra autoral inspirada nos passarinhos e nos lugares que chamamos de lar. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
+        'Uma criação em papel-machê inspirada na força e na beleza do mar. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
       price: null,
-      image: '/images/products/MoradaDePassarinhos.jpeg',
-      imageAlt: 'Escultura em papel-machê intitulada Morada de Passarinhos',
+      image: '/images/products/AMocaDoMar.jpeg',
+      imageAlt: 'Escultura em papel-machê intitulada A Moça do Mar',
       badge: 'Peça única',
     },
     {
@@ -290,6 +311,18 @@ export const clientData = {
       badge: 'Peça única',
     },
     {
+      id: 6,
+      name: 'Morada de Passarinhos',
+      category: 'Escultura em papel-machê',
+      description: 'Composição que celebra os pássaros e a ideia de um lar na natureza.',
+      story:
+        'Uma obra autoral inspirada nos passarinhos e nos lugares que chamamos de lar. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
+      price: null,
+      image: '/images/products/MoradaDePassarinhos.jpeg',
+      imageAlt: 'Escultura em papel-machê intitulada Morada de Passarinhos',
+      badge: 'Peça única',
+    },
+    {
       id: 8,
       name: 'Palhaço e Bailarina',
       category: 'Escultura em papel-machê',
@@ -299,6 +332,18 @@ export const clientData = {
       price: null,
       image: '/images/products/PalhacoEBailarina.jpeg',
       imageAlt: 'Escultura em papel-machê intitulada Palhaço e Bailarina',
+      badge: 'Peça única',
+    },
+    {
+      id: 4,
+      name: 'Dona Ribeirinha',
+      category: 'Escultura em papel-machê',
+      description: 'Figura inspirada nas mulheres e histórias das comunidades ribeirinhas.',
+      story:
+        'Uma criação artesanal que evoca a vida e as histórias às margens dos rios. Consulte o atelier para informações sobre dimensões, disponibilidade e encomendas.',
+      price: null,
+      image: '/images/products/DonaRibeirinha.jpeg',
+      imageAlt: 'Escultura em papel-machê intitulada Dona Ribeirinha',
       badge: 'Peça única',
     },
     {
@@ -427,7 +472,7 @@ export const clientData = {
       'Cada peça começa muito antes das mãos tocarem o papel. Começa na imaginação, na pesquisa e na memória.',
     paragraphs: [
       'O Dindagó Atelier nasce do encontro entre pesquisa e trabalho manual. As esculturas em papel-machê partem de histórias vividas e ouvidas — festas, ofícios, personagens do cotidiano nordestino — e ganham forma no tempo lento do papel.',
-      '[BIOGRAFIA DA ARTESÃ] Espaço reservado para formação, trajetória, o começo do atelier e o que a levou ao papel-machê. Substitua por suas próprias palavras — é o texto que mais aproxima quem chega ao site.',
+      'A artista alagoana Goretti Brandão transforma papel-machê em esculturas autorais inspiradas pela cultura popular nordestina. No atelier, pesquisa, memória e trabalho manual dão forma a peças únicas.',
     ],
     ctaLabel: 'Conheça nossa história',
     pillars: [
@@ -459,7 +504,7 @@ export const clientData = {
   // --------------------------------------------------------------------------
   /** Cabeçalho do caderno escuro. */
   cultureSection: {
-    numero: '07',
+    numero: '05',
     eyebrow: 'Sobre o atelier',
   },
 
@@ -490,7 +535,7 @@ export const clientData = {
   // ENCOMENDAS
   // --------------------------------------------------------------------------
   orders: {
-    numero: '08',
+    numero: '07',
     eyebrow: 'Encomendas',
     title: 'Uma peça feita especialmente para você.',
     subtitle:
@@ -534,18 +579,18 @@ export const clientData = {
   // CONTATO
   // --------------------------------------------------------------------------
   contact: {
-    numero: '09',
+    numero: '08',
     eyebrow: 'Contato',
     title: 'Vamos conversar?',
     subtitle:
-      'Quer conhecer uma peça, fazer uma encomenda ou levar um pouco dessa arte para o seu espaço? Entre em contato.',
+      'Quer conhecer uma peça, fazer uma encomenda ou levar um pouco dessa arte para o seu espaço? Fale com o atelier pelo WhatsApp ou acompanhe os trabalhos pelo Instagram.',
 
-    /** Telefone fixo/celular apenas para exibição. */
-    phone: 'INSERIR_TELEFONE',
-    /** WhatsApp em formato internacional, só dígitos. Ex.: "5582999999999" */
-    whatsapp: 'INSERIR_NUMERO',
-    /** Como o número aparece na tela. Ex.: "(82) 99999-9999" */
-    whatsappDisplay: 'INSERIR_NUMERO',
+    /** Telefone para exibição — o mesmo número do WhatsApp oficial. */
+    phone: '+55 82 99948-2886',
+    /** WhatsApp oficial em formato internacional, só dígitos (vira https://wa.me/...). */
+    whatsapp: '5582999482886',
+    /** Como o número aparece na tela. */
+    whatsappDisplay: '+55 82 99948-2886',
     email: 'contato@dindagoatelier.com.br',
     address: 'Santana do Ipanema – AL',
     addressNote: 'Visitas ao atelier com agendamento prévio.',
@@ -559,20 +604,32 @@ export const clientData = {
     ],
   },
 
+  /** Caderno de localização (mapa do atelier). */
+  mapSection: {
+    numero: '09',
+    eyebrow: 'Localização',
+    description:
+      'O atelier é onde tudo acontece: a pesquisa, a bancada, a secagem lenta das peças e as conversas sobre cada encomenda.',
+  },
+
   // --------------------------------------------------------------------------
-  // REDES SOCIAIS — deixe vazio ou "INSERIR_" para o ícone não aparecer
+  // REDES SOCIAIS — só as oficiais. Campo vazio = a rede não aparece no site.
+  // Não preencha com endereço que não tenha sido confirmado pelo atelier.
   // --------------------------------------------------------------------------
   social: {
-    instagram: 'INSERIR_INSTAGRAM',
-    facebook: 'INSERIR_FACEBOOK',
+    /** Perfil oficial: @dindago.atelier */
+    instagram: 'https://instagram.com/dindago.atelier',
+    facebook: '',
     linkedin: '',
     youtube: '',
   },
 
+  /** A seção só aparece quando ao menos uma rede (ou o WhatsApp) estiver preenchida. */
   socialSection: {
+    numero: '10',
     eyebrow: 'Redes sociais',
-    title: 'Siga o Dindagó Atelier',
-    subtitle: 'Acompanhe novas peças, bastidores, processos e histórias.',
+    title: 'Acompanhe o atelier',
+    subtitle: 'Novas peças, bastidores do processo e histórias de cada criação.',
   },
 
   // --------------------------------------------------------------------------
@@ -593,10 +650,11 @@ export const clientData = {
   // --------------------------------------------------------------------------
   // NAVEGAÇÃO
   // --------------------------------------------------------------------------
+  /** Mesma ordem das seções na página. */
   nav: [
     { label: 'Início', href: '#inicio' },
-    { label: 'Artesanato', href: '#processo' },
     { label: 'Coleções', href: '#pecas' },
+    { label: 'Artesanato', href: '#processo' },
     { label: 'Nossa História', href: '#historia' },
     { label: 'Encomendas', href: '#encomendas' },
     { label: 'Contato', href: '#contato' },

@@ -1,37 +1,50 @@
 import { useSite } from '../conteudo/useSite';
 import { useEffect, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
+import { WhatsAppIcon } from './ui/BrandIcons';
 import { useScrollPosition } from '../hooks/useScrollPosition';
 
 /**
  * Botão flutuante de contato. Fica sempre acessível no canto inferior direito
  * e aparece com uma transição suave depois da primeira rolagem.
  *
- * Enquanto o número não estiver configurado em `src/config/site.ts`, o botão
- * leva ao formulário de contato — nunca a um link inventado.
+ * Enquanto o WhatsApp não estiver preenchido em `src/data/clientData.ts`, o
+ * botão leva ao formulário de contato — nunca a um link inventado.
  */
 export function WhatsAppButton() {
   const { conteudo, buildWhatsAppUrl, siteConfig } = useSite();
   const rolou = useScrollPosition(300);
-  const [sobreRodape, setSobreRodape] = useState(false);
+  const [sobreposto, setSobreposto] = useState(false);
   const whatsappUrl = buildWhatsAppUrl(conteudo.whatsappDefaultMessage);
 
-  // No rodapé o botão sai de cena: lá os contatos já aparecem por extenso e
-  // ele cobriria o link "Voltar ao topo".
+  /*
+   * O botão sai de cena sobre o contato e o rodapé: ali os canais já aparecem
+   * por extenso, e ele cobriria o botão de envio e o "Voltar ao início".
+   */
   useEffect(() => {
-    const rodape = document.getElementById('rodape');
-    if (!rodape || typeof IntersectionObserver === 'undefined') return;
+    if (typeof IntersectionObserver === 'undefined') return;
+    const alvos = ['contato', 'rodape']
+      .map((id) => document.getElementById(id))
+      .filter((elemento): elemento is HTMLElement => elemento !== null);
+    if (alvos.length === 0) return;
 
+    const visiveis = new Set<Element>();
     const observer = new IntersectionObserver(
-      ([entrada]) => setSobreRodape(entrada.isIntersecting),
+      (entradas) => {
+        for (const entrada of entradas) {
+          if (entrada.isIntersecting) visiveis.add(entrada.target);
+          else visiveis.delete(entrada.target);
+        }
+        setSobreposto(visiveis.size > 0);
+      },
       { threshold: 0.01 },
     );
 
-    observer.observe(rodape);
+    alvos.forEach((alvo) => observer.observe(alvo));
     return () => observer.disconnect();
   }, []);
 
-  const visivel = rolou && !sobreRodape;
+  const visivel = rolou && !sobreposto;
   const destino = whatsappUrl ?? '#contato';
   const rotulo = whatsappUrl
     ? `Falar com o ${siteConfig.name} pelo WhatsApp (abre em nova aba)`
@@ -42,11 +55,17 @@ export function WhatsAppButton() {
       href={destino}
       {...(whatsappUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       aria-label={rotulo}
-      className={`group fixed right-4 bottom-4 z-60 flex min-h-14 items-center gap-3 bg-cacto px-4 py-4 text-papel shadow-[0_14px_30px_-12px_rgba(67,41,29,0.9)] transition-all duration-500 hover:bg-tinta sm:right-6 sm:bottom-6 ${
+      aria-hidden={visivel ? undefined : true}
+      tabIndex={visivel ? undefined : -1}
+      className={`group fixed right-4 bottom-4 z-60 flex min-h-14 min-w-14 items-center justify-center gap-3 bg-cacto px-4 py-4 text-papel shadow-[0_14px_30px_-12px_rgba(67,41,29,0.9)] transition-all duration-500 hover:bg-tinta sm:right-6 sm:bottom-6 ${
         visivel ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-6 opacity-0'
       }`}
     >
-      <MessageCircle className="size-6 shrink-0" strokeWidth={1.8} aria-hidden="true" />
+      {whatsappUrl ? (
+        <WhatsAppIcon className="size-6 shrink-0" strokeWidth={1.8} aria-hidden="true" />
+      ) : (
+        <MessageCircle className="size-6 shrink-0" strokeWidth={1.8} aria-hidden="true" />
+      )}
       <span className="hidden font-sans text-[0.72rem] font-semibold tracking-[0.14em] uppercase sm:inline">
         Fale conosco
       </span>

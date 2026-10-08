@@ -22,6 +22,8 @@ export type AjudantesDoSite = {
     phone: string;
     email: string;
     instagram: string;
+    /** "@perfil" extraído do link do Instagram; vazio se não houver link. */
+    instagramHandle: string;
     facebook: string;
     address: string;
     addressNote: string;
@@ -48,6 +50,16 @@ export function isConfigured(valor: string | undefined | null): boolean {
   return v.length > 0 && !v.startsWith('INSERIR_') && !v.startsWith('[');
 }
 
+/** "https://instagram.com/dindago.atelier" → "@dindago.atelier". */
+function arrobaDoInstagram(url: string): string {
+  if (!isConfigured(url)) return '';
+  const perfil = url
+    .trim()
+    .replace(/^https?:\/\/(www\.)?instagram\.com\//i, '')
+    .replace(/[/?#].*$/, '');
+  return perfil ? `@${perfil.replace(/^@/, '')}` : 'Instagram';
+}
+
 export function criarAjudantes(conteudo: ConteudoDoSite): AjudantesDoSite {
   const { company, contact, social, about } = conteudo;
 
@@ -61,6 +73,7 @@ export function criarAjudantes(conteudo: ConteudoDoSite): AjudantesDoSite {
     phone: contact.phone,
     email: contact.email,
     instagram: social.instagram,
+    instagramHandle: arrobaDoInstagram(social.instagram),
     facebook: social.facebook,
     address: contact.address,
     addressNote: contact.addressNote,

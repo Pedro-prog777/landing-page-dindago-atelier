@@ -7,16 +7,18 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'reac
  * chapada ou um campo delimitado por fio, no mesmo vocabulário da régua e da
  * numeração. O movimento no hover é de deslocamento, não de escala.
  */
-type Variant = 'solido' | 'contorno' | 'claro';
+type Variant = 'solido' | 'contorno' | 'claro' | 'papel';
 type Size = 'md' | 'lg';
 
 const base =
-  'group/btn inline-flex items-center justify-center gap-3 font-sans font-semibold uppercase tracking-[0.2em] transition-all duration-300 ease-out disabled:cursor-not-allowed disabled:opacity-60';
+  'group/btn inline-flex items-center justify-center gap-3 text-center font-sans font-semibold uppercase tracking-[0.2em] transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60';
 
 const variants: Record<Variant, string> = {
-  solido: 'bg-tijolo text-papel hover:bg-tinta',
+  solido: 'bg-tijolo text-papel shadow-[0_10px_24px_-14px_rgba(74,47,33,0.9)] hover:bg-tinta',
   contorno: 'border border-tinta/30 text-tinta hover:border-tinta hover:bg-tinta hover:text-papel',
   claro: 'border border-papel/35 text-papel hover:bg-papel hover:text-tinta',
+  /** Bloco de papel sobre superfícies de cor (tijolo, tinta): a chamada principal ali. */
+  papel: 'bg-papel text-tinta shadow-[0_12px_28px_-16px_rgba(0,0,0,0.6)] hover:bg-tinta hover:text-papel',
 };
 
 const sizes: Record<Size, string> = {
@@ -86,7 +88,7 @@ export function LinkEditorial({
   return (
     <a
       href={href}
-      className={`group inline-flex items-center gap-4 py-2 transition-colors duration-300 ${cor} ${className}`}
+      className={`group inline-flex min-h-11 items-center gap-4 py-2 transition-colors duration-300 ${cor} ${className}`}
       {...(externo ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       {...rest}
     >

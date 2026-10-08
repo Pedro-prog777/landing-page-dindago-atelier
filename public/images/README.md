@@ -6,11 +6,13 @@ site (enquanto não existir, é exibido um marcador identificado).
 
 ```
 logo/
-  dindago-atelier.svg      logo real da marca (usada no header e no rodapé)
+  (vazio)                  logo real da marca — ao salvar o arquivo aqui,
+                           escreva o caminho em `company.logo` no clientData.ts
 
 hero/
   EuAmoNordeste.jpeg       arte de destaque do topo
-  og-image.jpg             imagem de compartilhamento em redes (1200x630)
+  og-image.jpg             imagem de compartilhamento em redes (1200x630),
+                           recortada da arte EuAmoNordeste
 
 products/
   AMocaDoMar.jpeg
@@ -25,9 +27,9 @@ products/
   sereia.jpeg              fotos das peças
 
 artist/
-  Retratodaartista.jpeg    retrato da artesã
+  artesa.jpg               retrato da artesã (Goretti Brandão no atelier)
 
-gallery/
+gallery/                   reservado ao painel: a galeria não aparece na página hoje
   obra-01.jpg ... obra-03.jpg
   processo-01.jpg ... processo-04.jpg
   atelier-01.jpg ... atelier-03.jpg

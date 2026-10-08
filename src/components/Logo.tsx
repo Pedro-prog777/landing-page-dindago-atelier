@@ -2,15 +2,13 @@ import { useSite } from '../conteudo/useSite';
 import { useState } from 'react';
 
 /**
- * ESPAÇO RESERVADO PARA A LOGO REAL.
+ * Logo da marca.
  *
- * Coloque o arquivo da logo em `public/images/logo/dindago-atelier.svg`
- * (ou altere a constante abaixo para .png/.webp). Enquanto o arquivo não
- * existir, é exibida uma assinatura tipográfica provisória com o nome da marca —
- * nenhuma logo é inventada aqui.
+ * Enquanto `company.logo` (em `src/data/clientData.ts`) estiver vazio, é
+ * exibida a assinatura tipográfica com o nome da marca — sem pedir à rede uma
+ * imagem que ainda não existe. Ao preencher o caminho do arquivo real, a
+ * imagem assume o lugar; se ela falhar ao carregar, a assinatura volta.
  */
-const ARQUIVO_LOGO = '/images/logo/dindago-atelier.svg';
-
 type LogoProps = {
   /** `light` para fundos claros, `dark` para fundos escuros. */
   tone?: 'light' | 'dark';
@@ -18,26 +16,23 @@ type LogoProps = {
 };
 
 export function Logo({ tone = 'light', className = '' }: LogoProps) {
-  const { siteConfig } = useSite();
-  const [semArquivo, setSemArquivo] = useState(false);
+  const { conteudo, isConfigured, siteConfig } = useSite();
+  const [falhou, setFalhou] = useState(false);
+  const arquivo = conteudo.company.logo;
 
   const corPrincipal = tone === 'dark' ? 'text-papel' : 'text-tinta';
   const corSecundaria = tone === 'dark' ? 'text-ambar' : 'text-tijolo';
 
-  if (semArquivo) {
+  if (!isConfigured(arquivo) || falhou) {
     return (
-      <span
-        data-placeholder="logo"
-        title={`Espaço reservado para a logo do ${siteConfig.name}`}
-        className={`flex flex-col leading-none ${className}`}
-      >
+      <span className={`flex flex-col leading-none ${className}`}>
         <span
-          className={`font-display text-lg font-semibold tracking-[0.14em] sm:text-xl ${corPrincipal}`}
+          className={`font-display text-xl font-semibold tracking-[0.14em] sm:text-[1.4rem] ${corPrincipal}`}
         >
           DINDAGÓ
         </span>
         <span
-          className={`font-sans text-[0.62rem] tracking-[0.42em] sm:text-[0.68rem] ${corSecundaria}`}
+          className={`mt-1 font-sans text-[0.62rem] font-medium tracking-[0.46em] sm:text-[0.68rem] ${corSecundaria}`}
         >
           ATELIER
         </span>
@@ -47,9 +42,9 @@ export function Logo({ tone = 'light', className = '' }: LogoProps) {
 
   return (
     <img
-      src={ARQUIVO_LOGO}
+      src={arquivo}
       alt={siteConfig.name}
-      onError={() => setSemArquivo(true)}
+      onError={() => setFalhou(true)}
       className={`h-11 w-auto sm:h-12 ${className}`}
     />
   );

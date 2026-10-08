@@ -16,6 +16,7 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "db:migrate": "npm run prisma:migrate --workspace @dindago/backend",
+    "db:push": "npm run prisma:push --workspace @dindago/backend",
     "db:seed": "npm run db:seed --workspace @dindago/backend",
     "db:reset": "npm run db:reset --workspace @dindago/backend"
   },
