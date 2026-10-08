@@ -28,35 +28,35 @@ const superficies = [
     fundo: 'bg-tinta',
     texto: 'text-papel',
     titulo: 'text-ambar',
-    apoio: 'text-papel/70',
+    apoio: 'text-papel/80',
     tom: 'claro' as const,
   },
   {
     fundo: 'bg-areia',
     texto: 'text-tinta',
     titulo: 'text-tijolo',
-    apoio: 'text-tinta-suave',
+    apoio: 'text-tinta-media',
     tom: 'escuro' as const,
   },
   {
     fundo: 'bg-tijolo',
     texto: 'text-papel',
     titulo: 'text-papel',
-    apoio: 'text-papel/75',
+    apoio: 'text-papel/90',
     tom: 'claro' as const,
   },
   {
     fundo: 'bg-papel-claro border border-tinta/12',
     texto: 'text-tinta',
     titulo: 'text-tijolo',
-    apoio: 'text-tinta-suave',
+    apoio: 'text-tinta-media',
     tom: 'escuro' as const,
   },
   {
     fundo: 'bg-papel-escuro',
     texto: 'text-tinta',
     titulo: 'text-tijolo',
-    apoio: 'text-tinta-suave',
+    apoio: 'text-tinta-media',
     tom: 'escuro' as const,
   },
 ];
@@ -74,8 +74,8 @@ export function ValuesSection() {
           nota="Cinco compromissos"
         />
 
-        <Reveal delay={80} className="pt-8 pb-10 lg:pt-12 lg:pb-14">
-          <h2 id="diferenciais-titulo" className="max-w-3xl text-[clamp(1.7rem,3.6vw,2.8rem)]">
+        <Reveal delay={80} className="pt-8 pb-8 sm:pb-10 lg:pt-12 lg:pb-14">
+          <h2 id="diferenciais-titulo" className="max-w-3xl text-[clamp(2.1rem,4.6vw,3.75rem)]">
             {benefitsSection.title}
           </h2>
         </Reveal>
@@ -91,9 +91,9 @@ export function ValuesSection() {
               <Reveal
                 key={valor.title}
                 delay={indice * 70}
-                className={`group relative overflow-hidden p-7 transition-colors duration-500 lg:p-8 ${s.fundo} ${s.texto} ${posicoes[indice]}`}
+                className={`group relative overflow-hidden p-6 transition-transform duration-500 hover:-translate-y-1 sm:p-7 lg:p-8 ${s.fundo} ${s.texto} ${posicoes[indice]}`}
               >
-                <div className="flex h-full flex-col justify-between gap-6">
+                <div className="flex h-full flex-col justify-between gap-5 sm:gap-6">
                   <div className="flex items-start justify-between gap-4">
                     {/* Desenho e numeral juntos: identidade e ordem de leitura */}
                     <span
@@ -120,7 +120,7 @@ export function ValuesSection() {
                     >
                       {valor.title}
                     </h3>
-                    <p className={`mt-3 max-w-sm text-sm leading-relaxed ${s.apoio}`}>
+                    <p className={`mt-2.5 max-w-sm text-sm leading-relaxed sm:text-[0.95rem] ${s.apoio}`}>
                       {valor.description}
                     </p>
 

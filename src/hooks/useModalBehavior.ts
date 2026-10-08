@@ -1,4 +1,4 @@
-import { useEffect, type RefObject } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 
 const SELETOR_FOCAVEL =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -15,6 +15,16 @@ type Options = {
  * devolve o foco ao elemento que abriu o modal.
  */
 export function useModalBehavior({ aberto, aoFechar, containerRef }: Options) {
+  /*
+   * O `aoFechar` costuma chegar como função nova a cada renderização do pai.
+   * Guardado numa ref, ele não reinicia o efeito — antes, qualquer renderização
+   * do pai com o diálogo aberto devolvia o foco ao primeiro botão.
+   */
+  const aoFecharRef = useRef(aoFechar);
+  useEffect(() => {
+    aoFecharRef.current = aoFechar;
+  }, [aoFechar]);
+
   useEffect(() => {
     if (!aberto) return;
 
@@ -35,7 +45,7 @@ export function useModalBehavior({ aberto, aoFechar, containerRef }: Options) {
     function aoPressionarTecla(evento: KeyboardEvent) {
       if (evento.key === 'Escape') {
         evento.stopPropagation();
-        aoFechar();
+        aoFecharRef.current();
         return;
       }
 
@@ -62,7 +72,9 @@ export function useModalBehavior({ aberto, aoFechar, containerRef }: Options) {
       document.removeEventListener('keydown', aoPressionarTecla);
       document.body.style.overflow = overflowOriginal;
       document.body.style.paddingRight = paddingOriginal;
-      elementoAnterior?.focus?.();
+      // Sem rolar: se o diálogo levou a outra seção (ex.: #contato), a página
+      // não pode pular de volta para o botão que o abriu.
+      elementoAnterior?.focus?.({ preventScroll: true });
     };
-  }, [aberto, aoFechar, containerRef]);
+  }, [aberto, containerRef]);
 }

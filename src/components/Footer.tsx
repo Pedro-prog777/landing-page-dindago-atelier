@@ -1,15 +1,15 @@
 import { useSite } from '../conteudo/useSite';
 import { Logo } from './Logo';
 import { Fio, Xilogravura } from './ui/Catalogo';
-import { Cacto, Flor, Passaro } from './ui/Decorations';
+import { Cacto, Flor } from './ui/Decorations';
 import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
 
 /**
  * Colofão — a última página da publicação.
  *
- * É a composição mais densa do site: a marca em corpo grande, as colunas de
- * serviço em fio fino e a faixa de xilogravura fechando o caderno. Sem pílulas
- * e sem ícones em círculo: os links são texto com fio, como no resto do papel.
+ * A marca em corpo grande, as colunas de serviço em fio fino e a faixa de
+ * xilogravura fechando o caderno. Sem pílulas e sem ícones em círculo: os
+ * links são texto com fio, como no resto do papel.
  */
 export function Footer() {
   const {
@@ -17,6 +17,7 @@ export function Footer() {
     buildMailtoUrl,
     buildWhatsAppUrl,
     isConfigured,
+    navLinks,
     siteConfig,
   } = useSite();
   const { footer } = clientData;
@@ -25,6 +26,7 @@ export function Footer() {
   const enderecoDefinido = isConfigured(siteConfig.address);
   const instagramConfigurado = isConfigured(siteConfig.instagram);
   const facebookConfigurado = isConfigured(siteConfig.facebook);
+  // Itens que ainda apontam para o contato não viram página falsa no rodapé.
   const infoLinks = footer.infoLinks.filter((item) => item.href !== '#contato');
 
   const atendimento = [
@@ -46,6 +48,9 @@ export function Footer() {
       : []),
   ];
 
+  const estiloLink =
+    'inline-flex min-h-9 items-center gap-3 font-sans text-sm text-papel/85 transition-colors hover:text-ambar';
+
   return (
     <footer
       id="rodape"
@@ -53,22 +58,18 @@ export function Footer() {
     >
       <Xilogravura className="w-full text-tijolo" altura={12} />
 
-      {/*
-        Sertão no colofão. Os desenhos ficam na faixa vazia entre as colunas e
-        o fio de fechamento — nunca sobre texto ou link.
-      */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden lg:block">
-        <Cacto className="absolute right-10 bottom-28 w-20 text-ambar/22" />
-        <Flor className="absolute right-32 bottom-24 w-14 text-tijolo-claro/30" />
-        <Passaro className="absolute top-32 right-[38%] w-16 text-ambar/18" />
+      {/* Sertão no colofão: só no canto inferior direito, longe de texto e link. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden xl:block">
+        <Cacto className="absolute right-10 bottom-24 w-20 text-ambar/20" />
+        <Flor className="absolute right-32 bottom-20 w-14 text-tijolo-claro/30" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 pt-14 pb-8 sm:px-6 lg:px-8 lg:pt-20">
         {/* Marca em corpo grande */}
-        <div className="grid gap-10 pb-14 lg:grid-cols-12 lg:gap-10">
+        <div className="grid gap-6 pb-12 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-14">
           <div className="lg:col-span-6">
             <Logo tone="dark" />
-            <p className="mt-6 max-w-sm text-base leading-relaxed text-papel/65">
+            <p className="mt-6 max-w-sm text-base leading-relaxed text-papel/85">
               {footer.tagline}
             </p>
           </div>
@@ -81,17 +82,27 @@ export function Footer() {
         <Fio tone="claro" />
 
         {/* Colunas de serviço */}
-        <div className="grid gap-10 py-12 lg:grid-cols-12 lg:gap-10">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-12 lg:grid-cols-12 lg:gap-10">
+          <nav aria-label="Navegação do rodapé" className="lg:col-span-3">
+            <h2 className="etiqueta text-papel/75">Navegação</h2>
+            <ul className="mt-4">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className={estiloLink}>
+                    <span className="sublinhado">{link.label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
           {infoLinks.length > 0 && (
             <nav aria-label="Informações" className="lg:col-span-3">
-              <h2 className="etiqueta text-papel/45">Informações</h2>
-              <ul className="mt-5 space-y-1">
+              <h2 className="etiqueta text-papel/75">Informações</h2>
+              <ul className="mt-4">
                 {infoLinks.map((item) => (
                   <li key={item.label}>
-                    <a
-                      href={item.href}
-                      className="inline-block py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
-                    >
+                    <a href={item.href} className={estiloLink}>
                       <span className="sublinhado">{item.label}</span>
                     </a>
                   </li>
@@ -100,19 +111,19 @@ export function Footer() {
             </nav>
           )}
 
-          <div className="lg:col-span-4">
-            <h2 className="etiqueta text-papel/45">Atendimento</h2>
-            <dl className="mt-5 space-y-4">
+          <div className="col-span-2 sm:col-span-1 lg:col-span-4">
+            <h2 className="etiqueta text-papel/75">Atendimento</h2>
+            <dl className="mt-4 space-y-4">
               {atendimento.map((item) => (
                 <div key={item.rotulo}>
-                  <dt className="etiqueta text-papel/35">{item.rotulo}</dt>
+                  <dt className="etiqueta text-papel/70">{item.rotulo}</dt>
                   <dd className="mt-1">
                     <a
-                      href={item.href ?? '#contato'}
-                      {...(item.href?.startsWith('http')
+                      href={item.href}
+                      {...(item.href.startsWith('http')
                         ? { target: '_blank', rel: 'noopener noreferrer' }
                         : {})}
-                      className="inline-block py-1 font-display text-lg break-words text-papel transition-colors hover:text-ambar"
+                      className="inline-block py-1 font-display text-lg wrap-break-word text-papel transition-colors hover:text-ambar"
                     >
                       {item.valor}
                     </a>
@@ -124,8 +135,8 @@ export function Footer() {
 
           {(redes.length > 0 || whatsappUrl) && (
             <div className="lg:col-span-3 lg:col-start-10">
-              <h2 className="etiqueta text-papel/45">Siga o atelier</h2>
-              <ul className="mt-5 space-y-1">
+              <h2 className="etiqueta text-papel/75">Siga o atelier</h2>
+              <ul className="mt-4">
                 {redes.map(({ nome, href, Icone }) => (
                   <li key={nome}>
                     <a
@@ -133,7 +144,7 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${nome} do ${siteConfig.name} (abre em nova aba)`}
-                      className="inline-flex items-center gap-3 py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
+                      className={estiloLink}
                     >
                       <Icone className="size-4 shrink-0" aria-hidden="true" />
                       <span className="sublinhado">{nome}</span>
@@ -146,7 +157,7 @@ export function Footer() {
                       href={whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block py-1.5 font-sans text-sm text-papel/75 transition-colors hover:text-ambar"
+                      className={estiloLink}
                     >
                       <span className="sublinhado">WhatsApp</span>
                     </a>
@@ -160,14 +171,14 @@ export function Footer() {
         <Fio tone="claro" />
 
         <div className="flex flex-col items-start justify-between gap-3 pt-6 sm:flex-row sm:items-center">
-          <p className="etiqueta text-papel/40">
-            © {footer.copyrightYear} {siteConfig.name}
+          <p className="etiqueta text-papel/70">
+            © {footer.copyrightYear} {siteConfig.name} · {siteConfig.segment}
           </p>
           <a
             href="#inicio"
-            className="etiqueta py-1.5 text-papel/55 transition-colors hover:text-ambar"
+            className="etiqueta inline-flex min-h-9 items-center text-papel/80 transition-colors hover:text-ambar"
           >
-            <span className="sublinhado">Voltar ao início</span>
+            <span className="sublinhado">Voltar ao início ↑</span>
           </a>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { Reveal } from './ui/Reveal';
 import { Button } from './ui/Button';
 import { Caderno, Numeral } from './ui/Catalogo';
 import { Cacto } from './ui/Decorations';
+import { preencherContato } from '../lib/eventos';
 
 /**
  * Caderno de encomendas — quadrantes.
@@ -18,6 +19,11 @@ export function OrdersSection() {
     `Olá! Gostaria de conversar sobre uma encomenda personalizada com o ${clientData.company.name}.`,
   );
 
+  // Sem WhatsApp, a chamada leva ao formulário com o assunto já escolhido.
+  const aoClicarChamada = whatsappUrl
+    ? undefined
+    : () => preencherContato({ assunto: clientData.contact.subjects[1] });
+
   return (
     <section
       id="encomendas"
@@ -25,16 +31,16 @@ export function OrdersSection() {
       className="grao relative overflow-hidden bg-papel pt-16 sm:pt-20 lg:pt-24"
     >
       <Cacto
-        className="pointer-events-none absolute top-28 left-1 hidden w-12 text-cacto/25 lg:block"
+        className="pointer-events-none absolute top-28 left-1 hidden w-12 text-cacto/25 2xl:block"
         aria-hidden="true"
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Caderno numero={orders.numero} titulo={orders.eyebrow} nota="Quatro tempos" />
+        <Caderno numero={orders.numero} titulo={orders.eyebrow} nota="Como funciona" />
 
-        <div className="grid gap-8 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">
+        <div className="grid gap-6 pt-8 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pt-12">
           <Reveal className="lg:col-span-7">
-            <h2 id="encomendas-titulo" className="text-[clamp(1.9rem,4.2vw,3.25rem)]">
+            <h2 id="encomendas-titulo" className="text-[clamp(2.1rem,4.6vw,3.75rem)]">
               {orders.title}
             </h2>
           </Reveal>
@@ -44,7 +50,7 @@ export function OrdersSection() {
         </div>
 
         {/* Quadrantes */}
-        <ol className="mt-14 grid grid-cols-1 border-t border-tinta/15 sm:grid-cols-2 lg:mt-20">
+        <ol className="mt-10 grid grid-cols-1 border-t border-tinta/15 sm:grid-cols-2 lg:mt-16">
           {orders.steps.map((etapa, indice) => (
             <li
               key={etapa.number}
@@ -52,18 +58,20 @@ export function OrdersSection() {
             >
               <Reveal
                 delay={indice * 80}
-                className="relative h-full px-0 py-10 transition-colors duration-500 group-hover:bg-papel-escuro/50 sm:px-8 lg:px-12 lg:py-14"
+                className="relative h-full px-0 py-8 transition-colors duration-500 group-hover:bg-papel-escuro/50 sm:px-8 sm:py-10 lg:px-12 lg:py-14"
               >
-                <Numeral className="absolute -top-2 right-2 text-[7rem] transition-colors duration-500 group-hover:text-tijolo/40 lg:right-6 lg:text-[9rem]">
+                <Numeral className="absolute -top-1 right-0 text-[5rem] transition-colors duration-500 group-hover:text-tijolo/40 sm:right-2 sm:text-[7rem] lg:right-6 lg:text-[9rem]">
                   {etapa.number}
                 </Numeral>
 
-                <div className="relative max-w-sm">
+                <div className="relative max-w-sm pr-16 sm:pr-0">
                   <span className="etiqueta text-tijolo">Etapa {etapa.number}</span>
-                  <h3 className="mt-4 font-display text-[clamp(1.5rem,2.6vw,2.2rem)] leading-tight">
+                  <h3 className="mt-3 font-display text-[clamp(1.6rem,2.6vw,2.2rem)] leading-tight sm:mt-4">
                     {etapa.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-tinta-suave">{etapa.text}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-tinta-media sm:text-[0.95rem]">
+                    {etapa.text}
+                  </p>
                 </div>
               </Reveal>
             </li>
@@ -72,18 +80,27 @@ export function OrdersSection() {
       </div>
 
       {/* CHAMADA FINAL — sangria total sobre tijolo */}
-      <Reveal delay={100} className="grao grao-claro mt-16 bg-tijolo lg:mt-20">
-        <div className="grid gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:items-end lg:gap-10 lg:px-10 lg:py-24">
+      <Reveal delay={100} className="grao grao-claro mt-14 bg-tijolo lg:mt-20">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-12 lg:items-end lg:gap-10 lg:px-8 lg:py-24">
           <div className="lg:col-span-8">
-            <h3 className="text-[clamp(1.75rem,3.8vw,3rem)] text-papel">{orders.ctaTitle}</h3>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-papel/75">
+            <h3 className="text-[clamp(2rem,4.4vw,3.5rem)] leading-[1.02] text-papel">
+              {orders.ctaTitle}
+            </h3>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-papel/90 sm:mt-6">
               {orders.ctaText}
             </p>
           </div>
 
-          <div className="lg:col-span-3 lg:col-start-10 lg:justify-self-end lg:pb-3">
-            <Button href={whatsappUrl ?? '#contato'} variant="claro" size="lg">
+          <div className="lg:col-span-4 lg:justify-self-end lg:pb-3">
+            <Button
+              href={whatsappUrl ?? '#contato'}
+              onClick={aoClicarChamada}
+              variant="papel"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
               {orders.ctaLabel}
+              <span aria-hidden="true">→</span>
             </Button>
           </div>
         </div>
