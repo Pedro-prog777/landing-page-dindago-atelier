@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { api } from '../api/cliente';
+import { api, API_DESATIVADA } from '../api/cliente';
 import { clientData } from '../data/clientData';
 import { mesclarConteudo, type ConteudoDoSite } from './mesclar';
 import { criarAjudantes } from './ajudantes';
@@ -28,6 +28,12 @@ export function ConteudoProvider({ children }: { children: ReactNode }) {
   const [daApi, setDaApi] = useState(false);
 
   useEffect(() => {
+    // Publicado sem servidor: o conteúdo local já é o definitivo.
+    if (API_DESATIVADA) {
+      setEstado('offline');
+      return;
+    }
+
     const controle = new AbortController();
 
     api
