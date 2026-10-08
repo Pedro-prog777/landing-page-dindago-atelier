@@ -103,11 +103,11 @@ export const clientData = {
     titleLines: ['Arte que nasce', 'da memória, da cultura'],
     titleHighlight: 'e das mãos.',
     subtitle: 'Peças artesanais que carregam a identidade e a beleza do Nordeste brasileiro.',
-    image: '/images/hero/peca-principal.jpg',
+    image: '/images/hero/EuAmoNordeste.jpeg',
     imageAlt:
-      'Escultura em papel-machê de uma mulher com cabelos em forma de mar, peixes e um barco',
+      'Arte em papel com a frase “Eu amo meu Nordeste” e ilustrações do sertão, cactos e mandacarus',
     /** Legenda impressa sob a prancha de abertura. */
-    imageCaption: 'Mulher do Mar — papel-machê sobre estrutura de arame',
+    imageCaption: 'Eu amo meu Nordeste — arte inspirada na cultura sertaneja',
     primaryCta: { label: 'Ver as peças', href: '#pecas' },
     secondaryCta: { label: 'Falar com o atelier', href: 'whatsapp' },
     /** Colofão: dados curtos da publicação, no canto da capa. */
