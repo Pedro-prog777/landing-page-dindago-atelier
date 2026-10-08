@@ -1,16 +1,6 @@
 import type { ReactNode } from 'react';
 import { Reveal } from './Reveal';
 
-/**
- * ============================================================================
- * ELEMENTOS DO CATÁLOGO
- * ----------------------------------------------------------------------------
- * A identidade não vem mais de ícones folclóricos espalhados pela página, e sim
- * do vocabulário de uma publicação impressa: numeração de caderno, fios de
- * régua, cabeçalho corrente e um único motivo de xilogravura usado com parcimônia.
- * ============================================================================
- */
-
 /** Fio de régua. `forte` para divisões de caderno, padrão para respiros. */
 export function Fio({
   forte = false,
@@ -25,10 +15,6 @@ export function Fio({
   return <div aria-hidden="true" className={`h-px ${cor} ${className}`} />;
 }
 
-/**
- * Cabeçalho corrente da seção: número do caderno à esquerda, título da seção
- * ao centro e a marca do atelier à direita — como o topo de página de revista.
- */
 export function Caderno({
   numero,
   titulo,
@@ -58,13 +44,6 @@ export function Caderno({
   );
 }
 
-/**
- * Motivo de xilogravura: banda de triângulos, o único ornamento recorrente.
- * Substitui os cactos, sóis e pássaros que antes se espalhavam pela página.
- *
- * É desenhado como fundo repetido, e não como SVG esticado: assim o triângulo
- * mantém sempre o mesmo tamanho, seja numa faixa de 80px ou na largura toda.
- */
 export function Xilogravura({
   className = '',
   altura = 10,

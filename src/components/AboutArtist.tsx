@@ -4,13 +4,6 @@ import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
 import { clientData as conteudoPadrao } from '../data/clientData';
 
-/**
- * Caderno da história — retrato e depoimento.
- *
- * A prancha da artista ocupa uma coluna estreita e alta, encostada na margem
- * esquerda, e o texto corre ao lado com a citação destacada em corpo grande.
- * Os pilares fecham a página numa faixa de três colunas separada por fios.
- */
 export function AboutArtist() {
   const { conteudo: clientData, isConfigured, siteConfig } = useSite();
   const { about } = clientData;

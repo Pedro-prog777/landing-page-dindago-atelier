@@ -3,20 +3,6 @@ import { api } from '../api/cliente';
 import { mensagemDoErro } from './useAuth';
 import { AreaTexto, Aviso, Botao, Campo, Cartao, Carregando, Entrada, Selecao, Vazio } from './ui';
 
-/**
- * ============================================================================
- * EDITOR GENÉRICO DE COLEÇÃO
- * ----------------------------------------------------------------------------
- * Peças, diferenciais, galeria, depoimentos, redes e etapas têm a mesma
- * mecânica: listar, criar, editar, remover e ordenar. Em vez de seis telas
- * quase idênticas, existe uma só, configurada por uma lista de campos.
- *
- * O ganho não é só de código: qualquer melhoria de usabilidade (estado de
- * carregamento, erro por campo, confirmação de exclusão) aparece de uma vez em
- * todas as coleções.
- * ============================================================================
- */
-
 export type TipoCampo = 'texto' | 'area' | 'numero' | 'preco' | 'booleano' | 'escolha';
 
 export type DefinicaoCampo = {

@@ -5,17 +5,6 @@ import { LoginPage } from './LoginPage';
 import { useAuth, mensagemDoErro } from './useAuth';
 import { Aviso, Botao, Campo, Cartao, Carregando, Entrada } from './ui';
 
-/**
- * ============================================================================
- * PAINEL ADMINISTRATIVO
- * ----------------------------------------------------------------------------
- * Fica em /admin, atrás de login. Visualmente é o oposto da landing page:
- * sóbrio, funcional, fonte do sistema. Quem entra aqui está trabalhando.
- *
- * OWNER escolhe entre os clientes; EDITOR entra direto no cliente dele.
- * ============================================================================
- */
-
 type ClienteResumo = {
   id: string;
   slug: string;

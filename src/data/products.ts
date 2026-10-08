@@ -1,10 +1,3 @@
-/**
- * Peças do atelier.
- *
- * ⚠️ Os dados moraram aqui até a centralização: agora vivem em
- * `src/data/clientData.ts`. Este módulo apenas reexporta aquele conteúdo e
- * guarda o texto da mensagem de interesse — assim nenhum dado fica duplicado.
- */
 import { clientData, type Produto } from './clientData';
 
 export type Product = Produto;

@@ -6,22 +6,6 @@ import multer from 'multer';
 import { ErroApi, criado } from '../lib/respostas.js';
 import { exigirLogin } from '../middleware/autenticar.js';
 
-/**
- * ============================================================================
- * UPLOAD DE IMAGENS
- * ----------------------------------------------------------------------------
- * Armazenamento local em `backend/uploads`, servido estaticamente em /uploads.
- * É o suficiente para a equipe subir as fotografias reais sem contratar nenhum
- * serviço externo; trocar por S3 ou similar depois é questão de substituir o
- * storage do multer, sem tocar nas rotas.
- *
- * Cuidados aplicados: o nome do arquivo é sempre gerado pelo servidor (nunca o
- * enviado pelo usuário, que poderia conter "../"), só a extensão é preservada,
- * e o tipo é conferido contra uma lista fechada. Os arquivos são servidos com
- * CSP restritiva (ver app.ts), então um SVG com script não executa nada.
- * ============================================================================
- */
-
 const PASTA = path.resolve(process.cwd(), 'uploads');
 const TAMANHO_MAXIMO = 8 * 1024 * 1024; // 8 MB
 
@@ -57,10 +41,6 @@ const upload = multer({
   },
 });
 
-/**
- * Traduz os erros do multer em respostas claras. Sem isto, "arquivo grande
- * demais" chegava ao painel como "Erro interno" (500).
- */
 function receberArquivo(req: Request, res: Response, next: NextFunction) {
   upload.single('file')(req, res, (erro: unknown) => {
     if (erro instanceof multer.MulterError) {
@@ -77,10 +57,6 @@ function receberArquivo(req: Request, res: Response, next: NextFunction) {
 
 export const rotasUpload = Router();
 
-/**
- * POST /api/upload — devolve a URL pública do arquivo.
- * O caminho retornado é o que vai gravado no campo de imagem do conteúdo.
- */
 rotasUpload.post('/upload', exigirLogin, receberArquivo, (req, res) => {
   if (!req.file) throw ErroApi.invalido('Nenhum arquivo enviado.');
   return criado(res, {

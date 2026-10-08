@@ -16,13 +16,6 @@ type ProductDialogProps = {
   aoFechar: () => void;
 };
 
-/**
- * Detalhe da peça.
- *
- * A fotografia aparece inteira (`object-contain`): no mosaico ela é recortada
- * para caber na grade, mas aqui o visitante precisa ver a escultura toda. As
- * setas — na tela e no teclado — percorrem a coleção sem fechar o diálogo.
- */
 export function ProductDialog({ produtos, indice, aoNavegar, aoFechar }: ProductDialogProps) {
   const { buildWhatsAppUrl, conteudo, formatPrice } = useSite();
   const painelRef = useRef<HTMLDivElement>(null);

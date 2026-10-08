@@ -1,22 +1,6 @@
-/**
- * ============================================================================
- * CLIENTE HTTP DA API
- * ----------------------------------------------------------------------------
- * Um único ponto de entrada para falar com o backend. Centralizar aqui garante
- * três coisas em toda chamada: o cookie de sessão viaja junto, a resposta é
- * desembrulhada do envelope `{ success, data }` e o erro chega ao componente
- * como uma exceção com mensagem pronta para exibir.
- * ============================================================================
- */
-
 /** Em desenvolvimento o Vite faz proxy de /api para o backend (ver vite.config). */
 const BASE = import.meta.env.VITE_API_URL || '/api';
 
-/**
- * `VITE_SEM_API=true`: site publicado só como página estática, sem backend.
- * Nenhuma chamada sai para a rede — o conteúdo vem do arquivo local e o
- * formulário monta a mensagem no WhatsApp ou no e-mail do atelier.
- */
 export const API_DESATIVADA = import.meta.env.VITE_SEM_API === 'true';
 
 export class ErroDaApi extends Error {

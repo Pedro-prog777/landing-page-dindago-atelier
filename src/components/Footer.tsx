@@ -4,13 +4,6 @@ import { Fio, Xilogravura } from './ui/Catalogo';
 import { Cacto, Flor } from './ui/Decorations';
 import { FacebookIcon, InstagramIcon, WhatsAppIcon } from './ui/BrandIcons';
 
-/**
- * Colofão — a última página da publicação.
- *
- * A marca em corpo grande, as colunas de serviço em fio fino e a faixa de
- * xilogravura fechando o caderno. Sem pílulas e sem ícones em círculo: os
- * links são texto com fio, como no resto do papel.
- */
 export function Footer() {
   const {
     conteudo: clientData,

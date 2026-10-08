@@ -3,14 +3,6 @@ import { Reveal } from './ui/Reveal';
 import { Caderno } from './ui/Catalogo';
 import { Cacto } from './ui/Decorations';
 
-/**
- * Caderno do artesanato — tutorial "Como fazer papel-machê?".
- *
- * Lido como uma ficha de oficina: a pergunta e a introdução ficam fixas à
- * esquerda enquanto os quatro materiais essenciais descem em cartões
- * numerados; o acabamento fecha a coluna com os materiais extras em etiquetas.
- * O texto vive em `clientData.tutorial`.
- */
 export function ProcessSection() {
   const { conteudo } = useSite();
   const { tutorial } = conteudo;

@@ -20,21 +20,9 @@ import {
   statusMensagemSchema,
 } from '../schemas/index.js';
 
-/**
- * ============================================================================
- * CLIENTES E CONTEÚDO — área autenticada
- * ----------------------------------------------------------------------------
- * Criar e apagar cliente é exclusivo do perfil OWNER. Um EDITOR enxerga e edita
- * apenas o cliente ao qual está vinculado — a checagem fica em
- * `conferirAcessoAoCliente`, chamada em toda rota que recebe um `clientId`.
- * ============================================================================
- */
-
 export const rotasClientes = Router();
 
-// ----------------------------------------------------------------------------
 // Cliente
-// ----------------------------------------------------------------------------
 
 /** GET /api/clients — o EDITOR só vê o próprio. */
 rotasClientes.get(
@@ -109,13 +97,6 @@ rotasClientes.post(
   }),
 );
 
-/**
- * PUT /api/clients/:id
- *
- * O EDITOR edita nome, slogan, logo e descrição, mas não muda o endereço do
- * site (slug) nem o desativa: as duas coisas tiram a landing page do ar. O
- * formulário do painel sempre envia o slug, então só a *mudança* é barrada.
- */
 rotasClientes.put(
   '/clients/:id',
   exigirLogin,
@@ -124,6 +105,7 @@ rotasClientes.put(
     const id = param(req, 'id');
     conferirAcessoAoCliente(req.sessao, id);
 
+    // O painel sempre envia o slug: para o EDITOR, só a mudança de slug/active é barrada.
     if (req.sessao!.role !== 'OWNER') {
       const dados = req.body as { slug?: string; active?: boolean };
       const atual = await prisma.client.findUnique({
@@ -156,10 +138,8 @@ rotasClientes.delete(
   }),
 );
 
-// ----------------------------------------------------------------------------
 // Blocos de conteúdo — sempre upsert: o painel salva sem se preocupar se o
 // registro já existia.
-// ----------------------------------------------------------------------------
 
 const blocos = [
   { caminho: 'settings', modelo: 'clientSettings', schema: configuracoesSchema },
@@ -197,9 +177,7 @@ for (const { caminho, modelo, schema } of blocos) {
   );
 }
 
-// ----------------------------------------------------------------------------
 // Mensagens recebidas pelo formulário
-// ----------------------------------------------------------------------------
 
 /** GET /api/clients/:id/messages */
 rotasClientes.get(

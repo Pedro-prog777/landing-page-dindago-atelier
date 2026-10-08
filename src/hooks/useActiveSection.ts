@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
 
-/**
- * Retorna o id da seção visível no momento, para destacar o item ativo do menu.
- * Recebe os ids sem "#".
- */
 export function useActiveSection(ids: string[]): string {
   const [ativo, setAtivo] = useState('');
 

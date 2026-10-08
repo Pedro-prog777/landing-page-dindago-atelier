@@ -1,16 +1,5 @@
 import type { ConteudoDoSite } from './mesclar';
 
-/**
- * ============================================================================
- * AJUDANTES DE LINK, LIGADOS AO CONTEÚDO VIVO
- * ----------------------------------------------------------------------------
- * As mesmas funções que antes liam o arquivo estático agora são construídas a
- * partir do conteúdo que está em tela — venha ele da API ou do padrão local.
- * A assinatura de cada uma continua idêntica, então nenhum componente precisou
- * mudar a forma de chamar.
- * ============================================================================
- */
-
 export type AjudantesDoSite = {
   siteConfig: {
     name: string;
@@ -39,11 +28,6 @@ export type AjudantesDoSite = {
   formatPrice: (preco: number | null) => string;
 };
 
-/**
- * Um campo é considerado pendente enquanto estiver vazio, começar com
- * "INSERIR_" ou for um marcador entre colchetes. Serve para a interface nunca
- * exibir link quebrado nem dado de exemplo.
- */
 export function isConfigured(valor: string | undefined | null): boolean {
   if (!valor) return false;
   const v = valor.trim();

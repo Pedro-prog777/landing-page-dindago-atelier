@@ -1,12 +1,5 @@
 import type { Response } from 'express';
 
-/**
- * Formato único de resposta da API.
- *
- * Todo endpoint devolve `{ success, data }` ou `{ success, message, errors }`.
- * O frontend nunca precisa adivinhar o formato, e a mensagem de erro é sempre
- * segura para exibir ao usuário — detalhes internos ficam no log do servidor.
- */
 export type RespostaOk<T> = { success: true; data: T };
 export type RespostaErro = {
   success: false;
@@ -26,10 +19,6 @@ export function semConteudo(res: Response) {
   return res.status(204).end();
 }
 
-/**
- * Erro previsto pela aplicação. O middleware de erros transforma numa resposta
- * com a mensagem informada; qualquer outro erro vira 500 genérico.
- */
 export class ErroApi extends Error {
   status: number;
   errors?: Record<string, string[]>;

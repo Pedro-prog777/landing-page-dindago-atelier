@@ -1,14 +1,3 @@
-/**
- * ============================================================================
- * EVENTOS ENTRE SEÇÕES
- * ----------------------------------------------------------------------------
- * Algumas chamadas de uma seção agem sobre outra: "Tenho interesse" numa peça
- * preenche o formulário de contato, e um resultado da busca abre a peça na
- * coleção. Em vez de subir estado até o App, as seções conversam por eventos
- * do navegador — cada uma continua independente da outra.
- * ============================================================================
- */
-
 const PREENCHER_CONTATO = 'dindago:preencher-contato';
 const ABRIR_PECA = 'dindago:abrir-peca';
 

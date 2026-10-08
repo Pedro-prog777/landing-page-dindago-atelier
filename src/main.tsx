@@ -10,10 +10,6 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        {/*
-          O painel fica fora do ConteudoProvider: é outra aplicação, com outra
-          linguagem visual, e não deve carregar o conteúdo público.
-        */}
         <Route
           path="/admin/*"
           element={
@@ -23,10 +19,6 @@ createRoot(document.getElementById('root')!).render(
           }
         />
 
-        {/*
-          A landing page recebe o conteúdo já na primeira renderização (do
-          arquivo local) e o substitui quando a API responde.
-        */}
         <Route
           path="*"
           element={

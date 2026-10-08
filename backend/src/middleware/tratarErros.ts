@@ -11,12 +11,6 @@ export function rotaNaoEncontrada(req: Request, res: Response) {
   });
 }
 
-/**
- * Último middleware da cadeia: converte qualquer erro numa resposta previsível.
- *
- * Em produção o cliente recebe só a mensagem — stack trace e detalhes internos
- * ficam no log do servidor, para não vazarem estrutura da aplicação.
- */
 export function tratarErros(erro: unknown, _req: Request, res: Response, _next: NextFunction) {
   if (erro instanceof ZodError) {
     const errors: Record<string, string[]> = {};
@@ -39,10 +33,7 @@ export function tratarErros(erro: unknown, _req: Request, res: Response, _next: 
     });
   }
 
-  /*
-   * Erros do leitor de JSON do Express: corpo malformado ou grande demais. Eles
-   * já trazem o status 4xx certo; antes caíam no 500 como se fosse falha nossa.
-   */
+  // Erros do leitor de JSON do Express (corpo malformado ou grande demais).
   if (typeof erro === 'object' && erro !== null && 'type' in erro && 'status' in erro) {
     const { type, status } = erro as { type?: string; status?: number };
     if (type === 'entity.parse.failed') {
@@ -89,10 +80,6 @@ export function tratarErros(erro: unknown, _req: Request, res: Response, _next: 
   });
 }
 
-/**
- * Envolve um handler assíncrono para que qualquer promessa rejeitada caia no
- * middleware de erros em vez de derrubar o processo.
- */
 export function assincrono<T extends (req: Request, res: Response) => Promise<unknown>>(
   handler: T,
 ) {

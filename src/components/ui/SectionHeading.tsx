@@ -11,24 +11,12 @@ type SectionHeadingProps = {
   description?: ReactNode;
   /** `claro` para fundos de tinta e tijolo. */
   tone?: 'escuro' | 'claro';
-  /**
-   * `lado`: descrição ao lado do título no desktop (seções largas).
-   * `empilhado`: descrição abaixo do título — para colunas estreitas, onde o
-   * lado a lado espremia o título em quatro linhas.
-   */
   layout?: 'lado' | 'empilhado';
   /** id usado por `aria-labelledby` na section. */
   id?: string;
   className?: string;
 };
 
-/**
- * Abertura de caderno: fio, etiqueta numerada e manchete em corpo grande.
- *
- * Sem ornamentos laterais e sem centralização — o alinhamento é sempre à
- * esquerda, como numa página impressa, e a hierarquia vem do salto de corpo
- * entre a etiqueta e o título.
- */
 export function SectionHeading({
   numero,
   eyebrow,

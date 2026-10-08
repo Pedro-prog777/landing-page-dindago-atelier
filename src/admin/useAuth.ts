@@ -11,13 +11,6 @@ export type Usuario = {
 
 type Estado = 'verificando' | 'entrou' | 'fora';
 
-/**
- * Sessão do painel.
- *
- * O token vive num cookie httpOnly, então o JavaScript nunca o vê — a única
- * forma de saber se a sessão vale é perguntar ao servidor em `/auth/me`.
- * É o que roda na montagem, e o que devolve o usuário para as telas.
- */
 export function useAuth() {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [estado, setEstado] = useState<Estado>('verificando');

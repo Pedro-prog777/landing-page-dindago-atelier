@@ -1,15 +1,5 @@
 import type { ConteudoDoSite } from '../conteudo/mesclar';
 
-/**
- * ============================================================================
- * TEMA E SEO DINÂMICOS
- * ----------------------------------------------------------------------------
- * Liga as cores e o SEO do conteúdo às variáveis CSS e às metatags. Como o
- * conteúdo agora vem da API, isto roda de novo sempre que ele muda — trocar a
- * paleta no painel repinta o site sem recarregar a página.
- * ============================================================================
- */
-
 /** Cor do conteúdo → variável CSS correspondente da paleta. */
 const mapaDeCores = {
   primary: '--color-ocre',
@@ -33,12 +23,6 @@ export function aplicarTema(conteudo: ConteudoDoSite): void {
   }
 }
 
-/**
- * Sincroniza título e metatags.
- *
- * O `index.html` continua trazendo os mesmos valores escritos à mão — é o que
- * os robôs de busca leem antes do JavaScript rodar.
- */
 export function aplicarSeo(conteudo: ConteudoDoSite): void {
   if (typeof document === 'undefined') return;
 

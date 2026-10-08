@@ -5,16 +5,6 @@ import { MensagensPainel } from './MensagensPainel';
 import { mensagemDoErro } from './useAuth';
 import { AreaTexto, Aviso, Botao, Campo, Cartao, Carregando, Entrada } from './ui';
 
-/**
- * ============================================================================
- * EDIÇÃO DE UM CLIENTE
- * ----------------------------------------------------------------------------
- * Uma aba por assunto. Os blocos de conteúdo (identidade, cores, contato, capa,
- * história, processo) são formulários que salvam por upsert; as coleções usam o
- * editor genérico.
- * ============================================================================
- */
-
 const COLECOES: Record<string, ConfigColecao> = {
   produtos: {
     caminho: 'products',

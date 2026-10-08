@@ -11,12 +11,6 @@ import { loginSchema, trocarSenhaSchema } from '../schemas/index.js';
 
 export const rotasAuth = Router();
 
-/**
- * POST /api/auth/login
- *
- * A resposta é a mesma para e-mail inexistente e senha errada — dizer qual dos
- * dois falhou entregaria a um atacante a lista de e-mails cadastrados.
- */
 rotasAuth.post(
   '/login',
   limiteLogin,

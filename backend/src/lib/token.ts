@@ -24,10 +24,6 @@ export function lerToken(token: string): Sessao | null {
   }
 }
 
-/**
- * O token viaja em cookie httpOnly: JavaScript da página não consegue lê-lo,
- * o que fecha a porta para roubo de sessão por XSS.
- */
 export const opcoesCookie = {
   httpOnly: true,
   secure: emProducao,

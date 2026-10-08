@@ -6,23 +6,11 @@ import { criarAjudantes } from './ajudantes';
 import { aplicarSeo, aplicarTema } from '../lib/theme';
 import { ContextoDoSite, type EstadoDoConteudo, type ValorDoContexto } from './contexto';
 
-/**
- * ============================================================================
- * CONTEÚDO DO SITE
- * ----------------------------------------------------------------------------
- * Busca o conteúdo do cliente na API e o disponibiliza para a página inteira.
- *
- * A regra que protege o design: a renderização NUNCA espera a rede. O provider
- * começa já com o `clientData` local, e o que vem da API apenas substitui campo
- * a campo quando chega. Backend fora do ar, resposta lenta ou campo vazio não
- * abrem buraco no layout — a landing page continua completa.
- * ============================================================================
- */
-
 /** Qual cliente esta instalação serve. Trocar aqui publica outra landing page. */
 const SLUG_DO_CLIENTE = import.meta.env.VITE_CLIENT_SLUG || 'dindago-atelier';
 
 export function ConteudoProvider({ children }: { children: ReactNode }) {
+  // Começa com o conteúdo local: a página nunca espera a API para aparecer.
   const [conteudo, setConteudo] = useState<ConteudoDoSite>(clientData);
   const [estado, setEstado] = useState<EstadoDoConteudo>('carregando');
   const [daApi, setDaApi] = useState(false);

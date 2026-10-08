@@ -4,15 +4,6 @@ import { Caderno, Numeral, Xilogravura } from './ui/Catalogo';
 import { iconesAtelier, type NomeIcone } from './ui/iconMap';
 import { LinkEditorial } from './ui/Button';
 
-/**
- * Diferenciais em bento assimétrico.
- *
- * O que muda em relação a uma grade de cards: cada bloco tem uma superfície
- * diferente — tinta, tijolo, barro e papel —, os cantos são retos e o lugar
- * do ícone é ocupado por um numeral de caderno. O contraste tonal entre os
- * blocos é o que dá o ritmo, não a moldura.
- */
-
 /** Posição de cada bloco. Composição desenhada: 2×1, 1×1, 1×2, 1×1, 2×1. */
 const posicoes = [
   'sm:col-span-2 lg:col-span-2 lg:col-start-1 lg:row-start-1',

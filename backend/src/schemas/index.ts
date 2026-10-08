@@ -1,15 +1,5 @@
 import { z } from 'zod';
 
-/**
- * ============================================================================
- * VALIDAÇÃO DE ENTRADA
- * ----------------------------------------------------------------------------
- * Nada que chega do frontend é gravado sem passar por aqui. Os limites de
- * tamanho existem tanto para proteger o banco quanto para manter a composição
- * da landing page: um título de 500 caracteres quebraria o layout editorial.
- * ============================================================================
- */
-
 const texto = (max: number) => z.string().trim().max(max);
 const textoObrigatorio = (max: number, campo: string) =>
   z.string().trim().min(1, `${campo} é obrigatório.`).max(max, `${campo} é longo demais.`);
@@ -31,12 +21,6 @@ const urlOpcional = z
     'Informe uma URL http(s) ou um caminho começando com "/".',
   );
 
-/**
- * Destino de botão (CTA): âncora (#secao), caminho (/pagina), http(s), mailto:,
- * tel: ou a palavra "whatsapp", que o site troca pelo link do WhatsApp.
- * Bloqueia `javascript:` e afins — o valor vai direto para um href na página
- * pública, onde rodaria no navegador de quem clicasse.
- */
 const destinoDeLink = (max: number) =>
   opcional(max).refine(
     (v) => v === null || v === 'whatsapp' || /^(#|\/(?!\/)|https?:\/\/|mailto:|tel:)/i.test(v),
@@ -48,9 +32,7 @@ const corHex = z
   .trim()
   .regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, 'Use uma cor no formato #a1b2c3.');
 
-// ============================================================================
 // AUTENTICAÇÃO
-// ============================================================================
 
 export const loginSchema = z.object({
   email: z.email('Informe um e-mail válido.').trim().toLowerCase(),
@@ -62,9 +44,7 @@ export const trocarSenhaSchema = z.object({
   novaSenha: z.string().min(8, 'A nova senha precisa de pelo menos 8 caracteres.').max(200),
 });
 
-// ============================================================================
 // CLIENTE
-// ============================================================================
 
 const camposDoCliente = {
   slug: z
@@ -82,11 +62,7 @@ const camposDoCliente = {
 
 export const clienteSchema = z.object({ ...camposDoCliente, active: z.boolean().default(true) });
 
-/**
- * Edição parcial: sem `default` no `active`. Com o padrão herdado do schema de
- * criação, salvar só o nome devolvia `active: true` e reativava um site que
- * tinha sido desativado de propósito.
- */
+// Sem default no active: senão salvar só o nome reativaria um site desativado.
 export const clienteParcialSchema = z.object({ ...camposDoCliente, active: z.boolean() }).partial();
 
 export const configuracoesSchema = z.object({
@@ -116,9 +92,7 @@ export const contatoInfoSchema = z.object({
   addressNote: opcional(160),
 });
 
-// ============================================================================
 // SEÇÕES
-// ============================================================================
 
 export const heroSchema = z.object({
   titleLine1: textoObrigatorio(80, 'A primeira linha do título'),
@@ -177,9 +151,7 @@ export const etapaSchema = z.object({
   active: z.boolean().default(true),
 });
 
-// ============================================================================
 // COLEÇÕES
-// ============================================================================
 
 export const produtoSchema = z.object({
   name: textoObrigatorio(120, 'O nome da peça'),
@@ -192,16 +164,8 @@ export const produtoSchema = z.object({
   category: opcional(80),
   description: opcional(400),
   story: opcional(2000),
-  /**
-   * `null` é intencional: o atelier pode trabalhar só com encomenda, e a
-   * interface exibe "Consultar valor" em vez de um preço inventado.
-   */
+  // z.null() primeiro: z.coerce.number() transformaria null em 0 ("R$ 0,00").
   price: z
-    /*
-     * `z.null()` precisa vir PRIMEIRO: a união testa na ordem, e
-     * `z.coerce.number()` converteria null em 0 — a peça passaria a exibir
-     * "R$ 0,00" onde deveria dizer "Consultar valor".
-     */
     .union([z.null(), z.coerce.number().nonnegative('O preço não pode ser negativo.')])
     .optional()
     .transform((v) => (v === undefined ? null : v)),
@@ -245,9 +209,7 @@ export const redeSocialSchema = z.object({
   active: z.boolean().default(true),
 });
 
-// ============================================================================
 // FORMULÁRIO PÚBLICO
-// ============================================================================
 
 export const mensagemContatoSchema = z.object({
   name: textoObrigatorio(120, 'O nome'),
@@ -259,13 +221,6 @@ export const mensagemContatoSchema = z.object({
     .trim()
     .min(10, 'Escreva um pouco mais para o atelier entender seu pedido.')
     .max(3000, 'A mensagem é longa demais.'),
-  /**
-   * Campo-armadilha: fica escondido no formulário, então só um robô preenche.
-   *
-   * Aceita qualquer texto de propósito — quem decide o que fazer é a rota, que
-   * responde sucesso e descarta. Rejeitar aqui devolveria um erro citando o
-   * campo "website", ensinando o robô exatamente qual deixar em branco.
-   */
   website: z.string().max(500).optional(),
 });
 

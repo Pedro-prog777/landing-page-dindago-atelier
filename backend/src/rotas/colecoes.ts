@@ -18,22 +18,6 @@ import {
   redeSocialSchema,
 } from '../schemas/index.js';
 
-/**
- * ============================================================================
- * CRUD DAS COLEÇÕES
- * ----------------------------------------------------------------------------
- * Peças, diferenciais, galeria, depoimentos e redes compartilham exatamente a
- * mesma forma: pertencem a um cliente, têm ordem e podem ser desativados. Em
- * vez de repetir cinco arquivos quase idênticos, o roteador é gerado por uma
- * fábrica — o que também garante que a regra de permissão seja a mesma em
- * todos eles.
- *
- * Etapas do processo, fatos da capa e pilares da história seguem a mesma ideia,
- * mas penduram num conteúdo intermediário (processo, hero, sobre) em vez de
- * pendurar direto no cliente.
- * ============================================================================
- */
-
 /** Recorte mínimo do delegate do Prisma que a fábrica precisa. */
 type Delegate = {
   findMany: (args: unknown) => Promise<unknown[]>;
@@ -107,9 +91,8 @@ async function garantirCliente(clientId: string, sessao: Sessao | undefined) {
 
 export const rotasColecoes = Router();
 
-// ----------------------------------------------------------------------------
 // Coleções que pendem direto do cliente
-// ----------------------------------------------------------------------------
+
 for (const { caminho, modelo, rotulo, schema } of colecoesDoCliente) {
   const delegate = delegates[modelo]!;
 
@@ -173,9 +156,8 @@ for (const { caminho, modelo, rotulo, schema } of colecoesDoCliente) {
   );
 }
 
-// ----------------------------------------------------------------------------
 // Coleções que pendem de um conteúdo intermediário
-// ----------------------------------------------------------------------------
+
 for (const { caminho, modelo, rotulo, schema, pai } of colecoesAninhadas) {
   const delegate = delegates[modelo]!;
   const delegatePai = delegates[pai.modelo]!;

@@ -1,14 +1,6 @@
 import { useSite } from '../conteudo/useSite';
 import { useState } from 'react';
 
-/**
- * Logo da marca.
- *
- * Enquanto `company.logo` (em `src/data/clientData.ts`) estiver vazio, é
- * exibida a assinatura tipográfica com o nome da marca — sem pedir à rede uma
- * imagem que ainda não existe. Ao preencher o caminho do arquivo real, a
- * imagem assume o lugar; se ela falhar ao carregar, a assinatura volta.
- */
 type LogoProps = {
   /** `light` para fundos claros, `dark` para fundos escuros. */
   tone?: 'light' | 'dark';

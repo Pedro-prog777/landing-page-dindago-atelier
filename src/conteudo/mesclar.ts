@@ -1,18 +1,5 @@
 import { clientData } from '../data/clientData';
 
-/**
- * ============================================================================
- * MESCLA DO CONTEÚDO
- * ----------------------------------------------------------------------------
- * O `clientData` estático continua sendo a base do site. O que vem da API é
- * sobreposto campo a campo — e só quando tem valor.
- *
- * A regra existe para proteger a composição: se o backend estiver fora do ar,
- * ou se um campo ainda não tiver sido preenchido no painel, a landing page
- * continua exibindo o conteúdo padrão em vez de abrir um buraco no layout.
- * ============================================================================
- */
-
 export type ConteudoDoSite = typeof clientData;
 
 /** Considera preenchido apenas o que realmente tem conteúdo. */

@@ -14,12 +14,7 @@ export function conferirSenha(senha: string, hash: string): Promise<boolean> {
 
 let hashDeReferencia: Promise<string> | undefined;
 
-/**
- * Hash usado quando o e-mail do login não existe. Comparar a senha com ele
- * gasta o mesmo tempo de um usuário real; sem isto a resposta saía em ~3 ms
- * para e-mail inexistente e ~270 ms para senha errada, e o tempo entregava
- * quais e-mails estão cadastrados.
- */
+/** Usado com e-mail inexistente: o login gasta o mesmo tempo e não revela quem está cadastrado. */
 export function hashParaComparacaoFalsa(): Promise<string> {
   hashDeReferencia ??= bcrypt.hash(crypto.randomUUID(), RODADAS);
   return hashDeReferencia;

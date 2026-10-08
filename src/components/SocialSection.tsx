@@ -4,14 +4,6 @@ import { InstagramIcon, WhatsAppIcon } from './ui/BrandIcons';
 import { Caderno } from './ui/Catalogo';
 import { Reveal } from './ui/Reveal';
 
-/**
- * Redes sociais — o fechamento da página.
- *
- * Só aparecem as redes oficiais preenchidas em `clientData.social` e o
- * WhatsApp de `clientData.contact`; nada é inventado. O Instagram ganha o
- * perfil em corpo de capa, como assinatura da publicação, e o WhatsApp fica
- * como a conversa direta logo ao lado.
- */
 export function SocialSection() {
   const { conteudo: clientData, buildWhatsAppUrl, isConfigured, siteConfig } = useSite();
   const { socialSection } = clientData;

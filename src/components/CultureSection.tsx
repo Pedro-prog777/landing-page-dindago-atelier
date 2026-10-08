@@ -4,14 +4,6 @@ import { LinkEditorial } from './ui/Button';
 import { Fio, Xilogravura } from './ui/Catalogo';
 import { iconesAtelier, type NomeIcone } from './ui/iconMap';
 
-/**
- * Caderno escuro — o ponto de virada da leitura.
- *
- * Depois de duas seções sobre papel claro, a página vira tinta. A apresentação
- * do atelier entra como um grande destaque de abertura e os valores se alinham
- * numa faixa horizontal separada por fios, com o motivo de xilogravura usado
- * como marca de leitura.
- */
 export function CultureSection() {
   const { conteudo: clientData } = useSite();
   const { about, culture, cultureSection } = clientData;

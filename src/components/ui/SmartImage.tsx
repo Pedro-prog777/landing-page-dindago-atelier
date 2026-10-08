@@ -15,17 +15,6 @@ type SmartImageProps = {
   alternativa?: { src: string; alt: string };
 };
 
-/**
- * Prancha de catálogo.
- *
- * Se a fotografia não carregar, o lugar dela é marcado como a prancha de um
- * catálogo impresso: campo chapado de barro, fio de contorno e a numeração
- * `fig. NN` no alto — nunca uma imagem quebrada ou genérica.
- *
- * O espaço ocupa exatamente a área, a proporção e a posição da fotografia
- * definitiva — inclusive o hover aplicado pelo componente pai —, então trocar
- * o arquivo não desloca nada na composição.
- */
 export function SmartImage({
   src,
   alt,

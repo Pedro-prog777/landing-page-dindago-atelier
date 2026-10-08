@@ -1,21 +1,3 @@
-/**
- * ============================================================================
- * SEED — DADOS DE DESENVOLVIMENTO
- * ----------------------------------------------------------------------------
- * ⚠️ TUDO AQUI É DADO DE DESENVOLVIMENTO.
- *
- * O conteúdo do Dindagó reproduz exatamente o que já estava em
- * `src/data/clientData.ts`, para que a landing page continue idêntica depois
- * de passar a ler da API. O segundo cliente ("atelier-demo") existe só para
- * provar o multi-cliente e pode ser apagado à vontade.
- *
- * Os campos de imagem apontam para os arquivos reais em `public/images/`.
- * Fotos ainda não adicionadas continuam exibindo as pranchas reservadas.
- *
- * A senha do administrador vem de SEED_ADMIN_PASSWORD no .env e serve apenas
- * para desenvolvimento local — troque antes de qualquer publicação.
- * ============================================================================
- */
 import 'dotenv/config';
 import bcrypt from 'bcryptjs';
 import { criarClientePrisma } from '../src/criarClientePrisma.js';
@@ -28,9 +10,7 @@ const SENHA_ADMIN = process.env.SEED_ADMIN_PASSWORD ?? 'dindago123';
 async function main() {
   console.log('Semeando dados de desenvolvimento...\n');
 
-  // --------------------------------------------------------------------------
   // Cliente principal — Dindagó Atelier
-  // --------------------------------------------------------------------------
   const dindago = await prisma.client.upsert({
     where: { slug: 'dindago-atelier' },
     // Sem logo até o arquivo real existir (bancos antigos apontavam para um SVG ausente).
@@ -85,9 +65,7 @@ async function main() {
     },
   });
 
-  // Capa
-  // O subtítulo vai também no `update`: bancos criados antes da revisão da
-  // capa recebem o texto novo, que diz logo de saída o que é o atelier.
+  // Capa (subtítulo e arte vão também no `update` para atualizar bancos antigos)
   const subtituloCapa =
     'Esculturas autorais em papel-machê, feitas à mão pela artista alagoana Goretti Brandão. Peças únicas que carregam a memória, a fé e a cultura popular do Nordeste.';
 
@@ -415,9 +393,7 @@ async function main() {
   // Depoimentos ficam vazios de propósito: depoimento é palavra de cliente
   // real, não se inventa nem em dado de desenvolvimento.
 
-  // --------------------------------------------------------------------------
   // Segundo cliente — existe apenas para demonstrar o multi-cliente
-  // --------------------------------------------------------------------------
   const demo = await prisma.client.upsert({
     where: { slug: 'atelier-demo' },
     update: {},
@@ -444,9 +420,7 @@ async function main() {
     },
   });
 
-  // --------------------------------------------------------------------------
   // Usuários do painel
-  // --------------------------------------------------------------------------
   const hash = await bcrypt.hash(SENHA_ADMIN, 12);
 
   await prisma.user.upsert({
