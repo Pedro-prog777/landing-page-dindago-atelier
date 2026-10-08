@@ -1,6 +1,7 @@
 import { useSite } from '../conteudo/useSite';
 import { useCallback, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, MessageCircle, X } from 'lucide-react';
+import { WhatsAppIcon } from './ui/BrandIcons';
 import { mensagemInteresse } from '../data/products';
 import type { Produto as Product } from '../data/clientData';
 import { useModalBehavior } from '../hooks/useModalBehavior';
@@ -164,10 +165,11 @@ export function ProductDialog({ produtos, indice, aoNavegar, aoFechar }: Product
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-13 w-full items-center justify-center gap-2.5 bg-tijolo px-6 font-sans text-xs font-semibold tracking-[0.16em] text-papel uppercase transition hover:bg-tinta"
+                className="inline-flex min-h-13 w-full items-center justify-center gap-2.5 bg-cacto px-6 font-sans text-xs font-semibold tracking-[0.16em] text-papel uppercase transition hover:bg-tinta"
               >
-                <MessageCircle className="size-4" aria-hidden="true" />
+                <WhatsAppIcon className="size-5" aria-hidden="true" />
                 Tenho interesse — WhatsApp
+                <span className="sr-only"> (abre em nova aba)</span>
               </a>
             ) : (
               <a

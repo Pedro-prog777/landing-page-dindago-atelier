@@ -2,7 +2,7 @@ import { useSite } from '../conteudo/useSite';
 import { Logo } from './Logo';
 import { Fio, Xilogravura } from './ui/Catalogo';
 import { Cacto, Flor } from './ui/Decorations';
-import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
+import { FacebookIcon, InstagramIcon, WhatsAppIcon } from './ui/BrandIcons';
 
 /**
  * Colofão — a última página da publicação.
@@ -41,10 +41,17 @@ export function Footer() {
 
   const redes = [
     ...(instagramConfigurado
-      ? [{ nome: 'Instagram', href: siteConfig.instagram, Icone: InstagramIcon }]
+      ? [
+          {
+            nome: 'Instagram',
+            rotulo: siteConfig.instagramHandle,
+            href: siteConfig.instagram,
+            Icone: InstagramIcon,
+          },
+        ]
       : []),
     ...(facebookConfigurado
-      ? [{ nome: 'Facebook', href: siteConfig.facebook, Icone: FacebookIcon }]
+      ? [{ nome: 'Facebook', rotulo: 'Facebook', href: siteConfig.facebook, Icone: FacebookIcon }]
       : []),
   ];
 
@@ -137,7 +144,7 @@ export function Footer() {
             <div className="lg:col-span-3 lg:col-start-10">
               <h2 className="etiqueta text-papel/75">Siga o atelier</h2>
               <ul className="mt-4">
-                {redes.map(({ nome, href, Icone }) => (
+                {redes.map(({ nome, rotulo, href, Icone }) => (
                   <li key={nome}>
                     <a
                       href={href}
@@ -147,7 +154,7 @@ export function Footer() {
                       className={estiloLink}
                     >
                       <Icone className="size-4 shrink-0" aria-hidden="true" />
-                      <span className="sublinhado">{nome}</span>
+                      <span className="sublinhado">{rotulo}</span>
                     </a>
                   </li>
                 ))}
@@ -157,8 +164,10 @@ export function Footer() {
                       href={whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`WhatsApp do ${siteConfig.name} (abre em nova aba)`}
                       className={estiloLink}
                     >
+                      <WhatsAppIcon className="size-4 shrink-0" aria-hidden="true" />
                       <span className="sublinhado">WhatsApp</span>
                     </a>
                   </li>

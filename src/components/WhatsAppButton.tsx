@@ -1,6 +1,7 @@
 import { useSite } from '../conteudo/useSite';
 import { useEffect, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
+import { WhatsAppIcon } from './ui/BrandIcons';
 import { useScrollPosition } from '../hooks/useScrollPosition';
 
 /**
@@ -60,7 +61,11 @@ export function WhatsAppButton() {
         visivel ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-6 opacity-0'
       }`}
     >
-      <MessageCircle className="size-6 shrink-0" strokeWidth={1.8} aria-hidden="true" />
+      {whatsappUrl ? (
+        <WhatsAppIcon className="size-6 shrink-0" strokeWidth={1.8} aria-hidden="true" />
+      ) : (
+        <MessageCircle className="size-6 shrink-0" strokeWidth={1.8} aria-hidden="true" />
+      )}
       <span className="hidden font-sans text-[0.72rem] font-semibold tracking-[0.14em] uppercase sm:inline">
         Fale conosco
       </span>

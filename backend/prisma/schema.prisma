@@ -110,9 +110,9 @@ model ContactInfo {
   client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
 
   phone String?
-  /// Formato internacional, só dígitos. Ex.: "5582999999999"
+  /// Formato internacional, só dígitos. Ex.: "5582999482886"
   whatsapp        String?
-  /// Como o número aparece na tela. Ex.: "(82) 99999-9999"
+  /// Como o número aparece na tela. Ex.: "+55 82 99948-2886"
   whatsappDisplay String?
   email           String?
   address         String?

@@ -33,7 +33,7 @@ interessados em peças autorais.
 | 07  | Encomendas      | Como funciona uma peça personalizada, em 4 etapas         |
 | 08  | Contato         | Formulário + canais de atendimento                        |
 | 09  | Localização     | Onde fica o atelier (mapa e rota)                         |
-| 10  | Redes sociais   | Aparece sozinha quando os links reais forem preenchidos   |
+| 10  | Redes sociais   | Instagram @dindago.atelier e WhatsApp                     |
 
 **Principais funcionalidades**
 
@@ -47,6 +47,17 @@ interessados em peças autorais.
 - Menu com a seção atual destacada, menu mobile e botão flutuante de contato.
 - Painel `/admin` para editar textos, cores e peças e ler as mensagens.
 - Funciona sem backend: o conteúdo padrão está em `src/data/clientData.ts`.
+
+**Contatos oficiais**
+
+| Canal     | Dado                                                          |
+| --------- | ------------------------------------------------------------- |
+| WhatsApp  | +55 82 99948-2886 — `https://wa.me/5582999482886`             |
+| Instagram | @dindago.atelier — `https://instagram.com/dindago.atelier`    |
+| E-mail    | contato@dindagoatelier.com.br                                 |
+
+Ficam em `contact` e `social` no `src/data/clientData.ts`. Só aparecem no site
+as redes preenchidas ali; nenhuma outra é exibida.
 
 ---
 
@@ -68,7 +79,9 @@ Roteiro sugerido de demonstração:
 2. Coleções: abrir uma peça, navegar com as setas, clicar em "Tenho interesse"
    e mostrar o formulário já preenchido.
 3. Busca (lupa no topo): digitar "sereia" e abrir a peça.
-4. Encomendas: as 4 etapas e o botão que escolhe o assunto do formulário.
+4. Encomendas e Contato: os botões "Chamar no WhatsApp" abrem a conversa com
+   +55 82 99948-2886 já com a mensagem escrita; "Seguir no Instagram" abre o
+   perfil @dindago.atelier.
 5. Celular: no navegador, `F12` → ícone de celular (`Ctrl+Shift+M`), escolher
    um iPhone ou Galaxy e abrir o menu ☰.
 
@@ -535,7 +548,7 @@ sociais, cores e SEO.
 | Blocos de valores                | `culture`                    |
 | Fluxo de encomendas              | `orders`                     |
 | Telefone, e-mail, endereço       | `contact`                    |
-| Instagram, Facebook              | `social`                     |
+| Instagram e outras redes         | `social`                     |
 | Links e ano do rodapé            | `footer`                     |
 | Itens do menu                    | `nav`                        |
 | Título e descrição para o Google | `seo`                        |

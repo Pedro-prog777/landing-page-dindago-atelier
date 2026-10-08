@@ -583,14 +583,14 @@ export const clientData = {
     eyebrow: 'Contato',
     title: 'Vamos conversar?',
     subtitle:
-      'Quer conhecer uma peça, fazer uma encomenda ou levar um pouco dessa arte para o seu espaço? Entre em contato.',
+      'Quer conhecer uma peça, fazer uma encomenda ou levar um pouco dessa arte para o seu espaço? Fale com o atelier pelo WhatsApp ou acompanhe os trabalhos pelo Instagram.',
 
-    /** Telefone fixo/celular apenas para exibição. */
-    phone: 'INSERIR_TELEFONE',
-    /** WhatsApp em formato internacional, só dígitos. Ex.: "5582999999999" */
-    whatsapp: 'INSERIR_NUMERO',
-    /** Como o número aparece na tela. Ex.: "(82) 99999-9999" */
-    whatsappDisplay: 'INSERIR_NUMERO',
+    /** Telefone para exibição — o mesmo número do WhatsApp oficial. */
+    phone: '+55 82 99948-2886',
+    /** WhatsApp oficial em formato internacional, só dígitos (vira https://wa.me/...). */
+    whatsapp: '5582999482886',
+    /** Como o número aparece na tela. */
+    whatsappDisplay: '+55 82 99948-2886',
     email: 'contato@dindagoatelier.com.br',
     address: 'Santana do Ipanema – AL',
     addressNote: 'Visitas ao atelier com agendamento prévio.',
@@ -613,11 +613,13 @@ export const clientData = {
   },
 
   // --------------------------------------------------------------------------
-  // REDES SOCIAIS — deixe vazio ou "INSERIR_" para o ícone não aparecer
+  // REDES SOCIAIS — só as oficiais. Campo vazio = a rede não aparece no site.
+  // Não preencha com endereço que não tenha sido confirmado pelo atelier.
   // --------------------------------------------------------------------------
   social: {
-    instagram: 'INSERIR_INSTAGRAM',
-    facebook: 'INSERIR_FACEBOOK',
+    /** Perfil oficial: @dindago.atelier */
+    instagram: 'https://instagram.com/dindago.atelier',
+    facebook: '',
     linkedin: '',
     youtube: '',
   },
@@ -626,8 +628,8 @@ export const clientData = {
   socialSection: {
     numero: '10',
     eyebrow: 'Redes sociais',
-    title: 'Siga o Dindagó Atelier',
-    subtitle: 'Acompanhe novas peças, bastidores, processos e histórias.',
+    title: 'Acompanhe o atelier',
+    subtitle: 'Novas peças, bastidores do processo e histórias de cada criação.',
   },
 
   // --------------------------------------------------------------------------

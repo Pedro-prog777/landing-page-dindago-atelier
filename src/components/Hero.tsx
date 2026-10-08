@@ -8,13 +8,15 @@ import { PapelRasgado } from './ui/Decorations';
 /**
  * Capa do catálogo.
  *
- * A manchete atravessa a largura da página em degrau e, logo abaixo, entra a
- * prancha de abertura — a lógica não é "texto de um lado, imagem do outro", e
- * sim capa e prancha, como numa publicação impressa. A grade de colunas
- * aparece em fio finíssimo ao fundo.
+ * No desktop, a manchete em degrau ocupa a metade esquerda e a prancha "Eu amo
+ * meu Nordeste" a direita, levemente inclinada como uma gravura presa na
+ * parede — assim a arte aparece inteira já na primeira tela, inclusive em
+ * notebooks (1366×768, 1536×864). Antes ela vinha abaixo da manchete e só
+ * aparecia depois de rolar, grande demais para caber na janela.
  *
  * A prancha é exibida na proporção original da arte (1280×788): a ilustração
- * tem moldura e texto ("Eu amo meu Nordeste"), e qualquer corte comia letras.
+ * tem moldura e texto, e qualquer corte comia letras. No celular ela entra
+ * em sangria total logo depois das chamadas.
  */
 export function Hero() {
   const { conteudo: clientData, resolveCtaHref } = useSite();
@@ -31,12 +33,11 @@ export function Hero() {
       aria-labelledby="hero-titulo"
       className="grao relative bg-papel pt-26 sm:pt-28"
     >
-      {/* Bloco da capa: tudo o que fica SOBRE a ilustração de fundo. */}
       <div className="relative">
         {/*
          * Fundo ilustrado do sertão, ancorado embaixo: os cactos e a cercadura
-         * do pé encostam na prancha. Se o arquivo não existir, a camada não
-         * pinta nada e o `bg-papel` da seção continua valendo.
+         * do pé fecham a capa. Se o arquivo não existir, a camada não pinta
+         * nada e o `bg-papel` da seção continua valendo.
          */}
         <div
           aria-hidden="true"
@@ -56,7 +57,7 @@ export function Hero() {
           className="grade-impressao pointer-events-none absolute inset-x-0 top-0 hidden h-full lg:block"
         />
 
-        <div className="relative mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
+        <div className="relative mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8 lg:pb-20">
           {/* Cabeçalho corrente da capa: diz logo de saída o que é o atelier */}
           <Reveal>
             <Fio />
@@ -69,97 +70,93 @@ export function Hero() {
             <Fio />
           </Reveal>
 
-          {/* MANCHETE — atravessa a largura toda, em degrau */}
-          <h1 id="hero-titulo" className="pt-9 pb-8 sm:pt-12 lg:pt-16 lg:pb-12">
-            {hero.titleLines.map((linha, indice) => (
-              <Reveal
-                key={linha}
-                delay={indice * 90}
-                className={`block text-[clamp(2.5rem,6.2vw,5.5rem)] ${
-                  indice === 1 ? 'sm:pl-[8%] lg:pl-[12%]' : ''
-                }`}
-              >
-                {linha}
-              </Reveal>
-            ))}
-            <Reveal
-              delay={180}
-              className="block text-[clamp(2.5rem,6.2vw,5.5rem)] text-tijolo italic sm:pl-[16%] lg:pl-[26%]"
-            >
-              {hero.titleHighlight}
-            </Reveal>
-          </h1>
-
-          {/* Faixa de apoio: o que é, as chamadas e o colofão */}
-          <Reveal delay={240}>
-            <Fio />
-            <div className="grid gap-8 pt-8 lg:grid-cols-12 lg:gap-10">
-              <p className="max-w-xl text-[1.05rem] leading-relaxed text-tinta-media lg:col-span-6 lg:text-lg xl:col-span-5">
-                {hero.subtitle}
-              </p>
-
-              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6 lg:col-span-6 lg:items-start xl:col-span-3 xl:col-start-6 xl:flex-col xl:gap-3">
-                <Button href={hrefPrimario} size="lg" className="w-full sm:w-auto">
-                  {hero.primaryCta.label}
-                  <span
-                    aria-hidden="true"
-                    className="transition-transform duration-300 group-hover/btn:translate-y-0.5"
+          <div className="lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-12">
+            {/* Texto da capa */}
+            <div className="lg:col-span-6">
+              <h1 id="hero-titulo" className="pt-9 pb-8 sm:pt-12 lg:pt-10 lg:pb-8">
+                {hero.titleLines.map((linha, indice) => (
+                  <Reveal
+                    key={linha}
+                    delay={indice * 90}
+                    className={`block text-[clamp(2.5rem,6.2vw,5.5rem)] lg:text-[clamp(2.75rem,4.1vw,4.25rem)] ${
+                      indice === 1 ? 'sm:pl-[8%] lg:pl-[6%]' : ''
+                    }`}
                   >
-                    ↓
-                  </span>
-                </Button>
-                <LinkEditorial href={hrefSecundario}>{hero.secondaryCta.label}</LinkEditorial>
-              </div>
-
-              {/* Colofão — ficha técnica curta da edição */}
-              <dl className="grid max-w-xl grid-cols-3 gap-4 border-t border-tinta/15 pt-6 lg:col-span-12 xl:col-span-4 xl:col-start-9 xl:border-t-0 xl:pt-0">
-                {hero.colofao.map((item) => (
-                  <div key={item.rotulo}>
-                    <dt className="etiqueta text-tinta-suave">{item.rotulo}</dt>
-                    {/* Hífen inseparável: "Papel-machê" não quebra no meio em coluna estreita */}
-                    <dd className="mt-1.5 font-display text-lg leading-tight">
-                      {item.valor.replace(/-/g, '‑')}
-                    </dd>
-                  </div>
+                    {linha}
+                  </Reveal>
                 ))}
-              </dl>
+                <Reveal
+                  delay={180}
+                  className="block text-[clamp(2.5rem,6.2vw,5.5rem)] text-tijolo italic sm:pl-[16%] lg:pl-[14%] lg:text-[clamp(2.75rem,4.1vw,4.25rem)]"
+                >
+                  {hero.titleHighlight}
+                </Reveal>
+              </h1>
+
+              {/* Faixa de apoio: o que é, as chamadas e o colofão */}
+              <Reveal delay={240}>
+                <Fio />
+                <div className="flex flex-col gap-6 pt-6">
+                  <p className="max-w-xl text-[1.05rem] leading-relaxed text-tinta-media lg:text-[1.1rem]">
+                    {hero.subtitle}
+                  </p>
+
+                  <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
+                    <Button href={hrefPrimario} size="lg" className="w-full sm:w-auto">
+                      {hero.primaryCta.label}
+                      <span
+                        aria-hidden="true"
+                        className="transition-transform duration-300 group-hover/btn:translate-y-0.5"
+                      >
+                        ↓
+                      </span>
+                    </Button>
+                    <LinkEditorial href={hrefSecundario}>{hero.secondaryCta.label}</LinkEditorial>
+                  </div>
+
+                  {/* Colofão — ficha técnica curta da edição */}
+                  <dl className="grid max-w-lg grid-cols-3 gap-4 border-t border-tinta/15 pt-5">
+                    {hero.colofao.map((item) => (
+                      <div key={item.rotulo}>
+                        <dt className="etiqueta text-tinta-suave">{item.rotulo}</dt>
+                        {/* Hífen inseparável: "Papel-machê" não quebra no meio */}
+                        <dd className="mt-1.5 font-display text-lg leading-tight">
+                          {item.valor.replace(/-/g, '‑')}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </Reveal>
             </div>
-          </Reveal>
+
+            {/* PRANCHA DE ABERTURA — inteira, na proporção original da arte */}
+            <Reveal delay={150} className="-mx-4 mt-10 sm:mx-0 sm:mt-12 lg:col-span-6 lg:mt-0">
+              <figure className="group">
+                <div className="overflow-hidden bg-areia shadow-[0_30px_60px_-34px_rgba(74,47,33,0.85)] transition-transform duration-700 ease-out sm:ring-1 sm:ring-tinta/10 lg:-rotate-1 lg:group-hover:rotate-0">
+                  <SmartImage
+                    src={hero.image}
+                    alt={hero.imageAlt}
+                    placeholderLabel="Prancha de abertura"
+                    figura="01"
+                    loading="eager"
+                    prioridade
+                    className="aspect-1280/788 w-full transition-transform duration-[1.4s] ease-out group-hover:scale-[1.02]"
+                  />
+                </div>
+
+                <figcaption className="flex items-center justify-between gap-6 px-4 pt-4 sm:px-0">
+                  <span className="etiqueta text-tinta-suave">fig. 01 — {hero.imageCaption}</span>
+                  <Xilogravura className="hidden w-20 shrink-0 text-tijolo/40 sm:block" altura={8} />
+                </figcaption>
+              </figure>
+            </Reveal>
+          </div>
         </div>
       </div>
 
-      {/*
-       * PRANCHA DE ABERTURA — sangria total no celular; no desktop, deslocada
-       * para a direita, continuando o degrau da manchete, com a legenda na
-       * margem esquerda como num catálogo.
-       */}
-      <div className="relative mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <Reveal delay={120}>
-          <figure className="group lg:grid lg:grid-cols-12 lg:items-end lg:gap-10">
-            <div className="overflow-hidden bg-areia sm:shadow-[0_30px_60px_-40px_rgba(74,47,33,0.8)] lg:col-span-10 lg:col-start-3 lg:row-start-1">
-              <SmartImage
-                src={hero.image}
-                alt={hero.imageAlt}
-                placeholderLabel="Prancha de abertura"
-                figura="01"
-                loading="eager"
-                prioridade
-                className="aspect-1280/788 w-full transition-transform duration-[1.4s] ease-out group-hover:scale-[1.02]"
-              />
-            </div>
-
-            <figcaption className="flex items-center justify-between gap-6 px-4 py-3 sm:px-0 lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:flex-col lg:items-start lg:justify-end lg:gap-4 lg:py-0">
-              <span className="etiqueta text-tinta-suave">
-                fig. 01 — {hero.imageCaption}
-              </span>
-              <Xilogravura className="hidden w-24 shrink-0 text-tijolo/40 sm:block" altura={8} />
-            </figcaption>
-          </figure>
-        </Reveal>
-      </div>
-
       {/* Transição de papel rasgado para o caderno seguinte */}
-      <PapelRasgado posicao="baixo" className="relative mt-10 text-papel lg:mt-14" />
+      <PapelRasgado posicao="baixo" className="relative text-papel" />
     </section>
   );
 }

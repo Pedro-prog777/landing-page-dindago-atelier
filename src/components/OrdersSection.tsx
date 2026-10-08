@@ -4,6 +4,7 @@ import { Button } from './ui/Button';
 import { Caderno, Numeral } from './ui/Catalogo';
 import { Cacto } from './ui/Decorations';
 import { preencherContato } from '../lib/eventos';
+import { WhatsAppIcon } from './ui/BrandIcons';
 
 /**
  * Caderno de encomendas — quadrantes.
@@ -99,8 +100,10 @@ export function OrdersSection() {
               size="lg"
               className="w-full sm:w-auto"
             >
+              {whatsappUrl && <WhatsAppIcon className="size-5" aria-hidden="true" />}
               {orders.ctaLabel}
               <span aria-hidden="true">→</span>
+              {whatsappUrl && <span className="sr-only"> pelo WhatsApp (abre em nova aba)</span>}
             </Button>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import { useSite } from '../conteudo/useSite';
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { api, ErroDaApi } from '../api/cliente';
-import { CheckCircle2, Mail, MapPin, MessageCircle, Send, Truck } from 'lucide-react';
-import { InstagramIcon } from './ui/BrandIcons';
+import { ArrowUpRight, CheckCircle2, Mail, MapPin, Send, Truck } from 'lucide-react';
+import { InstagramIcon, WhatsAppIcon } from './ui/BrandIcons';
 import { Reveal } from './ui/Reveal';
 import { SectionHeading } from './ui/SectionHeading';
 import { aoPreencherContato } from '../lib/eventos';
@@ -274,20 +274,63 @@ export function ContactSection() {
               layout="empilhado"
             />
 
-            <Reveal delay={100} className="mt-8">
-              <ul className="space-y-3">
-                {whatsappUrl && (
-                  <li>
-                    <Canal
+            {/*
+              Canais diretos: os dois botões que o visitante procura primeiro.
+              No celular ficam empilhados, com área de toque grande.
+            */}
+            {(whatsappUrl || instagramConfigurado) && (
+              <Reveal delay={100} className="mt-8">
+                <p className="etiqueta text-tijolo">Fale direto com o atelier</p>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                  {whatsappUrl && (
+                    <a
                       href={whatsappUrl}
-                      externo
-                      icone={<MessageCircle className="size-5" strokeWidth={1.6} aria-hidden="true" />}
-                      rotulo="WhatsApp"
-                      valor={siteConfig.whatsappDisplay}
-                    />
-                  </li>
-                )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex min-h-18 items-center gap-4 bg-cacto px-5 py-4 text-papel shadow-[0_14px_30px_-18px_rgba(67,41,29,0.9)] transition hover:-translate-y-0.5 hover:bg-tinta"
+                    >
+                      <WhatsAppIcon className="size-7 shrink-0" strokeWidth={1.6} aria-hidden="true" />
+                      <span className="min-w-0 flex-1">
+                        <span className="etiqueta block text-papel/85">Chamar no WhatsApp</span>
+                        <span className="block font-display text-xl leading-snug">
+                          {siteConfig.whatsappDisplay}
+                        </span>
+                      </span>
+                      <ArrowUpRight
+                        className="size-5 shrink-0 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                      <span className="sr-only"> (abre em nova aba)</span>
+                    </a>
+                  )}
 
+                  {instagramConfigurado && (
+                    <a
+                      href={siteConfig.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex min-h-18 items-center gap-4 border border-tinta/20 bg-papel-claro px-5 py-4 text-tinta transition hover:-translate-y-0.5 hover:border-tijolo/60 hover:text-tijolo"
+                    >
+                      <InstagramIcon className="size-7 shrink-0" strokeWidth={1.6} aria-hidden="true" />
+                      <span className="min-w-0 flex-1">
+                        <span className="etiqueta block text-tinta-suave">Seguir no Instagram</span>
+                        <span className="block truncate font-display text-xl leading-snug">
+                          {siteConfig.instagramHandle}
+                        </span>
+                      </span>
+                      <ArrowUpRight
+                        className="size-5 shrink-0 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                      <span className="sr-only"> (abre em nova aba)</span>
+                    </a>
+                  )}
+                </div>
+              </Reveal>
+            )}
+
+            <Reveal delay={140} className="mt-6">
+              <ul className="space-y-3">
                 {mailtoUrl && (
                   <li>
                     <Canal
@@ -295,18 +338,6 @@ export function ContactSection() {
                       icone={<Mail className="size-5" strokeWidth={1.6} aria-hidden="true" />}
                       rotulo="E-mail"
                       valor={siteConfig.email}
-                    />
-                  </li>
-                )}
-
-                {instagramConfigurado && (
-                  <li>
-                    <Canal
-                      href={siteConfig.instagram}
-                      externo
-                      icone={<InstagramIcon className="size-5" strokeWidth={1.6} aria-hidden="true" />}
-                      rotulo="Instagram"
-                      valor="Bastidores e novas peças"
                     />
                   </li>
                 )}

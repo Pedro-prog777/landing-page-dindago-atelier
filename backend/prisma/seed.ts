@@ -64,15 +64,20 @@ async function main() {
     },
   });
 
+  // WhatsApp oficial do atelier. Vai também no `update` para os bancos criados
+  // quando o número ainda estava pendente.
+  const whatsappOficial = {
+    phone: '+55 82 99948-2886',
+    whatsapp: '5582999482886',
+    whatsappDisplay: '+55 82 99948-2886',
+  };
+
   await prisma.contactInfo.upsert({
     where: { clientId: dindago.id },
-    update: {},
+    update: whatsappOficial,
     create: {
       clientId: dindago.id,
-      // Telefone segue pendente: o número do mockup era fictício.
-      phone: null,
-      whatsapp: null,
-      whatsappDisplay: null,
+      ...whatsappOficial,
       email: 'contato@dindagoatelier.com.br',
       address: 'Santana do Ipanema – AL',
       addressNote: 'Visitas ao atelier com agendamento prévio.',
@@ -386,6 +391,18 @@ async function main() {
       alt,
       order: indice,
     })),
+  });
+
+  // Redes sociais: só as oficiais. Facebook e outras ficam de fora até o
+  // atelier informar um endereço real.
+  await prisma.socialLink.deleteMany({ where: { clientId: dindago.id } });
+  await prisma.socialLink.create({
+    data: {
+      clientId: dindago.id,
+      network: 'instagram',
+      url: 'https://instagram.com/dindago.atelier',
+      order: 0,
+    },
   });
 
   // Depoimentos ficam vazios de propósito: depoimento é palavra de cliente

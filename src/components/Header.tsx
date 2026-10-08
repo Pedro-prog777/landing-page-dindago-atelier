@@ -1,7 +1,7 @@
 import { useSite } from '../conteudo/useSite';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Menu, Search, X } from 'lucide-react';
-import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
+import { FacebookIcon, InstagramIcon, WhatsAppIcon } from './ui/BrandIcons';
 import { Logo } from './Logo';
 import { SearchDialog } from './SearchDialog';
 import { useActiveSection } from '../hooks/useActiveSection';
@@ -89,10 +89,16 @@ export function Header() {
                         href={siteConfig.instagram}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={`Instagram do ${siteConfig.name} (abre em nova aba)`}
-                        className="flex size-6 items-center justify-center text-tinta/75 transition hover:text-tijolo"
+                        aria-label={`Instagram ${siteConfig.instagramHandle} (abre em nova aba)`}
+                        className="-my-2 inline-flex min-h-9 min-w-9 items-center justify-center gap-2 text-tinta transition hover:text-tijolo"
                       >
                         <InstagramIcon className="size-4" aria-hidden="true" />
+                        <span
+                          aria-hidden="true"
+                          className="hidden font-sans text-[0.7rem] font-medium md:inline"
+                        >
+                          {siteConfig.instagramHandle}
+                        </span>
                       </a>
                     </li>
                   )}
@@ -103,7 +109,7 @@ export function Header() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Facebook do ${siteConfig.name} (abre em nova aba)`}
-                        className="flex size-6 items-center justify-center text-tinta/75 transition hover:text-tijolo"
+                        className="-my-2 inline-flex size-9 items-center justify-center text-tinta transition hover:text-tijolo"
                       >
                         <FacebookIcon className="size-4" aria-hidden="true" />
                       </a>
@@ -167,9 +173,11 @@ export function Header() {
               <a
                 href={whatsappUrl ?? '#contato'}
                 {...(whatsappUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="hidden min-h-11 items-center bg-tinta px-5 font-sans text-[0.66rem] font-semibold tracking-[0.18em] whitespace-nowrap text-papel uppercase transition hover:-translate-y-0.5 hover:bg-tijolo sm:inline-flex xl:px-6"
+                aria-label={whatsappUrl ? 'Fale conosco pelo WhatsApp (abre em nova aba)' : undefined}
+                className="hidden min-h-11 items-center gap-2.5 bg-tinta px-5 font-sans text-[0.66rem] font-semibold tracking-[0.18em] whitespace-nowrap text-papel uppercase transition hover:-translate-y-0.5 hover:bg-tijolo sm:inline-flex xl:px-6"
               >
-                {whatsappUrl ? 'WhatsApp' : 'Fale conosco'}
+                {whatsappUrl && <WhatsAppIcon className="size-4" aria-hidden="true" />}
+                Fale conosco
               </a>
 
               <button
@@ -220,10 +228,23 @@ export function Header() {
                 href={whatsappUrl ?? '#contato'}
                 {...(whatsappUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 onClick={() => setMenuAberto(false)}
-                className="inline-flex min-h-13 items-center justify-center bg-tijolo px-6 font-sans text-[0.65rem] font-semibold tracking-[0.2em] text-papel uppercase"
+                className="inline-flex min-h-13 items-center justify-center gap-2.5 bg-cacto px-6 font-sans text-[0.68rem] font-semibold tracking-[0.2em] text-papel uppercase"
               >
-                {whatsappUrl ? 'Falar pelo WhatsApp' : 'Ir para contato'}
+                {whatsappUrl && <WhatsAppIcon className="size-5" aria-hidden="true" />}
+                {whatsappUrl ? 'Chamar no WhatsApp' : 'Ir para contato'}
               </a>
+              {instagramConfigurado && (
+                <a
+                  href={siteConfig.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMenuAberto(false)}
+                  className="inline-flex min-h-13 items-center justify-center gap-2.5 border border-tinta/25 px-6 font-sans text-[0.68rem] font-semibold tracking-[0.2em] text-tinta normal-case"
+                >
+                  <InstagramIcon className="size-5" aria-hidden="true" />
+                  {siteConfig.instagramHandle}
+                </a>
+              )}
               <p className="etiqueta pt-1 text-center text-tinta-suave">{siteConfig.shipping}</p>
             </div>
           </nav>
