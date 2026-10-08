@@ -9,7 +9,7 @@ logo/
   dindago-atelier.svg      logo real da marca (usada no header e no rodapé)
 
 hero/
-  peca-principal.jpg       foto de destaque do topo (vertical, 4:5)
+  EuAmoNordeste.jpeg       arte de destaque do topo
   og-image.jpg             imagem de compartilhamento em redes (1200x630)
 
 products/

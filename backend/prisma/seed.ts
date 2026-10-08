@@ -89,10 +89,10 @@ async function main() {
       titleHighlight: 'e das mãos.',
       subtitle:
         'Peças artesanais que carregam a identidade e a beleza do Nordeste brasileiro.',
-      imageUrl: '/images/hero/peca-principal.jpg',
+      imageUrl: '/images/hero/EuAmoNordeste.jpeg',
       imageAlt:
-        'Escultura em papel-machê de uma mulher com cabelos em forma de mar, peixes e um barco',
-      imageCaption: 'Mulher do Mar — papel-machê sobre estrutura de arame',
+        'Arte em papel com a frase “Eu amo meu Nordeste” e ilustrações do sertão, cactos e mandacarus',
+      imageCaption: 'Eu amo meu Nordeste — arte inspirada na cultura sertaneja',
       primaryCtaLabel: 'Ver as peças',
       primaryCtaHref: '#pecas',
       secondaryCtaLabel: 'Falar com o atelier',
