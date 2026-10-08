@@ -91,11 +91,6 @@ const secoes: SearchEntry[] = [
   },
 ];
 
-/**
- * Índice montado a partir das peças em tela — do arquivo local ou da API. Com
- * a API, os ids das peças são os do banco; um índice fixo apontaria para ids
- * que não existem na página.
- */
 export function criarIndiceDeBusca(produtos: Produto[]): SearchEntry[] {
   return [
     ...secoes,

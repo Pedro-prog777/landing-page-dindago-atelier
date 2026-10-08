@@ -1,13 +1,5 @@
 @import 'tailwindcss';
 
-/* ==========================================================================
-   DINDAGÓ ATELIER — PROVA DE IMPRESSÃO
-   --------------------------------------------------------------------------
-   A página é tratada como um catálogo de arte impresso: grade visível,
-   cantos retos, tipografia de alto contraste e superfícies de papel e barro.
-   Sem cantos arredondados decorativos e sem ícones folclóricos espalhados —
-   quem constrói a identidade é a composição, a régua e o tipo.
-   ========================================================================== */
 @theme {
   /* --- Papel: creme quente, como o da referência impressa --- */
   --color-papel: #fbf6ea;
@@ -35,10 +27,6 @@
   --font-display: 'Instrument Serif', 'Georgia', 'Times New Roman', serif;
   --font-sans: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /*
-   * Raio mínimo. A referência tem cantos levemente suavizados — o suficiente
-   * para parecer feito à mão, longe da pílula de aplicativo.
-   */
   --radius-suave: 3px;
   --radius-bloco: 6px;
 
@@ -86,11 +74,7 @@
     scroll-padding-top: 5.5rem;
   }
 
-  /*
-   * `clip` corta o excedente horizontal sem transformar o body num contêiner
-   * de rolagem — com `hidden`, o `position: sticky` deixa de funcionar.
-   * O `hidden` fica antes como reserva para navegadores antigos.
-   */
+  /* clip em vez de hidden: hidden quebra o position: sticky. */
   html,
   body {
     max-width: 100%;
@@ -144,10 +128,6 @@
 }
 
 @layer components {
-  /*
-   * Granulado de papel. Mais presente que um ruído decorativo: é o que dá
-   * a sensação de superfície impressa. Sempre em ::after, sem custo de rede.
-   */
   .grao {
     position: relative;
   }
@@ -168,10 +148,6 @@
     opacity: 0.28;
   }
 
-  /*
-   * Grade de impressão: colunas visíveis em fio finíssimo, como a marcação de
-   * diagramação de uma revista. É o elemento que substitui os ícones soltos.
-   */
   .grade-impressao {
     background-image: repeating-linear-gradient(
       to right,
@@ -180,11 +156,6 @@
     );
   }
 
-  /*
-   * O painel administrativo não é a landing page: usa a fonte de interface em
-   * todos os níveis, inclusive nos títulos, que por padrão herdariam a
-   * serifada editorial.
-   */
   .painel,
   .painel h1,
   .painel h2,

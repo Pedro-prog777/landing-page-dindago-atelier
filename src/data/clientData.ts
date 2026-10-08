@@ -21,9 +21,7 @@
  * ============================================================================
  */
 
-// ============================================================================
 // TIPOS
-// ============================================================================
 
 export type Produto = {
   /** Número no arquivo local; texto (cuid) quando a peça vem do banco pela API. */
@@ -58,14 +56,10 @@ export type Depoimento = {
 
 export type NavLink = { label: string; href: string };
 
-// ============================================================================
 // DADOS
-// ============================================================================
 
 export const clientData = {
-  // --------------------------------------------------------------------------
   // IDENTIDADE DA EMPRESA
-  // --------------------------------------------------------------------------
   company: {
     name: 'Dindagó Atelier',
     segment: 'Artesanato autoral em papel-machê',
@@ -83,9 +77,7 @@ export const clientData = {
     shipping: 'Frete para todo o Brasil',
   },
 
-  // --------------------------------------------------------------------------
   // CORES — aplicadas automaticamente como variáveis CSS (ver ThemeProvider)
-  // --------------------------------------------------------------------------
   colors: {
     /** Cor de destaque principal: botões, barra superior, ícones. */
     primary: '#c89434',
@@ -97,9 +89,7 @@ export const clientData = {
     background: '#fdfaf4',
   },
 
-  // --------------------------------------------------------------------------
   // HERO
-  // --------------------------------------------------------------------------
   hero: {
     /**
      * A manchete é composta em linhas: as primeiras saem em corpo de capa e a
@@ -138,10 +128,8 @@ export const clientData = {
     title: 'O que sustenta cada peça',
   },
 
-  // --------------------------------------------------------------------------
   // DIFERENCIAIS
   // `icon` aceita: maos | folha | sol | cacto | presente | reciclagem | coracao
-  // --------------------------------------------------------------------------
   benefits: [
     {
       icon: 'maos',
@@ -170,10 +158,8 @@ export const clientData = {
     },
   ],
 
-  // --------------------------------------------------------------------------
   // TUTORIAL — caderno 04, "Como fazer papel-machê?"
   // É o conteúdo exibido na seção #processo da landing page.
-  // --------------------------------------------------------------------------
   tutorial: {
     numero: '04',
     eyebrow: 'O artesanato',
@@ -205,10 +191,8 @@ export const clientData = {
     extras: ['Tintas acrílicas', 'Vernizes', 'Pincéis', 'Tecidos', 'Linhas', 'Miçangas'],
   },
 
-  // --------------------------------------------------------------------------
   // PROCESSO DE CRIAÇÃO
   // Editável pelo painel /admin. A landing page exibe hoje o `tutorial` acima.
-  // --------------------------------------------------------------------------
   process: {
     numero: '03',
     eyebrow: 'O artesanato',
@@ -234,11 +218,9 @@ export const clientData = {
     imageAlt: 'Mãos modelando o papel-machê sobre a estrutura de uma peça',
   },
 
-  // --------------------------------------------------------------------------
   // PEÇAS
   // PREÇOS: mantenha `null` enquanto o valor real não for definido — a interface
   // exibe "Consultar valor". Para publicar, escreva o número em reais (ex.: 480).
-  // --------------------------------------------------------------------------
   productsSection: {
     numero: '03',
     eyebrow: 'Coleções',
@@ -372,9 +354,7 @@ export const clientData = {
     },
   ] as Produto[],
 
-  // --------------------------------------------------------------------------
   // GALERIA
-  // --------------------------------------------------------------------------
   gallery: {
     numero: '05',
     eyebrow: 'Galeria',
@@ -458,9 +438,7 @@ export const clientData = {
     ] as ItemGaleria[],
   },
 
-  // --------------------------------------------------------------------------
   // SOBRE O ATELIER / A ARTESÃ
-  // --------------------------------------------------------------------------
   about: {
     numero: '06',
     eyebrow: 'Sobre o atelier',
@@ -498,10 +476,8 @@ export const clientData = {
     },
   },
 
-  // --------------------------------------------------------------------------
   // CULTURA — blocos de valores da marca
   // `icon` aceita: sol | flor | passaro | maos
-  // --------------------------------------------------------------------------
   /** Cabeçalho do caderno escuro. */
   cultureSection: {
     numero: '05',
@@ -531,9 +507,7 @@ export const clientData = {
     },
   ],
 
-  // --------------------------------------------------------------------------
   // ENCOMENDAS
-  // --------------------------------------------------------------------------
   orders: {
     numero: '07',
     eyebrow: 'Encomendas',
@@ -568,16 +542,12 @@ export const clientData = {
     ctaLabel: 'Fazer uma encomenda',
   },
 
-  // --------------------------------------------------------------------------
   // DEPOIMENTOS
   // Vazio de propósito: depoimento é palavra de cliente real, não se inventa.
   // Ao preencher, a seção aparece sozinha na página.
-  // --------------------------------------------------------------------------
   testimonials: [] as Depoimento[],
 
-  // --------------------------------------------------------------------------
   // CONTATO
-  // --------------------------------------------------------------------------
   contact: {
     numero: '08',
     eyebrow: 'Contato',
@@ -612,10 +582,8 @@ export const clientData = {
       'O atelier é onde tudo acontece: a pesquisa, a bancada, a secagem lenta das peças e as conversas sobre cada encomenda.',
   },
 
-  // --------------------------------------------------------------------------
   // REDES SOCIAIS — só as oficiais. Campo vazio = a rede não aparece no site.
   // Não preencha com endereço que não tenha sido confirmado pelo atelier.
-  // --------------------------------------------------------------------------
   social: {
     /** Perfil oficial: @dindago.atelier */
     instagram: 'https://instagram.com/dindago.atelier',
@@ -632,9 +600,7 @@ export const clientData = {
     subtitle: 'Novas peças, bastidores do processo e histórias de cada criação.',
   },
 
-  // --------------------------------------------------------------------------
   // RODAPÉ
-  // --------------------------------------------------------------------------
   footer: {
     tagline: 'Arte em papel-machê feita com alma, memória e propósito.',
     /** Enquanto as páginas não existirem, cada item leva ao contato. */
@@ -647,9 +613,7 @@ export const clientData = {
     copyrightYear: 2026,
   },
 
-  // --------------------------------------------------------------------------
   // NAVEGAÇÃO
-  // --------------------------------------------------------------------------
   /** Mesma ordem das seções na página. */
   nav: [
     { label: 'Início', href: '#inicio' },
@@ -660,9 +624,7 @@ export const clientData = {
     { label: 'Contato', href: '#contato' },
   ] as NavLink[],
 
-  // --------------------------------------------------------------------------
   // SEO
-  // --------------------------------------------------------------------------
   seo: {
     title: 'Dindagó Atelier | Arte em Papel-Machê',
     description:

@@ -37,6 +37,14 @@ export function criarApp() {
       maxAge: '7d',
       index: false,
       dotfiles: 'deny',
+      setHeaders: (res) => {
+        // Um SVG com <script>, aberto direto pelo endereço, não executa nada.
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader(
+          'Content-Security-Policy',
+          "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox",
+        );
+      },
     }),
   );
 

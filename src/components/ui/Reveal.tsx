@@ -9,10 +9,6 @@ type RevealProps = {
   className?: string;
 };
 
-/**
- * Revela o conteúdo com um fade + slide-up suave quando ele entra na viewport.
- * A animação é anulada por CSS quando o usuário pede `prefers-reduced-motion`.
- */
 export function Reveal({ children, as: Tag = 'div', delay = 0, className = '' }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
   // Sem suporte a IntersectionObserver, o conteúdo já nasce visível.
@@ -22,9 +18,7 @@ export function Reveal({ children, as: Tag = 'div', delay = 0, className = '' }:
     const elemento = ref.current;
     if (!elemento || typeof IntersectionObserver === 'undefined') return;
 
-    // Rede de segurança: se o observer não disparar (aba em segundo plano,
-    // iframe fora da tela, navegador exótico), o conteúdo aparece mesmo assim.
-    // Sem isso, uma falha do observer deixaria a seção invisível para sempre.
+    // Se o observer não disparar, o conteúdo aparece mesmo assim depois de 1,5 s.
     const reserva = window.setTimeout(() => setVisivel(true), 1500);
 
     const observer = new IntersectionObserver(

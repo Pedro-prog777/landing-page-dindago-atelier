@@ -7,13 +7,6 @@ import { SearchDialog } from './SearchDialog';
 import { useActiveSection } from '../hooks/useActiveSection';
 import { useScrollPosition } from '../hooks/useScrollPosition';
 
-/**
- * Masthead da publicação.
- *
- * A faixa superior em âmbar vem da identidade aprovada. Abaixo dela, a
- * navegação fica sobre papel: nenhum botão em pílula — o contato é um bloco
- * chapado e o item ativo do menu é marcado por um fio, não por cor de fundo.
- */
 export function Header() {
   const { buildWhatsAppUrl, isConfigured, navLinks, siteConfig } = useSite();
   const [menuAberto, setMenuAberto] = useState(false);

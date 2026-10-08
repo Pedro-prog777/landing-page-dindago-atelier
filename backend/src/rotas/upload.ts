@@ -1,27 +1,17 @@
 import crypto from 'node:crypto';
+import fs from 'node:fs';
 import path from 'node:path';
-import { Router } from 'express';
+import { Router, type NextFunction, type Request, type Response } from 'express';
 import multer from 'multer';
 import { ErroApi, criado } from '../lib/respostas.js';
 import { exigirLogin } from '../middleware/autenticar.js';
 
-/**
- * ============================================================================
- * UPLOAD DE IMAGENS
- * ----------------------------------------------------------------------------
- * Armazenamento local em `backend/uploads`, servido estaticamente em /uploads.
- * É o suficiente para a equipe subir as fotografias reais sem contratar nenhum
- * serviço externo; trocar por S3 ou similar depois é questão de substituir o
- * storage do multer, sem tocar nas rotas.
- *
- * Cuidados aplicados: o nome do arquivo é sempre gerado pelo servidor (nunca o
- * enviado pelo usuário, que poderia conter "../"), só a extensão é preservada,
- * e o tipo é conferido contra uma lista fechada.
- * ============================================================================
- */
-
 const PASTA = path.resolve(process.cwd(), 'uploads');
 const TAMANHO_MAXIMO = 8 * 1024 * 1024; // 8 MB
+
+// Com `destination` em função, o multer não cria a pasta sozinho: sem ela,
+// todo upload falharia com ENOENT.
+fs.mkdirSync(PASTA, { recursive: true });
 
 const TIPOS_ACEITOS = new Map([
   ['image/jpeg', '.jpg'],
@@ -51,13 +41,23 @@ const upload = multer({
   },
 });
 
+function receberArquivo(req: Request, res: Response, next: NextFunction) {
+  upload.single('file')(req, res, (erro: unknown) => {
+    if (erro instanceof multer.MulterError) {
+      if (erro.code === 'LIMIT_FILE_SIZE') {
+        next(new ErroApi(413, `A imagem passa de ${TAMANHO_MAXIMO / 1024 / 1024} MB. Reduza e envie de novo.`));
+        return;
+      }
+      next(new ErroApi(400, 'Envie uma imagem por vez, no campo "file".'));
+      return;
+    }
+    next(erro);
+  });
+}
+
 export const rotasUpload = Router();
 
-/**
- * POST /api/upload — devolve a URL pública do arquivo.
- * O caminho retornado é o que vai gravado no campo de imagem do conteúdo.
- */
-rotasUpload.post('/upload', exigirLogin, upload.single('file'), (req, res) => {
+rotasUpload.post('/upload', exigirLogin, receberArquivo, (req, res) => {
   if (!req.file) throw ErroApi.invalido('Nenhum arquivo enviado.');
   return criado(res, {
     url: `/uploads/${req.file.filename}`,

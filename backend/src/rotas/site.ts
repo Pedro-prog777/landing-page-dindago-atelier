@@ -7,17 +7,6 @@ import { assincrono } from '../middleware/tratarErros.js';
 import { validarCorpo } from '../middleware/validar.js';
 import { mensagemContatoSchema } from '../schemas/index.js';
 
-/**
- * ============================================================================
- * API PÚBLICA
- * ----------------------------------------------------------------------------
- * Duas rotas apenas: ler o conteúdo de um site e receber uma mensagem do
- * formulário. Nada aqui exige sessão, então tudo que é devolvido passa por uma
- * seleção explícita de campos — o cliente nunca recebe hash de senha, e-mail de
- * quem escreveu para o atelier, IP ou registro desativado.
- * ============================================================================
- */
-
 export const rotasSite = Router();
 
 /** Quebra um texto em parágrafos separados por linha em branco. */
@@ -38,13 +27,6 @@ function linhas(texto: string | null): string[] {
     .filter(Boolean);
 }
 
-/**
- * GET /api/site/:slug
- *
- * Devolve o conteúdo inteiro de uma landing page numa única resposta. É uma
- * requisição só para a página toda: mais simples de consumir, mais fácil de
- * colocar em cache e sem cascata de chamadas no carregamento.
- */
 rotasSite.get(
   '/site/:slug',
   assincrono(async (req, res) => {
@@ -195,13 +177,6 @@ rotasSite.get(
   }),
 );
 
-/**
- * POST /api/site/:slug/contact
- *
- * Grava a mensagem do formulário. O campo-armadilha `website` é invisível para
- * humanos: se vier preenchido, respondemos sucesso e descartamos, para o robô
- * não perceber que foi barrado.
- */
 rotasSite.post(
   '/site/:slug/contact',
   limiteContato,

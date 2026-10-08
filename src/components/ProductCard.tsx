@@ -12,14 +12,6 @@ type ProductCardProps = {
   aoVerDetalhes: () => void;
 };
 
-/**
- * Prancha de peça.
- *
- * Sem moldura nem sombra: a fotografia e, abaixo dela, a legenda impressa —
- * numeração, nome e, nas pranchas grandes, a descrição curta. A prancha
- * inteira é clicável: o botão fica no nome (é ele que o leitor de tela anuncia)
- * e um pseudo-elemento estende a área de clique sobre a imagem.
- */
 export function ProductCard({ product, figura, destaque = false, aoVerDetalhes }: ProductCardProps) {
   const { formatPrice } = useSite();
 

@@ -4,23 +4,12 @@ import { MessageCircle } from 'lucide-react';
 import { WhatsAppIcon } from './ui/BrandIcons';
 import { useScrollPosition } from '../hooks/useScrollPosition';
 
-/**
- * Botão flutuante de contato. Fica sempre acessível no canto inferior direito
- * e aparece com uma transição suave depois da primeira rolagem.
- *
- * Enquanto o WhatsApp não estiver preenchido em `src/data/clientData.ts`, o
- * botão leva ao formulário de contato — nunca a um link inventado.
- */
 export function WhatsAppButton() {
   const { conteudo, buildWhatsAppUrl, siteConfig } = useSite();
   const rolou = useScrollPosition(300);
   const [sobreposto, setSobreposto] = useState(false);
   const whatsappUrl = buildWhatsAppUrl(conteudo.whatsappDefaultMessage);
 
-  /*
-   * O botão sai de cena sobre o contato e o rodapé: ali os canais já aparecem
-   * por extenso, e ele cobriria o botão de envio e o "Voltar ao início".
-   */
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return;
     const alvos = ['contato', 'rodape']

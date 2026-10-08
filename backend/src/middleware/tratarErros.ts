@@ -11,12 +11,6 @@ export function rotaNaoEncontrada(req: Request, res: Response) {
   });
 }
 
-/**
- * Último middleware da cadeia: converte qualquer erro numa resposta previsível.
- *
- * Em produção o cliente recebe só a mensagem — stack trace e detalhes internos
- * ficam no log do servidor, para não vazarem estrutura da aplicação.
- */
 export function tratarErros(erro: unknown, _req: Request, res: Response, _next: NextFunction) {
   if (erro instanceof ZodError) {
     const errors: Record<string, string[]> = {};
@@ -37,6 +31,22 @@ export function tratarErros(erro: unknown, _req: Request, res: Response, _next: 
       message: erro.message,
       ...(erro.errors ? { errors: erro.errors } : {}),
     });
+  }
+
+  // Erros do leitor de JSON do Express (corpo malformado ou grande demais).
+  if (typeof erro === 'object' && erro !== null && 'type' in erro && 'status' in erro) {
+    const { type, status } = erro as { type?: string; status?: number };
+    if (type === 'entity.parse.failed') {
+      return res
+        .status(400)
+        .json({ success: false, message: 'O corpo da requisição não é um JSON válido.' });
+    }
+    if (type === 'entity.too.large') {
+      return res.status(413).json({ success: false, message: 'O conteúdo enviado é grande demais.' });
+    }
+    if (typeof status === 'number' && status >= 400 && status < 500) {
+      return res.status(status).json({ success: false, message: 'Requisição inválida.' });
+    }
   }
 
   // Violação de restrição única do Prisma (P2002).
@@ -70,10 +80,6 @@ export function tratarErros(erro: unknown, _req: Request, res: Response, _next: 
   });
 }
 
-/**
- * Envolve um handler assíncrono para que qualquer promessa rejeitada caia no
- * middleware de erros em vez de derrubar o processo.
- */
 export function assincrono<T extends (req: Request, res: Response) => Promise<unknown>>(
   handler: T,
 ) {

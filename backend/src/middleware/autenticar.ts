@@ -28,10 +28,6 @@ export function exigirDono(req: Request, _res: Response, next: NextFunction) {
   next();
 }
 
-/**
- * Garante que um EDITOR só toque no cliente ao qual pertence.
- * O OWNER passa livre por qualquer cliente.
- */
 export function conferirAcessoAoCliente(sessao: Sessao | undefined, clientId: string) {
   if (!sessao) throw ErroApi.naoAutorizado();
   if (sessao.role === 'OWNER') return;

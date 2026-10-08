@@ -1,18 +1,5 @@
 import type { SVGProps } from 'react';
 
-/**
- * ============================================================================
- * DESENHOS DO SERTÃO
- * ----------------------------------------------------------------------------
- * Sol, cactos, pássaros e flor em traço fino — o vocabulário da identidade
- * aprovada pelo cliente. A diferença em relação a espalhar folclore é o
- * critério de uso: cada desenho ocupa uma posição pensada na composição
- * (margem, quina, transição entre cadernos) e nunca compete com o conteúdo.
- *
- * Todos são puramente visuais, sempre com `aria-hidden`, e sem custo de rede.
- * ============================================================================
- */
-
 const traco = {
   fill: 'none',
   stroke: 'currentColor',
@@ -118,12 +105,6 @@ export function Presente({ strokeWidth = 1.5, ...props }: SVGProps<SVGSVGElement
   );
 }
 
-/**
- * Borda de papel rasgado entre os cadernos.
- *
- * Coordenadas absolutas terminando exatamente em x=0: com segmentos relativos
- * a soma não fecha na borda esquerda e sobra uma falha na faixa.
- */
 export function PapelRasgado({
   posicao = 'baixo',
   className = '',

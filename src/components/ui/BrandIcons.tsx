@@ -1,10 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
 
-/**
- * Ícones de marca desenhados no mesmo traço do lucide-react (que deixou de
- * distribuir logotipos de terceiros a partir da v1). Mesmas props dos demais
- * ícones, para poderem ser usados de forma intercambiável.
- */
 export type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { strokeWidth?: number }>;
 
 const propsBase = {

@@ -1,4 +1,4 @@
-import { param, query } from '../lib/params.js';
+import { inteiroDaQuery, param, query } from '../lib/params.js';
 import { Router } from 'express';
 import { prisma } from '../db.js';
 import { ErroApi, criado, ok, semConteudo } from '../lib/respostas.js';
@@ -20,21 +20,9 @@ import {
   statusMensagemSchema,
 } from '../schemas/index.js';
 
-/**
- * ============================================================================
- * CLIENTES E CONTEÚDO — área autenticada
- * ----------------------------------------------------------------------------
- * Criar e apagar cliente é exclusivo do perfil OWNER. Um EDITOR enxerga e edita
- * apenas o cliente ao qual está vinculado — a checagem fica em
- * `conferirAcessoAoCliente`, chamada em toda rota que recebe um `clientId`.
- * ============================================================================
- */
-
 export const rotasClientes = Router();
 
-// ----------------------------------------------------------------------------
 // Cliente
-// ----------------------------------------------------------------------------
 
 /** GET /api/clients — o EDITOR só vê o próprio. */
 rotasClientes.get(
@@ -109,7 +97,6 @@ rotasClientes.post(
   }),
 );
 
-/** PUT /api/clients/:id */
 rotasClientes.put(
   '/clients/:id',
   exigirLogin,
@@ -117,6 +104,24 @@ rotasClientes.put(
   assincrono(async (req, res) => {
     const id = param(req, 'id');
     conferirAcessoAoCliente(req.sessao, id);
+
+    // O painel sempre envia o slug: para o EDITOR, só a mudança de slug/active é barrada.
+    if (req.sessao!.role !== 'OWNER') {
+      const dados = req.body as { slug?: string; active?: boolean };
+      const atual = await prisma.client.findUnique({
+        where: { id },
+        select: { slug: true, active: true },
+      });
+      if (!atual) throw ErroApi.naoEncontrado('Cliente');
+      const mudaSlug = dados.slug !== undefined && dados.slug !== atual.slug;
+      const mudaAtivo = dados.active !== undefined && dados.active !== atual.active;
+      if (mudaSlug || mudaAtivo) {
+        throw ErroApi.semPermissao(
+          'Só o perfil OWNER pode mudar o identificador na URL ou desativar o site.',
+        );
+      }
+    }
+
     const cliente = await prisma.client.update({ where: { id }, data: req.body });
     return ok(res, cliente);
   }),
@@ -133,10 +138,8 @@ rotasClientes.delete(
   }),
 );
 
-// ----------------------------------------------------------------------------
 // Blocos de conteúdo — sempre upsert: o painel salva sem se preocupar se o
 // registro já existia.
-// ----------------------------------------------------------------------------
 
 const blocos = [
   { caminho: 'settings', modelo: 'clientSettings', schema: configuracoesSchema },
@@ -174,9 +177,7 @@ for (const { caminho, modelo, schema } of blocos) {
   );
 }
 
-// ----------------------------------------------------------------------------
 // Mensagens recebidas pelo formulário
-// ----------------------------------------------------------------------------
 
 /** GET /api/clients/:id/messages */
 rotasClientes.get(
@@ -186,8 +187,8 @@ rotasClientes.get(
     const clientId = param(req, 'id');
     conferirAcessoAoCliente(req.sessao, clientId);
 
-    const pagina = Math.max(1, Number(req.query.page ?? 1));
-    const porPagina = Math.min(100, Math.max(1, Number(req.query.perPage ?? 20)));
+    const pagina = inteiroDaQuery(req, 'page', 1, 1, 100_000);
+    const porPagina = inteiroDaQuery(req, 'perPage', 20, 1, 100);
     const status = query(req, 'status');
 
     const where = { clientId, ...(status ? { status } : {}) };

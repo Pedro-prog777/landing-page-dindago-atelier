@@ -6,13 +6,6 @@ import { Cacto } from './ui/Decorations';
 import { preencherContato } from '../lib/eventos';
 import { WhatsAppIcon } from './ui/BrandIcons';
 
-/**
- * Caderno de encomendas — quadrantes.
- *
- * As quatro etapas ocupam quadrantes de uma grade cruzada por fios, com o
- * numeral em marca-d'água no canto. A chamada final sai em sangria total sobre
- * tijolo, com a tipografia em corpo de capa.
- */
 export function OrdersSection() {
   const { conteudo: clientData, buildWhatsAppUrl } = useSite();
   const { orders } = clientData;

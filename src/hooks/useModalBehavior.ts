@@ -9,17 +9,8 @@ type Options = {
   containerRef: RefObject<HTMLElement | null>;
 };
 
-/**
- * Comportamento compartilhado por diálogos (busca, detalhes da peça, lightbox):
- * trava o scroll do fundo, fecha com Esc, prende o foco dentro do diálogo e
- * devolve o foco ao elemento que abriu o modal.
- */
 export function useModalBehavior({ aberto, aoFechar, containerRef }: Options) {
-  /*
-   * O `aoFechar` costuma chegar como função nova a cada renderização do pai.
-   * Guardado numa ref, ele não reinicia o efeito — antes, qualquer renderização
-   * do pai com o diálogo aberto devolvia o foco ao primeiro botão.
-   */
+  // Em ref: o pai recria aoFechar a cada render, e isso reiniciaria o efeito.
   const aoFecharRef = useRef(aoFechar);
   useEffect(() => {
     aoFecharRef.current = aoFechar;

@@ -1,12 +1,6 @@
 import 'dotenv/config';
 import { z } from 'zod';
 
-/**
- * Configuração validada na inicialização.
- *
- * Se faltar variável obrigatória o processo cai já no boot, com mensagem
- * clara — melhor do que quebrar numa requisição qualquer mais adiante.
- */
 const esquema = z.object({
   DATABASE_URL: z.string().min(1, 'DATABASE_URL é obrigatória'),
   JWT_SECRET: z
@@ -30,6 +24,14 @@ if (!resultado.success) {
 export const env = resultado.data;
 
 export const emProducao = env.NODE_ENV === 'production';
+
+// O segredo de exemplo é público (está no .env.example do GitHub).
+if (emProducao && env.JWT_SECRET.startsWith('troque-este-valor')) {
+  console.error(
+    '\nJWT_SECRET ainda é o valor de exemplo. Gere um segredo novo (openssl rand -base64 48) antes de publicar.\n',
+  );
+  process.exit(1);
+}
 
 /** Origens liberadas no CORS. Aceita lista separada por vírgula. */
 export const origensPermitidas = env.CORS_ORIGIN.split(',').map((o) => o.trim());

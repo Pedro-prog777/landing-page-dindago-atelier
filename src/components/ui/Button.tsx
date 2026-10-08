@@ -1,12 +1,5 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 
-/**
- * Botões de bloco, com canto reto.
- *
- * A pílula arredondada saiu: neste catálogo o botão é um retângulo de tinta
- * chapada ou um campo delimitado por fio, no mesmo vocabulário da régua e da
- * numeração. O movimento no hover é de deslocamento, não de escala.
- */
 type Variant = 'solido' | 'contorno' | 'claro' | 'papel';
 type Size = 'md' | 'lg';
 
@@ -66,10 +59,6 @@ export function Button(props: ButtonAsButton | ButtonAsLink) {
   );
 }
 
-/**
- * Chamada em forma de link editorial: etiqueta, fio que cresce e seta que
- * desliza. Usada onde um bloco de tinta pesaria demais na composição.
- */
 export function LinkEditorial({
   href,
   children,

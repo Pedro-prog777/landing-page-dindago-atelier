@@ -8,15 +8,6 @@ import { Caderno } from './ui/Catalogo';
 import { Arabesco } from './ui/Decorations';
 import { aoAbrirPeca } from '../lib/eventos';
 
-/**
- * Caderno de coleções — mosaico de pranchas.
- *
- * Todas as fotografias das peças são verticais, então todas as pranchas são
- * em retrato. O ritmo vem do tamanho: a cada bloco de dez, duas pranchas
- * ocupam o dobro do espaço, alternando o lado (esquerda no alto, direita
- * embaixo). Em quatro colunas isso fecha a grade sem buracos; no celular,
- * as grandes ocupam a largura toda e as demais seguem em duas colunas.
- */
 function arranjo(indice: number): { destaque: boolean; classe: string } {
   const posicao = indice % 10;
   if (posicao === 0) return { destaque: true, classe: 'col-span-2 md:row-span-2' };

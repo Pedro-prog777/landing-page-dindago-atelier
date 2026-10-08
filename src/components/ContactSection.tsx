@@ -22,11 +22,6 @@ type Campos = {
 
 type Erros = Partial<Record<keyof Campos, string>>;
 
-/**
- * Como a mensagem saiu. Cada desfecho tem o seu retorno: dizer "mensagem
- * enviada" quando só o aplicativo de e-mail foi aberto seria enganar o
- * visitante.
- */
 type Envio =
   | { estado: 'parado' }
   | { estado: 'enviando' }
@@ -135,11 +130,6 @@ export function ContactSection() {
   const enderecoDefinido = isConfigured(siteConfig.address);
   const enviando = envio.estado === 'enviando';
 
-  /*
-   * "Tenho interesse" numa peça e "Fazer uma encomenda" chegam aqui: o
-   * formulário já vem com o assunto e o texto, e pisca de leve para mostrar
-   * onde o visitante foi parar.
-   */
   useEffect(
     () =>
       aoPreencherContato(({ assunto, mensagem }) => {
@@ -217,11 +207,6 @@ export function ContactSection() {
         return;
       }
 
-      /*
-       * Sem API (site publicado só como página estática, ou servidor fora do
-       * ar): em vez de perder a mensagem, ela é montada no canal direto que
-       * estiver configurado — WhatsApp primeiro, e-mail depois.
-       */
       const texto = [
         `Contato pelo site do ${siteConfig.name}`,
         '',
@@ -274,10 +259,6 @@ export function ContactSection() {
               layout="empilhado"
             />
 
-            {/*
-              Canais diretos: os dois botões que o visitante procura primeiro.
-              No celular ficam empilhados, com área de toque grande.
-            */}
             {(whatsappUrl || instagramConfigurado) && (
               <Reveal delay={100} className="mt-8">
                 <p className="etiqueta text-tijolo">Fale direto com o atelier</p>
@@ -508,11 +489,6 @@ export function ContactSection() {
                     </p>
                   )}
                 </div>
-                {/*
-                  Armadilha anti-robô: escondida da tela e de leitores de tela,
-                  e fora da ordem de tabulação. Só um preenchimento automático
-                  chega aqui.
-                */}
                 <div aria-hidden="true" className="hidden">
                   <label htmlFor="website">Não preencha este campo</label>
                   <input

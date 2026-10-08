@@ -4,20 +4,8 @@ import { Reveal } from './ui/Reveal';
 import { SmartImage } from './ui/SmartImage';
 import { Fio, Xilogravura } from './ui/Catalogo';
 import { PapelRasgado } from './ui/Decorations';
+import { clientData as conteudoPadrao } from '../data/clientData';
 
-/**
- * Capa do catálogo.
- *
- * No desktop, a manchete em degrau ocupa a metade esquerda e a prancha "Eu amo
- * meu Nordeste" a direita, levemente inclinada como uma gravura presa na
- * parede — assim a arte aparece inteira já na primeira tela, inclusive em
- * notebooks (1366×768, 1536×864). Antes ela vinha abaixo da manchete e só
- * aparecia depois de rolar, grande demais para caber na janela.
- *
- * A prancha é exibida na proporção original da arte (1280×788): a ilustração
- * tem moldura e texto, e qualquer corte comia letras. No celular ela entra
- * em sangria total logo depois das chamadas.
- */
 export function Hero() {
   const { conteudo: clientData, resolveCtaHref } = useSite();
   const { hero, company } = clientData;
@@ -34,21 +22,11 @@ export function Hero() {
       className="grao relative bg-papel pt-26 sm:pt-28"
     >
       <div className="relative">
-        {/*
-         * Fundo ilustrado do sertão, ancorado embaixo: os cactos e a cercadura
-         * do pé fecham a capa. Se o arquivo não existir, a camada não pinta
-         * nada e o `bg-papel` da seção continua valendo.
-         */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[url('/bg-nordeste.jpg')] bg-cover bg-bottom bg-no-repeat"
         />
-        {/*
-         * Véu de papel. Medido, não estimado: o pixel mais escuro da arte é
-         * RGB(73,23,0), e a manchete sobre ele daria 1.22:1 — ilegível. O véu a
-         * 72% leva esse pior caso a 6.34:1 no texto e 3.18:1 na linha em tijolo.
-         * 72% é o piso, não uma escolha estética.
-         */}
+        {/* Véu de 72%: mínimo para a manchete manter contraste sobre a ilustração. */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-papel/72" />
 
         {/* Grade de impressão ao fundo, quase imperceptível */}
@@ -135,8 +113,10 @@ export function Hero() {
               <figure className="group">
                 <div className="overflow-hidden bg-areia shadow-[0_30px_60px_-34px_rgba(74,47,33,0.85)] transition-transform duration-700 ease-out sm:ring-1 sm:ring-tinta/10 lg:-rotate-1 lg:group-hover:rotate-0">
                   <SmartImage
+                    key={hero.image}
                     src={hero.image}
                     alt={hero.imageAlt}
+                    alternativa={{ src: conteudoPadrao.hero.image, alt: conteudoPadrao.hero.imageAlt }}
                     placeholderLabel="Prancha de abertura"
                     figura="01"
                     loading="eager"

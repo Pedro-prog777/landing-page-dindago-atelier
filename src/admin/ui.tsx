@@ -1,16 +1,5 @@
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
 
-/**
- * ============================================================================
- * PEÇAS DO PAINEL
- * ----------------------------------------------------------------------------
- * O painel é deliberadamente sóbrio: fonte do sistema, cinzas neutros, campos
- * padrão. Ele NÃO reproduz a linguagem editorial da landing page — quem entra
- * aqui está trabalhando, não visitando. A identidade artesanal fica inteira do
- * lado público.
- * ============================================================================
- */
-
 export function Botao({
   children,
   variante = 'primario',

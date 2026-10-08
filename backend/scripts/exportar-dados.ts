@@ -1,24 +1,3 @@
-/**
- * ============================================================================
- * EXPORTAÇÃO DOS DADOS — passo 1 da migração para PostgreSQL
- * ----------------------------------------------------------------------------
- * Lê tudo do banco SQLite e grava num JSON. É a rede de segurança da migração:
- * o arquivo não depende de formato de banco nenhum, serve para importar no
- * Postgres e serve para conferir, registro a registro, se nada se perdeu.
- *
- * Somente leitura — este script nunca altera nem apaga nada.
- *
- * ATENCAO: ele depende do driver do SQLite, que foi REMOVIDO do projeto por
- * exigir compilador C++ na maquina de quem instala. Se voce tiver um banco
- * SQLite antigo para migrar, instale os dois temporariamente:
- *
- *   npm i -w @dindago/backend better-sqlite3 @prisma/adapter-better-sqlite3
- *   npx tsx scripts/exportar-dados.ts
- *   npm uninstall -w @dindago/backend better-sqlite3 @prisma/adapter-better-sqlite3
- *
- * Quem esta comecando do zero nao precisa deste script: use `npm run db:seed`.
- * ============================================================================
- */
 import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -31,10 +10,6 @@ const prisma = new PrismaClient({
   adapter: new PrismaBetterSqlite3({ url: ORIGEM }),
 });
 
-/**
- * A ordem importa na hora de importar: um registro só entra depois de quem ele
- * referencia. Aqui a lista já está na ordem de dependência.
- */
 const TABELAS = [
   'client',
   'user',

@@ -1,23 +1,3 @@
-/**
- * ============================================================================
- * IMPORTAÇÃO DOS DADOS — passo 2 da migração para PostgreSQL
- * ----------------------------------------------------------------------------
- * Lê o JSON gerado por `exportar-dados.ts` e grava no banco configurado em
- * DATABASE_URL (o PostgreSQL, depois das migrations aplicadas).
- *
- * Cuidados:
- *  - Roda dentro de UMA transação: ou entra tudo, ou não entra nada. Não existe
- *    a possibilidade de sobrar meia migração.
- *  - Os IDs originais são preservados, então as chaves estrangeiras continuam
- *    apontando para os mesmos registros.
- *  - As tabelas são gravadas na ordem de dependência: ninguém entra antes de
- *    quem ele referencia.
- *  - Recusa rodar se o banco de destino já tiver dados, para não duplicar nem
- *    sobrescrever nada por engano. Use --forcar apenas se souber o que faz.
- *
- *   npx tsx scripts/importar-dados.ts
- * ============================================================================
- */
 import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';

@@ -4,14 +4,6 @@ import { defineConfig } from 'prisma/config';
 
 const usarSqlite = process.env.DATABASE_URL?.startsWith('file:') ?? false;
 
-/**
- * Configuração do Prisma CLI (migrations, studio, seed).
- *
- * A partir do Prisma 7 a URL de conexão sai do schema e vem para cá. O cliente
- * em tempo de execução usa o adapter definido em `src/db.ts` — os dois leem a
- * mesma DATABASE_URL do .env. Sem valor padrão de propósito: é melhor a CLI
- * falhar dizendo que falta configuração do que conectar num banco inesperado.
- */
 export default defineConfig({
   schema: path.join('prisma', usarSqlite ? 'schema.sqlite.prisma' : 'schema.prisma'),
   migrations: {
