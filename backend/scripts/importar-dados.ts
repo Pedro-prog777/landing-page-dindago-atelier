@@ -21,8 +21,7 @@
 import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '@prisma/client';
+import { criarClientePrisma } from '../src/criarClientePrisma.js';
 
 const ARQUIVO =
   process.argv.find((a) => a.endsWith('.json')) ??
@@ -30,9 +29,7 @@ const ARQUIVO =
 
 const FORCAR = process.argv.includes('--forcar');
 
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
-});
+const prisma = criarClientePrisma(process.env.DATABASE_URL);
 
 /** Ordem de dependência: cada tabela entra depois de quem ela referencia. */
 const TABELAS = [

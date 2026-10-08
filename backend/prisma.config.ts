@@ -2,6 +2,8 @@ import 'dotenv/config';
 import path from 'node:path';
 import { defineConfig } from 'prisma/config';
 
+const usarSqlite = process.env.DATABASE_URL?.startsWith('file:') ?? false;
+
 /**
  * Configuração do Prisma CLI (migrations, studio, seed).
  *
@@ -11,7 +13,7 @@ import { defineConfig } from 'prisma/config';
  * falhar dizendo que falta configuração do que conectar num banco inesperado.
  */
 export default defineConfig({
-  schema: path.join('prisma', 'schema.prisma'),
+  schema: path.join('prisma', usarSqlite ? 'schema.sqlite.prisma' : 'schema.prisma'),
   migrations: {
     seed: 'tsx prisma/seed.ts',
   },

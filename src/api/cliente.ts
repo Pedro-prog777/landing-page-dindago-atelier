@@ -12,6 +12,13 @@
 /** Em desenvolvimento o Vite faz proxy de /api para o backend (ver vite.config). */
 const BASE = import.meta.env.VITE_API_URL || '/api';
 
+/**
+ * `VITE_SEM_API=true`: site publicado só como página estática, sem backend.
+ * Nenhuma chamada sai para a rede — o conteúdo vem do arquivo local e o
+ * formulário monta a mensagem no WhatsApp ou no e-mail do atelier.
+ */
+export const API_DESATIVADA = import.meta.env.VITE_SEM_API === 'true';
+
 export class ErroDaApi extends Error {
   status: number;
   errors?: Record<string, string[]>;
@@ -34,6 +41,8 @@ type Opcoes = {
 
 export async function chamarApi<T>(caminho: string, opcoes: Opcoes = {}): Promise<T> {
   const { metodo = 'GET', corpo, formulario, sinal } = opcoes;
+
+  if (API_DESATIVADA) throw new ErroDaApi(0, 'Este site está publicado sem servidor.');
 
   let resposta: Response;
   try {

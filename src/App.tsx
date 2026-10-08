@@ -17,13 +17,19 @@ export default function App() {
     <>
       <Header />
 
+      {/*
+        Ordem de leitura: o que é (capa) → por que importa (diferenciais) →
+        o trabalho (coleções) → como se faz (artesanato) → quem faz (atelier e
+        história) → como encomendar → contato. A numeração dos cadernos em
+        clientData.ts segue esta mesma ordem, e o menu também.
+      */}
       <main id="conteudo">
         <Hero />
         <ValuesSection />
         <FeaturedPieces />
         <ProcessSection />
-        <AboutArtist />
         <CultureSection />
+        <AboutArtist />
         <OrdersSection />
         <ContactSection />
         <MapSection />

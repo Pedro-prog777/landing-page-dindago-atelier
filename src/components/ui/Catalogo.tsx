@@ -21,8 +21,8 @@ export function Fio({
   tone?: 'escuro' | 'claro';
   className?: string;
 }) {
-  const cor = tone === 'claro' ? 'bg-papel/25' : 'bg-tinta/15';
-  return <div aria-hidden="true" className={`${forte ? 'h-px' : 'h-px'} ${cor} ${className}`} />;
+  const cor = tone === 'claro' ? 'bg-papel/25' : forte ? 'bg-tinta/30' : 'bg-tinta/15';
+  return <div aria-hidden="true" className={`h-px ${cor} ${className}`} />;
 }
 
 /**
@@ -42,7 +42,7 @@ export function Caderno({
   tone?: 'escuro' | 'claro';
   className?: string;
 }) {
-  const cor = tone === 'claro' ? 'text-papel/55' : 'text-tinta/45';
+  const cor = tone === 'claro' ? 'text-papel/75' : 'text-tinta-suave';
   const corDestaque = tone === 'claro' ? 'text-ambar' : 'text-tijolo';
 
   return (

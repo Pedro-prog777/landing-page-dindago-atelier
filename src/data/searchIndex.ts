@@ -1,4 +1,4 @@
-import { products } from './products';
+import type { Produto } from './clientData';
 
 export type SearchEntry = {
   id: string;
@@ -9,16 +9,29 @@ export type SearchEntry = {
   href: string;
   /** Palavras extras que também levam a este resultado. */
   keywords: string[];
+  /** Resultados de peça abrem o diálogo da peça além de rolar até a coleção. */
+  pecaId?: Produto['id'];
 };
 
 const secoes: SearchEntry[] = [
   {
     id: 'sec-processo',
     group: 'Seções',
-    title: 'Como fazer papel mache?',
-    description: 'Materiais essenciais para criar peças de papel mache.',
+    title: 'Como fazer papel-machê?',
+    description: 'Materiais essenciais para criar peças de papel-machê.',
     href: '#processo',
-    keywords: ['artesanato', 'processo', 'papel mache', 'materiais', 'cola', 'água', 'moldar'],
+    keywords: [
+      'artesanato',
+      'processo',
+      'tutorial',
+      'papel mache',
+      'materiais',
+      'cola',
+      'água',
+      'moldar',
+      'jornal',
+      'arame',
+    ],
   },
   {
     id: 'sec-pecas',
@@ -27,6 +40,14 @@ const secoes: SearchEntry[] = [
     description: 'Esculturas autorais disponíveis no atelier.',
     href: '#pecas',
     keywords: ['coleções', 'esculturas', 'obras', 'produtos', 'comprar'],
+  },
+  {
+    id: 'sec-atelier-sobre',
+    group: 'Seções',
+    title: 'Sobre o atelier',
+    description: 'Arte, cultura, memória e trabalho manual.',
+    href: '#cultura',
+    keywords: ['valores', 'cultura nordestina', 'goretti', 'atelier', 'missão'],
   },
   {
     id: 'sec-historia',
@@ -62,17 +83,25 @@ const secoes: SearchEntry[] = [
   },
 ];
 
-export const searchIndex: SearchEntry[] = [
-  ...secoes,
-  ...products.map<SearchEntry>((peca) => ({
-    id: `peca-${peca.id}`,
-    group: 'Peças',
-    title: peca.name,
-    description: peca.category,
-    href: '#pecas',
-    keywords: [peca.category, peca.description],
-  })),
-];
+/**
+ * Índice montado a partir das peças em tela — do arquivo local ou da API. Com
+ * a API, os ids das peças são os do banco; um índice fixo apontaria para ids
+ * que não existem na página.
+ */
+export function criarIndiceDeBusca(produtos: Produto[]): SearchEntry[] {
+  return [
+    ...secoes,
+    ...produtos.map<SearchEntry>((peca) => ({
+      id: `peca-${peca.id}`,
+      group: 'Peças',
+      title: peca.name,
+      description: peca.category,
+      href: '#pecas',
+      keywords: [peca.category, peca.description],
+      pecaId: peca.id,
+    })),
+  ];
+}
 
 /** Remove acentos e caixa para permitir buscar "sertao" e achar "Sertão". */
 function normalizar(texto: string): string {
@@ -83,11 +112,11 @@ function normalizar(texto: string): string {
     .trim();
 }
 
-export function buscar(termo: string): SearchEntry[] {
+export function buscar(indice: SearchEntry[], termo: string): SearchEntry[] {
   const alvo = normalizar(termo);
   if (alvo.length < 2) return [];
 
-  return searchIndex.filter((entrada) => {
+  return indice.filter((entrada) => {
     const conteudo = normalizar(
       [entrada.title, entrada.description, ...entrada.keywords].join(' '),
     );

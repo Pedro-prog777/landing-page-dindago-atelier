@@ -43,11 +43,35 @@
   --radius-bloco: 6px;
 
   --animate-fade-up: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-surgir: surgir 0.35s ease-out both;
+  --animate-subir: subir 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   @keyframes fade-up {
     from {
       opacity: 0;
       transform: translateY(26px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Véu dos diálogos. */
+  @keyframes surgir {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Painel dos diálogos: sobe pouco, sem exagero. */
+  @keyframes subir {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
     }
     to {
       opacity: 1;
@@ -62,10 +86,16 @@
     scroll-padding-top: 5.5rem;
   }
 
+  /*
+   * `clip` corta o excedente horizontal sem transformar o body num contêiner
+   * de rolagem — com `hidden`, o `position: sticky` deixa de funcionar.
+   * O `hidden` fica antes como reserva para navegadores antigos.
+   */
   html,
   body {
     max-width: 100%;
     overflow-x: hidden;
+    overflow-x: clip;
   }
 
   body {
@@ -169,9 +199,10 @@
   /* Numeração e etiquetas do catálogo. */
   .etiqueta {
     font-family: var(--font-sans);
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.2em;
+    line-height: 1.5;
     text-transform: uppercase;
   }
 

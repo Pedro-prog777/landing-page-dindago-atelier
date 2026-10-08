@@ -25,35 +25,39 @@ export function AboutArtist() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Caderno numero={about.numero} titulo="Nossa história" nota="Retrato e depoimento" />
 
-        <div className="grid gap-10 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">
+        <div className="grid gap-10 pt-8 md:grid-cols-12 md:gap-8 lg:gap-10 lg:pt-14">
           {/* Prancha da artista — coluna estreita e alta */}
-          <Reveal className="group lg:col-span-4">
+          <Reveal className="group md:col-span-5 lg:col-span-4">
             <figure>
               <div className="overflow-hidden bg-areia">
                 <SmartImage
                   src={artist.photo}
                   alt={artist.photoAlt}
                   placeholderLabel="Retrato da artista"
-                  figura="03"
-                  className="aspect-3/4 w-full transition-transform duration-[1.3s] ease-out group-hover:scale-[1.04]"
+                  className="aspect-4/5 w-full object-[50%_30%] transition-transform md:aspect-3/4 duration-[1.3s] ease-out group-hover:scale-[1.04]"
                 />
               </div>
-              <figcaption className="etiqueta pt-3 text-tinta/45">
-                fig. 03 — {nomeDefinido ? artist.name : 'Artista do atelier'}
+              <figcaption className="pt-3">
+                <span className="etiqueta block text-tinta-suave">
+                  Retrato — {nomeDefinido ? artist.name : 'Artista do atelier'}
+                </span>
+                {isConfigured(artist.role) && (
+                  <span className="mt-1 block font-display text-lg text-tinta">{artist.role}</span>
+                )}
               </figcaption>
             </figure>
           </Reveal>
 
           {/* Texto */}
-          <div className="lg:col-span-7 lg:col-start-6">
+          <div className="md:col-span-7 lg:col-start-6">
             <Reveal>
-              <h2 id="historia-titulo" className="text-[clamp(1.7rem,3.4vw,2.7rem)]">
+              <h2 id="historia-titulo" className="text-[clamp(2.1rem,4.2vw,3.5rem)]">
                 {about.title}
               </h2>
             </Reveal>
 
             {/* Citação em corpo grande, recuada */}
-            <Reveal delay={80} className="mt-10 border-l-2 border-tijolo/50 pl-6 sm:pl-8">
+            <Reveal delay={80} className="mt-8 border-l-2 border-tijolo/50 pl-6 sm:mt-10 sm:pl-8">
               <p className="font-display text-[clamp(1.3rem,2.4vw,2rem)] leading-[1.25] text-tinta italic">
                 “{about.quote}”
               </p>
@@ -64,7 +68,7 @@ export function AboutArtist() {
 
             <Reveal
               delay={140}
-              className="mt-10 space-y-5 text-[0.98rem] leading-[1.75] text-tinta-suave"
+              className="mt-8 space-y-5 text-base leading-[1.75] text-tinta-media sm:mt-10"
             >
               {about.paragraphs.map((paragrafo) => (
                 <p key={paragrafo.slice(0, 32)}>{paragrafo}</p>
@@ -81,11 +85,11 @@ export function AboutArtist() {
             {about.pillars.map((pilar, indice) => (
               <li
                 key={pilar.title}
-                className="border-b border-tinta/10 sm:border-r sm:border-b-0 sm:last:border-r-0"
+                className="border-b border-tinta/10 sm:border-r sm:border-b-0 sm:px-7 sm:first:pl-0 sm:last:border-r-0 sm:last:pr-0"
               >
-                <Reveal delay={indice * 80} className="h-full py-8 sm:px-7 sm:first:pl-0">
+                <Reveal delay={indice * 80} className="h-full py-8">
                   <h3 className="etiqueta text-tijolo">{pilar.title}</h3>
-                  <p className="mt-3 max-w-xs text-sm leading-relaxed text-tinta-suave">
+                  <p className="mt-3 max-w-xs text-sm leading-relaxed text-tinta-media">
                     {pilar.text}
                   </p>
                 </Reveal>

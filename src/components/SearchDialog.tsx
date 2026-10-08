@@ -1,7 +1,9 @@
 import { useMemo, useRef, useState } from 'react';
 import { Search, X } from 'lucide-react';
-import { buscar, type SearchEntry } from '../data/searchIndex';
+import { buscar, criarIndiceDeBusca, type SearchEntry } from '../data/searchIndex';
+import { useSite } from '../conteudo/useSite';
 import { useModalBehavior } from '../hooks/useModalBehavior';
+import { abrirPeca } from '../lib/eventos';
 
 type SearchDialogProps = {
   aberto: boolean;
@@ -14,7 +16,9 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
 
   useModalBehavior({ aberto, aoFechar, containerRef: painelRef });
 
-  const resultados = useMemo(() => buscar(termo), [termo]);
+  const { conteudo } = useSite();
+  const indice = useMemo(() => criarIndiceDeBusca(conteudo.products), [conteudo.products]);
+  const resultados = useMemo(() => buscar(indice, termo), [indice, termo]);
   const grupos = useMemo(() => {
     return resultados.reduce<Record<string, SearchEntry[]>>((acc, item) => {
       (acc[item.group] ??= []).push(item);
@@ -24,9 +28,10 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
 
   if (!aberto) return null;
 
-  function selecionar() {
+  function selecionar(item: SearchEntry) {
     setTermo('');
     aoFechar();
+    if (item.pecaId !== undefined) abrirPeca(item.pecaId);
   }
 
   return (
@@ -35,7 +40,7 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
       role="presentation"
     >
       <div
-        className="absolute inset-0 bg-tinta/60 backdrop-blur-[2px]"
+        className="absolute inset-0 animate-surgir bg-tinta/60 backdrop-blur-[2px]"
         onClick={aoFechar}
         aria-hidden="true"
       />
@@ -45,7 +50,7 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Buscar no site"
-        className="relative w-full max-w-xl overflow-hidden border border-papel-escuro bg-papel shadow-2xl"
+        className="relative w-full max-w-xl animate-subir overflow-hidden border border-papel-escuro bg-papel shadow-2xl"
       >
         <div className="flex items-center gap-3 border-b border-papel-escuro px-5 py-4">
           <Search className="size-5 shrink-0 text-tijolo" aria-hidden="true" />
@@ -65,7 +70,7 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
             type="button"
             onClick={aoFechar}
             aria-label="Fechar busca"
-            className=" p-1.5 text-tinta-suave transition hover:bg-papel-escuro hover:text-tinta"
+            className="flex size-10 items-center justify-center text-tinta-suave transition hover:bg-papel-escuro hover:text-tinta"
           >
             <X className="size-5" aria-hidden="true" />
           </button>
@@ -73,13 +78,13 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
 
         <div className="max-h-[55vh] overflow-y-auto p-2" aria-live="polite">
           {termo.trim().length < 2 && (
-            <p className="px-4 py-6 text-center font-sans text-sm text-tinta-suave/80">
+            <p className="px-4 py-6 text-center font-sans text-sm text-tinta-suave">
               Digite ao menos duas letras para buscar.
             </p>
           )}
 
           {termo.trim().length >= 2 && resultados.length === 0 && (
-            <p className="px-4 py-6 text-center font-sans text-sm text-tinta-suave/80">
+            <p className="px-4 py-6 text-center font-sans text-sm text-tinta-suave">
               Nada encontrado para “{termo}”. Tente “papel-machê”, “encomendas” ou o nome de uma
               peça.
             </p>
@@ -95,11 +100,11 @@ export function SearchDialog({ aberto, aoFechar }: SearchDialogProps) {
                   <li key={item.id}>
                     <a
                       href={item.href}
-                      onClick={selecionar}
+                      onClick={() => selecionar(item)}
                       className="block px-4 py-3 transition hover:bg-papel-escuro"
                     >
                       <span className="block font-display text-base text-tinta">{item.title}</span>
-                      <span className="block font-sans text-sm text-tinta-suave/85">
+                      <span className="block font-sans text-sm text-tinta-suave">
                         {item.description}
                       </span>
                     </a>

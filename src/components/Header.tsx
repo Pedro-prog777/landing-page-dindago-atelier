@@ -1,5 +1,5 @@
 import { useSite } from '../conteudo/useSite';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Menu, Search, X } from 'lucide-react';
 import { FacebookIcon, InstagramIcon } from './ui/BrandIcons';
 import { Logo } from './Logo';
@@ -18,6 +18,7 @@ export function Header() {
   const { buildWhatsAppUrl, isConfigured, navLinks, siteConfig } = useSite();
   const [menuAberto, setMenuAberto] = useState(false);
   const [buscaAberta, setBuscaAberta] = useState(false);
+  const botaoMenuRef = useRef<HTMLButtonElement>(null);
   const rolou = useScrollPosition(40);
 
   const idsSecoes = useMemo(() => navLinks.map((link) => link.href.slice(1)), [navLinks]);
@@ -34,6 +35,19 @@ export function Header() {
     return () => {
       document.body.style.overflow = original;
     };
+  }, [menuAberto]);
+
+  useEffect(() => {
+    if (!menuAberto) return;
+
+    const fecharComEscape = (evento: KeyboardEvent) => {
+      if (evento.key !== 'Escape') return;
+      setMenuAberto(false);
+      botaoMenuRef.current?.focus();
+    };
+
+    document.addEventListener('keydown', fecharComEscape);
+    return () => document.removeEventListener('keydown', fecharComEscape);
   }, [menuAberto]);
 
   useEffect(() => {
@@ -60,7 +74,7 @@ export function Header() {
           }`}
         >
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-2.5 sm:px-6 lg:px-8">
-            <p className="font-sans text-[0.68rem] leading-snug text-tinta/85">
+            <p className="font-sans text-[0.7rem] leading-snug text-tinta">
               {siteConfig.tagline}
             </p>
 
@@ -107,13 +121,13 @@ export function Header() {
             rolou ? 'border-tinta/15 bg-papel/95 backdrop-blur-md' : 'border-transparent bg-papel'
           }`}
         >
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8 xl:gap-6">
             <a href="#inicio" aria-label={`${siteConfig.name} — ir para o início`}>
               <Logo />
             </a>
 
             <nav aria-label="Navegação principal" className="hidden lg:block">
-              <ul className="flex items-center gap-8">
+              <ul className="flex items-center gap-5 xl:gap-8">
                 {navLinks.map((link) => {
                   const ativo = secaoAtiva === link.href.slice(1);
                   return (
@@ -121,8 +135,8 @@ export function Header() {
                       <a
                         href={link.href}
                         aria-current={ativo ? 'true' : undefined}
-                        className={`flex flex-col items-center gap-1.5 py-2.5 font-sans text-[0.66rem] font-semibold tracking-[0.2em] uppercase transition-colors ${
-                          ativo ? 'text-tijolo' : 'text-tinta/70 hover:text-tinta'
+                        className={`flex flex-col items-center gap-1.5 py-2.5 font-sans text-[0.66rem] font-semibold tracking-[0.16em] whitespace-nowrap uppercase transition-colors xl:tracking-[0.2em] ${
+                          ativo ? 'text-tijolo' : 'text-tinta/80 hover:text-tinta'
                         }`}
                       >
                         {link.label}
@@ -153,13 +167,14 @@ export function Header() {
               <a
                 href={whatsappUrl ?? '#contato'}
                 {...(whatsappUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="hidden min-h-11 items-center bg-tinta px-6 font-sans text-[0.62rem] font-semibold tracking-[0.2em] text-papel uppercase transition hover:bg-tijolo sm:inline-flex"
+                className="hidden min-h-11 items-center bg-tinta px-5 font-sans text-[0.66rem] font-semibold tracking-[0.18em] whitespace-nowrap text-papel uppercase transition hover:-translate-y-0.5 hover:bg-tijolo sm:inline-flex xl:px-6"
               >
-                {whatsappUrl ? 'WhatsApp' : 'Contato'}
+                {whatsappUrl ? 'WhatsApp' : 'Fale conosco'}
               </a>
 
               <button
                 type="button"
+                ref={botaoMenuRef}
                 onClick={() => setMenuAberto((estado) => !estado)}
                 aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
                 aria-expanded={menuAberto ? 'true' : 'false'}
@@ -191,7 +206,7 @@ export function Header() {
                     onClick={() => setMenuAberto(false)}
                     className="flex items-baseline gap-5 py-5 transition-colors hover:text-tijolo"
                   >
-                    <span className="etiqueta text-tijolo/50">
+                    <span className="etiqueta text-tijolo/80">
                       {String(indice + 1).padStart(2, '0')}
                     </span>
                     <span className="font-display text-3xl">{link.label}</span>
@@ -209,7 +224,7 @@ export function Header() {
               >
                 {whatsappUrl ? 'Falar pelo WhatsApp' : 'Ir para contato'}
               </a>
-              <p className="etiqueta pt-1 text-center text-tinta/45">{siteConfig.shipping}</p>
+              <p className="etiqueta pt-1 text-center text-tinta-suave">{siteConfig.shipping}</p>
             </div>
           </nav>
         </div>

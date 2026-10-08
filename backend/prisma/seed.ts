@@ -17,14 +17,10 @@
  * ============================================================================
  */
 import 'dotenv/config';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import { criarClientePrisma } from '../src/criarClientePrisma.js';
 
-// O seed roda fora do servidor, então monta o próprio cliente com o adapter.
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
-});
+const prisma = criarClientePrisma(process.env.DATABASE_URL);
 
 const EMAIL_ADMIN = process.env.SEED_ADMIN_EMAIL ?? 'admin@dindago.local';
 const SENHA_ADMIN = process.env.SEED_ADMIN_PASSWORD ?? 'dindago123';
@@ -45,7 +41,8 @@ async function main() {
       slogan: 'Arte que nasce da cultura popular e das mãos que transformam.',
       description:
         'Esculturas em papel-machê que celebram a vida, a fé e a cultura popular nordestina.',
-      logoUrl: '/images/logo/dindago-atelier.svg',
+      // Sem logo até o arquivo real existir: o site mostra a assinatura tipográfica.
+      logoUrl: null,
     },
   });
 
@@ -83,16 +80,20 @@ async function main() {
   });
 
   // Capa
+  // O subtítulo vai também no `update`: bancos criados antes da revisão da
+  // capa recebem o texto novo, que diz logo de saída o que é o atelier.
+  const subtituloCapa =
+    'Esculturas autorais em papel-machê, feitas à mão pela artista alagoana Goretti Brandão. Peças únicas que carregam a memória, a fé e a cultura popular do Nordeste.';
+
   const hero = await prisma.heroContent.upsert({
     where: { clientId: dindago.id },
-    update: {},
+    update: { subtitle: subtituloCapa },
     create: {
       clientId: dindago.id,
       titleLine1: 'Arte que nasce',
       titleLine2: 'da memória, da cultura',
       titleHighlight: 'e das mãos.',
-      subtitle:
-        'Peças artesanais que carregam a identidade e a beleza do Nordeste brasileiro.',
+      subtitle: subtituloCapa,
       imageUrl: '/images/hero/EuAmoNordeste.jpeg',
       imageAlt:
         'Arte em papel com a frase “Eu amo meu Nordeste” e ilustrações do sertão, cactos e mandacarus',
@@ -116,7 +117,12 @@ async function main() {
   // Sobre
   const sobre = await prisma.aboutContent.upsert({
     where: { clientId: dindago.id },
-    update: {},
+    update: {
+      body: [
+        'O Dindagó Atelier nasce do encontro entre pesquisa e trabalho manual. As esculturas em papel-machê partem de histórias vividas e ouvidas — festas, ofícios, personagens do cotidiano nordestino — e ganham forma no tempo lento do papel.',
+        'A artista alagoana Goretti Brandão transforma papel-machê em esculturas autorais inspiradas pela cultura popular nordestina. No atelier, pesquisa, memória e trabalho manual dão forma a peças únicas.',
+      ].join('\n\n'),
+    },
     create: {
       clientId: dindago.id,
       eyebrow: 'Sobre o atelier',
@@ -127,7 +133,7 @@ async function main() {
         'Cada peça começa muito antes das mãos tocarem o papel. Começa na imaginação, na pesquisa e na memória.',
       body: [
         'O Dindagó Atelier nasce do encontro entre pesquisa e trabalho manual. As esculturas em papel-machê partem de histórias vividas e ouvidas — festas, ofícios, personagens do cotidiano nordestino — e ganham forma no tempo lento do papel.',
-        '[BIOGRAFIA DA ARTESÃ] Espaço reservado para formação, trajetória, o começo do atelier e o que a levou ao papel-machê. Substitua por suas próprias palavras — é o texto que mais aproxima quem chega ao site.',
+        'A artista alagoana Goretti Brandão transforma papel-machê em esculturas autorais inspiradas pela cultura popular nordestina. No atelier, pesquisa, memória e trabalho manual dão forma a peças únicas.',
       ].join('\n\n'),
       ctaLabel: 'Conheça nossa história',
       artistName: 'Goretti Brandão',
@@ -224,7 +230,7 @@ async function main() {
         imageAlt: 'Escultura em papel-machê intitulada A Moça do Mar',
         badge: 'Peça única',
         featured: true,
-        order: 0,
+        order: 3,
       },
       {
         clientId: dindago.id,
@@ -238,7 +244,7 @@ async function main() {
         imageUrl: '/images/products/BrincantesDoGuerreiroAlagoano.jpeg',
         imageAlt: 'Escultura em papel-machê inspirada nos brincantes do Guerreiro Alagoano',
         badge: 'Peça única',
-        order: 1,
+        order: 0,
       },
       {
         clientId: dindago.id,
@@ -252,7 +258,7 @@ async function main() {
         imageUrl: '/images/products/DonaEspanhola.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Dona Espanhola',
         badge: 'Peça única',
-        order: 2,
+        order: 1,
       },
       {
         clientId: dindago.id,
@@ -266,7 +272,7 @@ async function main() {
         imageUrl: '/images/products/DonaRibeirinha.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Dona Ribeirinha',
         badge: 'Peça única',
-        order: 3,
+        order: 7,
       },
       {
         clientId: dindago.id,
@@ -280,7 +286,7 @@ async function main() {
         imageUrl: '/images/products/MocaComCandeeiro.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Moça com Candeeiro',
         badge: 'Peça única',
-        order: 4,
+        order: 2,
       },
       {
         clientId: dindago.id,
@@ -308,7 +314,7 @@ async function main() {
         imageUrl: '/images/products/NossaSenhoraMaeDosHomens.jpeg',
         imageAlt: 'Escultura religiosa em papel-machê de Nossa Senhora Mãe dos Homens',
         badge: 'Peça única',
-        order: 6,
+        order: 4,
       },
       {
         clientId: dindago.id,
@@ -322,7 +328,7 @@ async function main() {
         imageUrl: '/images/products/PalhacoEBailarina.jpeg',
         imageAlt: 'Escultura em papel-machê intitulada Palhaço e Bailarina',
         badge: 'Peça única',
-        order: 7,
+        order: 6,
       },
       {
         clientId: dindago.id,

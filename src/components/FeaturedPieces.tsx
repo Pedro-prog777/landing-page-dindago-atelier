@@ -1,32 +1,44 @@
 import { useSite } from '../conteudo/useSite';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ProductCard } from './ProductCard';
 import { ProductDialog } from './ProductDialog';
 import { Reveal } from './ui/Reveal';
 import { LinkEditorial } from './ui/Button';
 import { Caderno } from './ui/Catalogo';
 import { Arabesco } from './ui/Decorations';
-import { type Produto } from '../data/clientData';
+import { aoAbrirPeca } from '../lib/eventos';
 
 /**
- * Caderno de coleções — espelho de catálogo.
+ * Caderno de coleções — mosaico de pranchas.
  *
- * As pranchas não formam uma fileira: cada uma ocupa uma faixa de colunas
- * diferente e entra numa altura própria, como as imagens de um espelho de
- * revista. Se o cliente cadastrar mais peças, as excedentes seguem o último
- * arranjo da lista.
+ * Todas as fotografias das peças são verticais, então todas as pranchas são
+ * em retrato. O ritmo vem do tamanho: a cada bloco de dez, duas pranchas
+ * ocupam o dobro do espaço, alternando o lado (esquerda no alto, direita
+ * embaixo). Em quatro colunas isso fecha a grade sem buracos; no celular,
+ * as grandes ocupam a largura toda e as demais seguem em duas colunas.
  */
-const arranjos = [
-  { posicao: 'lg:col-span-6 lg:col-start-1', proporcao: 'aspect-4/3' },
-  { posicao: 'lg:col-span-4 lg:col-start-8 lg:mt-20', proporcao: 'aspect-3/4' },
-  { posicao: 'lg:col-span-3 lg:col-start-1 lg:mt-2', proporcao: 'aspect-square' },
-  { posicao: 'lg:col-span-6 lg:col-start-5 lg:mt-16', proporcao: 'aspect-[16/10]' },
-];
+function arranjo(indice: number): { destaque: boolean; classe: string } {
+  const posicao = indice % 10;
+  if (posicao === 0) return { destaque: true, classe: 'col-span-2 md:row-span-2' };
+  if (posicao === 5) return { destaque: true, classe: 'col-span-2 md:col-start-3 md:row-span-2' };
+  return { destaque: false, classe: '' };
+}
 
 export function FeaturedPieces() {
   const { conteudo: clientData } = useSite();
-  const [pecaSelecionada, setPecaSelecionada] = useState<Produto | null>(null);
   const { productsSection, products } = clientData;
+  const [aberta, setAberta] = useState<number | null>(null);
+  const fechar = useCallback(() => setAberta(null), []);
+
+  // Um resultado da busca pode pedir para abrir uma peça específica.
+  useEffect(
+    () =>
+      aoAbrirPeca((id) => {
+        const indice = products.findIndex((peca) => peca.id === id);
+        if (indice >= 0) setAberta(indice);
+      }),
+    [products],
+  );
 
   return (
     <section
@@ -38,40 +50,40 @@ export function FeaturedPieces() {
         <Caderno
           numero={productsSection.numero}
           titulo={productsSection.eyebrow}
-          nota={`${products.length} pranchas`}
+          nota={`${products.length} obras`}
         />
 
-        <div className="grid gap-8 pt-10 lg:grid-cols-12 lg:gap-10 lg:pt-14">
+        <div className="grid gap-6 pt-8 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pt-12">
           <Reveal className="lg:col-span-7">
             <h2
               id="pecas-titulo"
-              className="flex flex-wrap items-center gap-5 text-[clamp(1.9rem,4.2vw,3.25rem)]"
+              className="flex flex-wrap items-center gap-5 text-[clamp(2.1rem,4.6vw,3.75rem)]"
             >
-              <Arabesco className="hidden w-14 shrink-0 text-ocre/60 sm:block" />
+              <Arabesco className="hidden w-14 shrink-0 text-ocre/70 sm:block" />
               {productsSection.title}
             </h2>
           </Reveal>
 
           <Reveal delay={90} className="lg:col-span-4 lg:col-start-9 lg:pb-2">
             <p className="text-base leading-relaxed text-tinta-suave">{productsSection.subtitle}</p>
-            <LinkEditorial href="#pecas" className="mt-5">
+            <LinkEditorial href="#encomendas" className="mt-3">
               {productsSection.ctaLabel}
             </LinkEditorial>
           </Reveal>
         </div>
 
-        {/* Espelho de pranchas */}
-        <ul className="grid grid-cols-1 gap-x-10 gap-y-16 pt-14 sm:grid-cols-2 lg:grid-cols-12 lg:gap-y-4 lg:pt-20">
+        {/* Mosaico de pranchas */}
+        <ul className="grid grid-flow-row-dense grid-cols-2 gap-x-3 gap-y-9 pt-10 sm:gap-x-5 md:grid-cols-4 md:gap-y-10 lg:gap-x-8 lg:gap-y-12 lg:pt-14">
           {products.map((product, indice) => {
-            const arranjo = arranjos[indice] ?? arranjos[arranjos.length - 1];
+            const { destaque, classe } = arranjo(indice);
             return (
-              <li key={product.id} className={`h-full ${arranjo.posicao}`}>
-                <Reveal delay={(indice % 2) * 90} className="h-full">
+              <li key={product.id} className={classe}>
+                <Reveal delay={(indice % 4) * 70} className="h-full">
                   <ProductCard
                     product={product}
                     figura={String(indice + 1).padStart(2, '0')}
-                    proporcao={arranjo.proporcao}
-                    aoVerDetalhes={setPecaSelecionada}
+                    destaque={destaque}
+                    aoVerDetalhes={() => setAberta(indice)}
                   />
                 </Reveal>
               </li>
@@ -80,7 +92,7 @@ export function FeaturedPieces() {
         </ul>
       </div>
 
-      <ProductDialog product={pecaSelecionada} aoFechar={() => setPecaSelecionada(null)} />
+      <ProductDialog produtos={products} indice={aberta} aoNavegar={setAberta} aoFechar={fechar} />
     </section>
   );
 }

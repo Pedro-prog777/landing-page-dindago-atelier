@@ -1,5 +1,5 @@
 import { useSite } from '../conteudo/useSite';
-import { MessageCircle } from 'lucide-react';
+import { ArrowUpRight, MessageCircle } from 'lucide-react';
 import { FacebookIcon, InstagramIcon, type IconComponent } from './ui/BrandIcons';
 import { Reveal } from './ui/Reveal';
 import { SectionHeading } from './ui/SectionHeading';
@@ -11,6 +11,13 @@ type Rede = {
   icone: IconComponent;
 };
 
+/**
+ * Redes sociais.
+ *
+ * A seção só existe quando há pelo menos um endereço real preenchido em
+ * `clientData.social` (ou o WhatsApp em `clientData.contact`). Sem nenhum, ela
+ * simplesmente não aparece — nunca um aviso técnico nem um link inventado.
+ */
 export function SocialSection() {
   const { conteudo: clientData, buildWhatsAppUrl, isConfigured, siteConfig } = useSite();
   const redes: Rede[] = [
@@ -35,59 +42,51 @@ export function SocialSection() {
   ];
 
   const disponiveis = redes.filter((rede) => rede.href !== null);
+  if (disponiveis.length === 0) return null;
 
   return (
-    <section
-      aria-labelledby="redes-titulo"
-      className="border-y border-papel-escuro bg-papel py-16 sm:py-20"
-    >
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <section aria-labelledby="redes-titulo" className="bg-papel py-16 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           id="redes-titulo"
-          numero={'11'}
+          numero={clientData.socialSection.numero}
           eyebrow={clientData.socialSection.eyebrow}
           title={clientData.socialSection.title}
           description={clientData.socialSection.subtitle}
         />
 
-        {disponiveis.length > 0 ? (
-          <ul className="mt-10 grid gap-4 sm:grid-cols-3">
-            {disponiveis.map((rede, indice) => {
-              const Icone = rede.icone;
-              return (
-                <li key={rede.nome}>
-                  <Reveal delay={indice * 80}>
-                    <a
-                      href={rede.href as string}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex h-full flex-col items-center gap-3 border border-papel-escuro bg-papel-escuro/50 px-5 py-7 text-center transition hover:-translate-y-1 hover:border-tijolo/40 hover:bg-papel-escuro"
-                    >
-                      <span className="flex size-12 items-center justify-center bg-tijolo/10 text-tijolo transition group-hover:bg-tijolo group-hover:text-papel">
-                        <Icone className="size-5" strokeWidth={1.6} aria-hidden="true" />
+        <ul className="mt-10 grid gap-3 sm:grid-cols-3">
+          {disponiveis.map((rede, indice) => {
+            const Icone = rede.icone;
+            return (
+              <li key={rede.nome}>
+                <Reveal delay={indice * 80} className="h-full">
+                  <a
+                    href={rede.href as string}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex h-full items-center gap-4 border border-tinta/10 bg-papel-escuro/50 p-5 transition hover:-translate-y-1 hover:border-tijolo/40 hover:bg-papel-escuro"
+                  >
+                    <span className="flex size-12 shrink-0 items-center justify-center bg-tijolo/10 text-tijolo transition group-hover:bg-tijolo group-hover:text-papel">
+                      <Icone className="size-5" strokeWidth={1.6} aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="etiqueta block text-tinta">{rede.nome}</span>
+                      <span className="mt-1 block font-sans text-sm text-tinta-suave">
+                        {rede.descricao}
                       </span>
-                      <span className="font-sans text-[0.72rem] font-bold tracking-[0.16em] text-tinta uppercase">
-                        {rede.nome}
-                      </span>
-                      <span className="font-sans text-sm text-tinta-suave">{rede.descricao}</span>
-                    </a>
-                  </Reveal>
-                </li>
-              );
-            })}
-          </ul>
-        ) : (
-          <Reveal className="mt-10">
-            <p className=" border border-dashed border-papel-escuro bg-papel-escuro/50 p-6 text-center font-sans text-sm leading-relaxed text-tinta-suave">
-              Os links de Instagram, Facebook e WhatsApp aparecem aqui assim que forem preenchidos
-              em{' '}
-              <code className=" bg-papel-escuro px-1.5 py-0.5 text-[0.85em] text-tinta-suave">
-                src/data/clientData.ts
-              </code>
-              . Nenhum endereço é inventado enquanto isso.
-            </p>
-          </Reveal>
-        )}
+                    </span>
+                    <ArrowUpRight
+                      className="size-4 shrink-0 text-tinta-suave transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-tijolo"
+                      aria-hidden="true"
+                    />
+                    <span className="sr-only"> (abre em nova aba)</span>
+                  </a>
+                </Reveal>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );
