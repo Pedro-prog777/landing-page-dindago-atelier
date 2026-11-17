@@ -5,8 +5,11 @@ import { mensagemDoErro } from './useAuth';
 /** Tela de entrada do painel. */
 export function LoginPage({
   aoEntrar,
+  aviso,
 }: {
   aoEntrar: (email: string, senha: string) => Promise<unknown>;
+  /** Mensagem exibida acima do formulário (ex.: senha trocada). */
+  aviso?: string | null;
 }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -36,6 +39,8 @@ export function LoginPage({
         <p className="mt-1 text-sm text-slate-500">Entre para editar o conteúdo do site.</p>
 
         <div className="mt-6 space-y-4">
+          {aviso && <Aviso tipo="sucesso">{aviso}</Aviso>}
+
           <Campo rotulo="E-mail">
             <Entrada
               type="email"

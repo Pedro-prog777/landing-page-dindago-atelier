@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api/cliente';
 import { ClientePage } from './ClientePage';
 import { LoginPage } from './LoginPage';
+import { TrocarSenha } from './TrocarSenha';
 import { useAuth, mensagemDoErro } from './useAuth';
 import { Aviso, Botao, Campo, Cartao, Carregando, Entrada } from './ui';
 
@@ -104,6 +105,8 @@ function ListaDeClientes({ aoAbrir }: { aoAbrir: (id: string) => void }) {
 export function AdminApp() {
   const { usuario, estado, entrar, sair } = useAuth();
   const [clienteAberto, setClienteAberto] = useState<string | null>(null);
+  const [trocandoSenha, setTrocandoSenha] = useState(false);
+  const [avisoLogin, setAvisoLogin] = useState<string | null>(null);
 
   if (estado === 'verificando') {
     return (
@@ -113,7 +116,24 @@ export function AdminApp() {
     );
   }
 
-  if (!usuario) return <LoginPage aoEntrar={entrar} />;
+  if (!usuario) {
+    return (
+      <LoginPage
+        aviso={avisoLogin}
+        aoEntrar={async (email, senha) => {
+          await entrar(email, senha);
+          setAvisoLogin(null);
+        }}
+      />
+    );
+  }
+
+  async function senhaTrocada() {
+    setAvisoLogin('Senha alterada. Entre com a nova senha.');
+    // Sai antes de fechar a tela: senão o painel tenta recarregar sem sessão.
+    await sair();
+    setTrocandoSenha(false);
+  }
 
   // O EDITOR não escolhe cliente: entra direto no que lhe pertence.
   const clienteAtual = clienteAberto ?? (usuario.role === 'EDITOR' ? usuario.clientId : null);
@@ -121,7 +141,7 @@ export function AdminApp() {
   return (
     <div className="painel min-h-dvh bg-slate-100">
       <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3">
           <div className="flex items-center gap-4">
             <span className="text-sm font-semibold text-slate-900">Painel do atelier</span>
             {clienteAtual && usuario.role === 'OWNER' && (
@@ -134,6 +154,9 @@ export function AdminApp() {
             <span className="hidden text-sm text-slate-500 sm:block">
               {usuario.name} · {usuario.role}
             </span>
+            <Botao variante="neutro" onClick={() => setTrocandoSenha((v) => !v)}>
+              {trocandoSenha ? 'Voltar ao painel' : 'Trocar senha'}
+            </Botao>
             <Botao variante="neutro" onClick={() => void sair()}>
               Sair
             </Botao>
@@ -142,7 +165,12 @@ export function AdminApp() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-6">
-        {clienteAtual ? (
+        {trocandoSenha ? (
+          <TrocarSenha
+            aoConcluir={() => void senhaTrocada()}
+            aoCancelar={() => setTrocandoSenha(false)}
+          />
+        ) : clienteAtual ? (
           <ClientePage clientId={clienteAtual} />
         ) : (
           <ListaDeClientes aoAbrir={setClienteAberto} />

@@ -14,6 +14,7 @@
     "prisma:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
     "db:reset": "prisma migrate reset --force",
+    "usuario:criar": "tsx scripts/criar-usuario.ts",
     "postinstall": "prisma generate"
   },
   "prisma": {

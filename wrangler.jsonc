@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   // Precisa ser IGUAL ao nome do Worker conectado ao GitHub no painel da Cloudflare.
-  "name": "landing-page-dindago-atelier",
+  "name": "dindago-atelier",
   "main": "./worker/index.ts",
   "compatibility_date": "2026-11-10",
   "observability": { "enabled": true },
